@@ -1,4 +1,8 @@
 #ifndef PONG_GRAPHICS_H
 #define PONG_GRAPHICS_H
-void setup_graphics();
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
+GLFWwindow* setup_graphical_window();
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
 #endif
