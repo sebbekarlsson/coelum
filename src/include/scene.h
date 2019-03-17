@@ -4,11 +4,12 @@
 
 typedef struct SCENE_STRUCT {
     dynamic_list* actors;
+    unsigned int VAO;
 } scene;
 
 scene* init_scene();
 
-void tick_scene(scene* s);
+void scene_tick(scene* s);
 
-void draw_scene(scene* s);
+void scene_draw(scene* s);
 #endif

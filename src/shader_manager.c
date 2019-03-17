@@ -82,7 +82,7 @@ unsigned int shader_manager_register_program(shader_manager* sm, char* name, cha
     glDeleteShader(fragment_shader);
 
     shader_manager_program* smp = init_shader_manager_program(name, shader_program);
-    append_dynamic_list(sm->programs, smp);
+    dynamic_list_append(sm->programs, smp);
     
     return shader_program;
 }

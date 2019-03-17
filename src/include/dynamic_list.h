@@ -10,7 +10,7 @@ typedef struct DYNAMIC_LIST_STRUCT {
 
 dynamic_list* init_dynamic_list(size_t item_size);
 
-void append_dynamic_list(dynamic_list* dlist, void* item);
+void dynamic_list_append(dynamic_list* dlist, void* item);
 
-void free_dynamic_list(dynamic_list* dlist);
+void dynamic_list_free(dynamic_list* dlist);
 #endif

@@ -10,4 +10,6 @@ void register_scenes(scene_manager* sm) {
      * - register main menu scene
      * - register actual game scene
      */
+
+    scene_manager_register_scene(sm, init_scene());
 }

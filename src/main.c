@@ -29,6 +29,8 @@ int main(int argc, char* argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // render here
+        scene_manager_tick(SCENE_MANAGER);
+        scene_manager_draw(SCENE_MANAGER);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
