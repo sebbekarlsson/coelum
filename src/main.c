@@ -3,8 +3,11 @@
 #include "include/input.h"
 #include "include/scene_manager.h"
 #include "include/scene_registry.h"
+#include "include/shader_manager.h"
+#include "include/shader_registry.h"
 
 
+shader_manager* SHADER_MANAGER;
 scene_manager* SCENE_MANAGER;
 
 
@@ -13,8 +16,11 @@ int main(int argc, char* argv[]) {
 
     GLFWwindow* window = setup_graphical_window();
 
+    SHADER_MANAGER = init_shader_manager();
+    register_shader_programs(SHADER_MANAGER);
+
     SCENE_MANAGER = init_scene_manager();
-    register_scenes(SCENE_MANAGER);
+    register_scenes(SCENE_MANAGER); 
 
     while(!glfwWindowShouldClose(window)) {
         processInput(window);
