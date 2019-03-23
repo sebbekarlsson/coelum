@@ -3,18 +3,22 @@
 #include "include/shader_manager.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+
+#define SIZE 32
 
 extern shader_manager* SHADER_MANAGER;
 extern scene_manager* SCENE_MANAGER;
 
 extern unsigned int SHADER_DEFAULT;
 
+
 float VERTICES_DEFAULT[] = {
-    0.5f,  0.5f, 0.0f,  // top right
-    0.5f, -0.5f, 0.0f,  // bottom right
-    -0.5f, -0.5f, 0.0f,  // bottom left
-    -0.5f,  0.5f, 0.0f   // top left 
+    SIZE,  SIZE, 0.0f,  // top right
+    SIZE, -SIZE, 0.0f,  // bottom right
+    -SIZE, -SIZE, 0.0f,  // bottom left
+    -SIZE,  SIZE, 0.0f   // top left 
 };
 
 unsigned int INDICES_DEFAULT [] = {  // note that we start from 0!
@@ -31,11 +35,22 @@ actor* init_actor(float x, float y, float z) {
     glGenBuffers(1, &a->VBO);
     glGenBuffers(1, &a->EBO);
 
+    mat4 model = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+
+    memcpy(a->model, model, sizeof(model));
+
     return a;
 }
 
 void actor_tick(actor* a) {
     // printf("Tick actor!\n");
+    a->x += 0.5;
+    a->y += 0.5;
 }
 
 void draw_actor(actor* a) {
@@ -51,8 +66,8 @@ void draw_actor(actor* a) {
     glEnableVertexAttribArray(0);
 
     glUseProgram(SHADER_DEFAULT);
-    glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
+    // glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+    //glBindVertexArray(0);
 }
