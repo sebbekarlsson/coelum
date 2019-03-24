@@ -16,5 +16,5 @@ event_manager* init_event_manager();
 
 void add_event_listener(event_manager* em, int key, void (*callback)());
 
-void processInput(GLFWwindow *window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 #endif

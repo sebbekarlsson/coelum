@@ -4,6 +4,7 @@
 
 typedef struct ACTOR_PAD_STRUCT {
     actor base;
+    float speed;
 } actor_pad;
 
 

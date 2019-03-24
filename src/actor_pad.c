@@ -4,32 +4,37 @@
 
 extern event_manager* EVENT_MANAGER;
 
-int pressed = 0;
+int key_up = 0;
+int key_down = 0;
 
-void key_callback(int state) {
-    if (state == GLFW_PRESS)
-        pressed = 1;
+void actor_pad_key_up_callback(int state) {
+    key_up = state;
 }
 
+void actor_pad_key_down_callback(int state) {
+    key_down = state;
+}
 
 actor_pad* init_actor_pad(float x, float y, float z) {
     actor_pad* pad = calloc(1, sizeof(struct ACTOR_PAD_STRUCT));
 
+    pad->speed = 3.5f;
+
     actor_constructor((actor*) pad, x, y, z, actor_pad_tick, actor_pad_draw);
 
-    add_event_listener(EVENT_MANAGER, GLFW_KEY_ENTER, key_callback);
+    add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, actor_pad_key_up_callback);
+    add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, actor_pad_key_down_callback);
 
     return pad;
 };
 
 
 void actor_pad_tick(actor* self) {
-    if (pressed)
-        self->x += 1.0f;
+    if (key_up)
+        self->y += ((actor_pad*)self)->speed;
 
-    pressed = 0;
-    //printf("actor_pad_tick\n");
-    //self->x += 0.5;
+    if (key_down)
+        self->y -= ((actor_pad*)self)->speed;
 }
 
 void actor_pad_draw(actor* self) {

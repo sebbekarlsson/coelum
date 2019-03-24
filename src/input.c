@@ -1,4 +1,5 @@
 #include "include/input.h"
+#include <stdio.h>
 
 
 extern event_manager* EVENT_MANAGER;
@@ -18,17 +19,14 @@ void add_event_listener(event_manager* em, int key, void (*callback)()) {
     dynamic_list_append(em->event_listeners, el);
 }
 
-void processInput(GLFWwindow *window){
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, 1);
 
     for (int i = 0; i < EVENT_MANAGER->event_listeners->size; i++) {
         event_listener* el = (event_listener*) EVENT_MANAGER->event_listeners->items[i];
 
-        int state = glfwGetKey(window, el->key);
-
-        if (state) {
-            el->callback(state);
-        }
+        if (key == el->key)
+            el->callback(glfwGetKey(window, el->key));
     }
 }

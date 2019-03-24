@@ -21,12 +21,13 @@ int main(int argc, char* argv[]) {
     register_shader_programs(SHADER_MANAGER);
 
     EVENT_MANAGER = init_event_manager();
+    glfwSetKeyCallback(window, key_callback);
 
     SCENE_MANAGER = init_scene_manager();
     register_scenes(SCENE_MANAGER); 
 
     while(!glfwWindowShouldClose(window)) {
-        processInput(window);
+        glfwPollEvents();
 
         glClearColor(48.0f / 255.0f, 48.0f / 255.0f, 48.0f / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -36,7 +37,6 @@ int main(int argc, char* argv[]) {
         scene_manager_draw(SCENE_MANAGER);
         
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
 
     glfwTerminate();    
