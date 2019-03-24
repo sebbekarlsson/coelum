@@ -28,6 +28,12 @@ unsigned int INDICES_DEFAULT [] = {  // note that we start from 0!
 
 actor* init_actor(float x, float y, float z) {
     actor* a = calloc(1, sizeof(struct ACTOR_STRUCT));
+    // actor_constructor(a, x, y, z);
+    
+    return a;
+}
+
+actor* actor_constructor(actor* a, float x, float y, float z, void (*tick)(actor* self), void (*draw)(actor* self)) {
     a->x = x;
     a->y = y;
     a->z = z; 
@@ -44,6 +50,9 @@ actor* init_actor(float x, float y, float z) {
 
     memcpy(a->model, model, sizeof(model));
 
+    a->tick = tick;
+    a->draw = draw;
+
     return a;
 }
 
@@ -53,7 +62,7 @@ void actor_tick(actor* a) {
     a->y += 0.5;
 }
 
-void draw_actor(actor* a) {
+void actor_draw(actor* a) {
     // printf("Draw actor!\n"); 
 
     glBindBuffer(GL_ARRAY_BUFFER, a->VBO);

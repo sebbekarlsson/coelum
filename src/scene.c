@@ -1,5 +1,6 @@
 #include "include/scene.h"
 #include "include/actor.h"
+#include "include/actor_pad.h"
 #include <string.h>
 
 
@@ -30,15 +31,17 @@ scene* init_scene() {
     glm_translate(s->view, (vec3){0.0f, 0.0f, 0.0f});
     glm_ortho(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.5f, s->projection);
 
-    dynamic_list_append(s->actors, init_actor(0.0f, 0.0f, 0.0f));
-    dynamic_list_append(s->actors, init_actor(128.0f, 128.0f, 0.0f));
+    dynamic_list_append(s->actors, init_actor_pad(0.0f, 0.0f, 0.0f));
 
     return s;
 }
 
 void scene_tick(scene* s) {
     for (int i = 0; i < s->actors->size; i++) {
-        actor_tick((actor*)s->actors->items[i]);
+        actor* a = (actor*)s->actors->items[i];
+        
+        if (a->tick)
+            a->tick(a);
     }
 }
 
@@ -55,12 +58,14 @@ void scene_draw(scene* s) {
     for (int i = 0; i < s->actors->size; i++) {
         actor* a = ((actor*)s->actors->items[i]);
 
-        glm_translate(a->model, (vec3){a->x, a->y, a->z});
-        glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+        if (a->draw) {
+            glm_translate(a->model, (vec3){a->x, a->y, a->z});
+            glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
-        draw_actor(a);
+            a->draw(a);
 
-        glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
-        glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
+            glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+        }
     }
 }

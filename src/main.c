@@ -8,6 +8,7 @@
 
 
 shader_manager* SHADER_MANAGER;
+event_manager* EVENT_MANAGER;
 scene_manager* SCENE_MANAGER;
 
 
@@ -18,6 +19,8 @@ int main(int argc, char* argv[]) {
 
     SHADER_MANAGER = init_shader_manager();
     register_shader_programs(SHADER_MANAGER);
+
+    EVENT_MANAGER = init_event_manager();
 
     SCENE_MANAGER = init_scene_manager();
     register_scenes(SCENE_MANAGER); 
