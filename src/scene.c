@@ -62,6 +62,9 @@ void scene_draw(scene* s) {
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
             glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
+            if (a->texture) {
+                 glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
+            }
             a->draw(a);
 
             glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});

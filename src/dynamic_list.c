@@ -2,7 +2,7 @@
 
 
 dynamic_list* init_dynamic_list(size_t item_size) {
-    dynamic_list* dlist = calloc(1, item_size);
+    dynamic_list* dlist = calloc(1, sizeof(struct DYNAMIC_LIST_STRUCT));
     dlist->item_size = item_size;
     dlist->size = 0;
 

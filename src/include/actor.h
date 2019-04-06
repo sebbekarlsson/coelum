@@ -11,6 +11,7 @@ typedef struct ACTOR_STRUCT {
     float z;
     unsigned int VBO;
     unsigned int EBO;
+    unsigned int texture;
     mat4 model;
     void (*tick)(void* self);
     void (*draw)(void* self);

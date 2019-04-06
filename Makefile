@@ -2,7 +2,7 @@ exec = pong.out
 sources := $(wildcard src/*.c)
 sources += $(wildcard GL/src/*.c)
 objects = $(sources:.c=.o)
-flags = -IGL/include -lglfw -ldl -lcglm
+flags = -IGL/include -lglfw -ldl -lcglm -lm
 
 
 $(exec): $(objects)
