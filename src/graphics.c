@@ -1,8 +1,8 @@
 #include "include/graphics.h"
 #include <stdio.h>
 
-#define VIEWPORT_WIDTH 640
-#define VIEWPORT_HEIGHT 480
+#define VIEWPORT_WIDTH 3840
+#define VIEWPORT_HEIGHT 2160
 
 
 GLFWwindow* setup_graphical_window() {
@@ -29,7 +29,10 @@ GLFWwindow* setup_graphical_window() {
 
     glViewport(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);      
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
 
     return window;
 }

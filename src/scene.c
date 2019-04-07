@@ -29,9 +29,9 @@ scene* init_scene() {
     memcpy(s->projection, projection, sizeof(projection));
 
     glm_translate(s->view, (vec3){0.0f, 0.0f, 0.0f});
-    glm_ortho(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.5f, s->projection);
+    glm_ortho(0.0f, 3840.0f, 2160.0f, 0.0f, 0.0f, 1.5f, s->projection);
 
-    dynamic_list_append(s->actors, init_actor_pad(0.0f, 0.0f, 0.0f));
+    dynamic_list_append(s->actors, init_actor_pad(64.0f, 0.0f, 0.0f));
 
     return s;
 }
@@ -65,6 +65,7 @@ void scene_draw(scene* s) {
             if (a->texture) {
                  glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
             }
+
             a->draw(a);
 
             glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
