@@ -6,7 +6,7 @@
 #include <string.h>
 
 
-#define SIZE 32
+#define SIZE 64
 
 extern shader_manager* SHADER_MANAGER;
 extern scene_manager* SCENE_MANAGER;

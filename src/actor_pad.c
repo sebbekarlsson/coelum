@@ -1,6 +1,7 @@
 #include "include/actor_pad.h"
 #include "include/input.h"
 #include "include/textures.h"
+#include "include/text.h"
 
 
 extern event_manager* EVENT_MANAGER;
@@ -26,7 +27,8 @@ actor_pad* init_actor_pad(float x, float y, float z) {
     add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, actor_pad_key_up_callback);
     add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, actor_pad_key_down_callback);
 
-    ((actor*)pad)->texture = get_texture("res/img/redball.png");
+    //((actor*)pad)->texture = get_texture("res/img/redball.png")->renderable_texture;
+    ((actor*)pad)->texture = get_char_a();
 
     return pad;
 };
