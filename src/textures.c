@@ -64,3 +64,32 @@ unsigned int get_subtexture(texture_t* texture, int x, int y, int h, int w) {
 
     return cut_texture;
 }
+
+unsigned int get_char_texture_from_texture(char c, int char_w, int char_h, int n_rows_x, int n_rows_y, texture_t* font_texture) {
+    int x = 0;
+    int y = 0;
+    int ptr = -97 + (int) c + 33;
+
+    for (int i = 0; i < n_rows_x * n_rows_y; i++) {
+        if (i <= ptr) {
+            if (i % n_rows_x == 0 && i != 0) {
+                y += 1;
+                x = 0;
+            } else {
+                x += 1;
+            }
+        } else {
+            break;
+        }
+    }
+
+    unsigned int texture = get_subtexture(
+        font_texture,
+        (char_w + 1) * x,
+        (char_h + 1) * y,
+        char_w,
+        char_h
+    );
+
+    return texture;
+}

@@ -27,8 +27,8 @@ actor_pad* init_actor_pad(float x, float y, float z) {
     add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, actor_pad_key_up_callback);
     add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, actor_pad_key_down_callback);
 
-    //((actor*)pad)->texture = get_texture("res/img/redball.png")->renderable_texture;
-    ((actor*)pad)->texture = get_char_a();
+    ((actor*)pad)->texture = get_texture("res/img/redball.png")->renderable_texture;
+    //((actor*)pad)->texture = get_char_texture_from_texture('e', 7, 7, 8, 12, get_texture("res/font/null_terminator.png"));
 
     return pad;
 };
@@ -45,4 +45,5 @@ void actor_pad_tick(actor* self) {
 void actor_pad_draw(actor* self) {
     //printf("actor_pad_draw\n");
     actor_draw(self);
+    render_text("hello");
 }
