@@ -2,6 +2,7 @@
 #define PONG_ACTOR_PAD_H
 #include "actor.h"
 
+
 typedef struct ACTOR_PAD_STRUCT {
     actor base;
     float speed;

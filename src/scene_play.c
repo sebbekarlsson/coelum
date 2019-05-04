@@ -3,7 +3,13 @@
 #include "include/actor_text.h"
 
 
-scene_play* init_scene_play() {
+/**
+ * Creates a new scene_play
+ *
+ * @return scene_play*
+ */
+scene_play* init_scene_play()
+{
     scene_play* s_play = calloc(1, sizeof(struct SCENE_PLAY_STRUCT));
     scene* s = (scene*) s_play;
     scene_constructor(s);
@@ -13,10 +19,12 @@ scene_play* init_scene_play() {
     return s_play;
 }
 
-void scene_play_tick(scene* self) {
+void scene_play_tick(scene* self)
+{
     scene_tick(self);
 }
 
-void scene_play_draw(scene* self) {
+void scene_play_draw(scene* self)
+{
     scene_draw(self);
 }

@@ -2,10 +2,10 @@
 #define PONG_SCENE_PLAY_H
 #include "scene.h"
 
+
 typedef struct SCENE_PLAY_STRUCT {
     scene base;
 } scene_play;
-
 
 scene_play* init_scene_play();
 

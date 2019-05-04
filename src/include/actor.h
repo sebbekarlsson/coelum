@@ -19,7 +19,14 @@ typedef struct ACTOR_STRUCT {
 
 actor* init_actor(float x, float y, float z);
 
-actor* actor_constructor(actor* a, float x, float y, float z, void (*tick)(actor* self), void (*draw)(actor* self));
+actor* actor_constructor(
+    actor* a,
+    float x,
+    float y,
+    float z,
+    void (*tick)(actor* self),
+    void (*draw)(actor* self)
+);
 
 void actor_tick(actor* a);
 

@@ -5,21 +5,27 @@
 #include <cglm/call.h>
 
 
-#define CHAR_WIDTH 7
-#define CHAR_HEIGHT 7
-
 extern scene_manager* SCENE_MANAGER;
 
 extern unsigned int SHADER_DEFAULT;
 
-
-void render_text(const char* text, float x, float y, float z) {
+/**
+ * Used to render a text at a specific position.
+ *
+ * @param const char* text
+ * @param float x
+ * @param float y
+ * @param float z
+ */
+void render_text(const char* text, float x, float y, float z)
+{
     texture_t* font_texture = get_texture("res/font/null_terminator.png");
 
     int size = 24;
     int spacing = 12;
 
-    float vertices[] = {
+    float vertices[] = 
+    {
         // positions          // colors           // texture coords
         size,  size, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
         size, -size, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
@@ -27,12 +33,14 @@ void render_text(const char* text, float x, float y, float z) {
         -size,  size, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
     };
 
-    unsigned int indices [] = {  // note that we start from 0!
+    unsigned int indices [] =
+    {
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
 
-    for (int i = 0; i < strlen(text); i++) {
+    for (int i = 0; i < strlen(text); i++)
+    {
         char c = text[i];
 
         unsigned int VBO;
@@ -41,7 +49,8 @@ void render_text(const char* text, float x, float y, float z) {
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
 
-        mat4 model = {
+        mat4 model =
+        {
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,

@@ -8,15 +8,27 @@ extern event_manager* EVENT_MANAGER;
 int key_up = 0;
 int key_down = 0;
 
-void actor_pad_key_up_callback(int state) {
+void actor_pad_key_up_callback(int state)
+{
     key_up = state;
 }
 
-void actor_pad_key_down_callback(int state) {
+void actor_pad_key_down_callback(int state)
+{
     key_down = state;
 }
 
-actor_pad* init_actor_pad(float x, float y, float z) {
+/**
+ * Creates an instancec of a pad actor.
+ *
+ * @param float x
+ * @param float y
+ * @param float z
+ *
+ * @return actor_pad*
+ */
+actor_pad* init_actor_pad(float x, float y, float z)
+{
     actor_pad* pad = calloc(1, sizeof(struct ACTOR_PAD_STRUCT));
 
     pad->speed = 3.5f;
@@ -29,10 +41,10 @@ actor_pad* init_actor_pad(float x, float y, float z) {
     ((actor*)pad)->texture = get_texture("res/img/redball.png")->renderable_texture;
 
     return pad;
-};
+}
 
-
-void actor_pad_tick(actor* self) {
+void actor_pad_tick(actor* self)
+{
     if (key_up)
         self->y -= ((actor_pad*)self)->speed;
 
@@ -40,7 +52,7 @@ void actor_pad_tick(actor* self) {
         self->y += ((actor_pad*)self)->speed;
 }
 
-void actor_pad_draw(actor* self) {
-    //printf("actor_pad_draw\n");
+void actor_pad_draw(actor* self)
+{
     actor_draw(self);
 }

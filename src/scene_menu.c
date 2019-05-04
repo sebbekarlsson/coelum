@@ -8,12 +8,24 @@
 extern scene_manager* SCENE_MANAGER;
 extern event_manager* EVENT_MANAGER;
 
-void scene_menu_key_enter_callback(int state) {
+/**
+ * Called when the enter key is pressed or released.
+ *
+ * @param int state
+ */
+void scene_menu_key_enter_callback(int state)
+{
     if (state)
         scene_manager_next(SCENE_MANAGER);
 }
 
-scene_menu* init_scene_menu() {
+/**
+ * Creates a new scene_menu
+ *
+ * @return scene_menu*
+ */
+scene_menu* init_scene_menu()
+{
     scene_menu* s_menu = calloc(1, sizeof(struct SCENE_MENU_STRUCT));
     scene* s = (scene*) s_menu;
     scene_constructor(s);
@@ -25,10 +37,12 @@ scene_menu* init_scene_menu() {
     return s_menu;
 }
 
-void scene_menu_tick(scene* self) {
+void scene_menu_tick(scene* self)
+{
     scene_tick(self);
 }
 
-void scene_menu_draw(scene* self) {
+void scene_menu_draw(scene* self)
+{
     scene_draw(self);
 }

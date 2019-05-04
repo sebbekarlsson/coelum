@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "dynamic_list.h"
 
+
 typedef struct EVENT_LISTENER_STRUCT {
     int key;
     void (*callback)();

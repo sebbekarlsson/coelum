@@ -3,6 +3,7 @@
 #include "dynamic_list.h"
 #include "scene.h"
 
+
 typedef struct SCENE_MANAGER_STRUCT {
     int scene_index;
     dynamic_list* scenes;

@@ -2,6 +2,7 @@
 #define PONG_ACTOR_TEXT_H
 #include "actor.h"
 
+
 typedef struct ACTOR_TEXT_STRUCT {
     actor base;
     char* text;

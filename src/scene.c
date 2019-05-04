@@ -5,24 +5,42 @@
 
 extern unsigned int SHADER_DEFAULT;
 
-scene* init_scene() {
+/**
+ * Creates a new scene.
+ * (This function is abstract and should not be used)
+ *
+ * @return scene*
+ */
+scene* init_scene()
+{
     scene* s = calloc(1, sizeof(struct SCENE_STRUCT)); 
 
     return s;
 }
 
-scene* scene_constructor(scene* s) {
+/**
+ * Scene constructor, structs that inherit from scene should use this in their
+ * initialization method.
+ *
+ * @param scene* s
+ *
+ * @return scene*
+ */
+scene* scene_constructor(scene* s)
+{
     s->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
     glGenVertexArrays(1, &s->VAO);
 
-    mat4 view = {
+    mat4 view =
+    {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1
     };
 
-    mat4 projection = {
+    mat4 projection =
+    {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
@@ -36,8 +54,16 @@ scene* scene_constructor(scene* s) {
     glm_ortho(0.0f, 3840.0f, 2160.0f, 0.0f, 0.0f, 1.5f, s->projection);  
 }
 
-void scene_tick(scene* s) {
-    for (int i = 0; i < s->actors->size; i++) {
+/**
+ * Default scene tick method.
+ * This method calls tick on all child actors.
+ *
+ * @param scene* s
+ */
+void scene_tick(scene* s)
+{
+    for (int i = 0; i < s->actors->size; i++)
+    {
         actor* a = (actor*)s->actors->items[i];
         
         if (a->tick)
@@ -45,7 +71,14 @@ void scene_tick(scene* s) {
     }
 }
 
-void scene_draw(scene* s) {
+/**
+ * Default scene draw method.
+ * This method draws all child actors.
+ *
+ * @param scene* s
+ */
+void scene_draw(scene* s)
+{
     glBindVertexArray(s->VAO);
 
     unsigned uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
@@ -55,14 +88,17 @@ void scene_draw(scene* s) {
     glUniformMatrix4fv(uniform_mat4_projection, 1, GL_FALSE, (float *) s->projection);
     glUniformMatrix4fv(uniform_mat4_view, 1, GL_FALSE, (float *) s->view);
 
-    for (int i = 0; i < s->actors->size; i++) {
+    for (int i = 0; i < s->actors->size; i++)
+    {
         actor* a = ((actor*)s->actors->items[i]);
 
-        if (a->draw) {
+        if (a->draw)
+        {
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
             glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
-            if (a->texture) {
+            if (a->texture)
+            {
                 glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
             }
 

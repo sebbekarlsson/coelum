@@ -2,10 +2,10 @@
 #define PONG_SCENE_MENU_H
 #include "scene.h"
 
+
 typedef struct SCENE_MENU_STRUCT {
     scene base;
 } scene_menu;
-
 
 scene_menu* init_scene_menu();
 

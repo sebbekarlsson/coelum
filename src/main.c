@@ -11,8 +11,8 @@ shader_manager* SHADER_MANAGER;
 event_manager* EVENT_MANAGER;
 scene_manager* SCENE_MANAGER;
 
-
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     printf("Program started\n");
 
     GLFWwindow* window = setup_graphical_window();
@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
     SCENE_MANAGER = init_scene_manager();
     register_scenes(SCENE_MANAGER); 
 
-    while(!glfwWindowShouldClose(window)) {
+    while(!glfwWindowShouldClose(window))
+    {
         glfwPollEvents();
 
         glClearColor(48.0f / 255.0f, 48.0f / 255.0f, 48.0f / 255.0f, 1.0f);

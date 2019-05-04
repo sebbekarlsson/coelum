@@ -1,11 +1,17 @@
 #include "include/graphics.h"
 #include <stdio.h>
 
+
 #define VIEWPORT_WIDTH 3840
 #define VIEWPORT_HEIGHT 2160
 
-
-GLFWwindow* setup_graphical_window() {
+/**
+ * Use this to create a window with OpenGL context
+ *
+ * @return GLFWwindow*
+ */
+GLFWwindow* setup_graphical_window()
+{
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -14,7 +20,8 @@ GLFWwindow* setup_graphical_window() {
 
     GLFWwindow* window = glfwCreateWindow(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, "cpong", NULL, NULL);
 
-    if (window == NULL) {
+    if (window == NULL)
+    {
         printf("Failed to create GLFW window\n");
         glfwTerminate();
         return NULL;
@@ -37,6 +44,14 @@ GLFWwindow* setup_graphical_window() {
     return window;
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+/**
+ * Called when the window is resized.
+ *
+ * @param GLFWwindow* window
+ * @param int width
+ * @param int height
+ */
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
     glViewport(0, 0, width, height);
 }

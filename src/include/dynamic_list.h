@@ -2,6 +2,7 @@
 #define PONG_DYNAMIC_LIST_H
 #include <stdlib.h>
 
+
 typedef struct DYNAMIC_LIST_STRUCT {
     size_t size;
     size_t item_size;

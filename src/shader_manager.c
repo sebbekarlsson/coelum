@@ -3,7 +3,13 @@
 #include <string.h>
 
 
-shader_manager* init_shader_manager() {
+/**
+ * Creates a new shader_manager
+ * 
+ * @return shader_manager*
+ */
+shader_manager* init_shader_manager()
+{
     shader_manager* sm = calloc(1, sizeof(struct SHADER_MANAGER_STRUCT));
     sm->programs = init_dynamic_list(sizeof(unsigned int));
     sm->program_names = init_dynamic_list(sizeof(char*));
@@ -11,7 +17,16 @@ shader_manager* init_shader_manager() {
     return sm;
 }
 
-shader_manager_program* init_shader_manager_program(char* name, unsigned int program) {
+/**
+ * Creates a new shader_manager_program
+ *
+ * @param char* name - the name of the programe
+ * @param unsigned int program - the program
+ *
+ * @return shader_manager_program*
+ */
+shader_manager_program* init_shader_manager_program(char* name, unsigned int program)
+{
     shader_manager_program* smp = calloc(1, sizeof(struct SHADER_MANAGER_PROGRAM_STRUCT));
     smp->name = name;
     smp->program = program;
@@ -19,7 +34,22 @@ shader_manager_program* init_shader_manager_program(char* name, unsigned int pro
     return smp;
 }
 
-unsigned int shader_manager_register_program(shader_manager* sm, char* name, char* fragment_src_filename, char* vertex_src_filename) {
+/**
+ * Registers a shader program to a shader_manager.
+ * This method also compiles a shader based on fragment and vertex shader
+ * sources.
+ *
+ * shader_manager* sm
+ * char* name
+ * char* fragment_src_filename
+ * char* vertex_src_filename
+ */
+unsigned int shader_manager_register_program(
+    shader_manager* sm,
+    char* name,
+    char* fragment_src_filename,
+    char* vertex_src_filename
+) {
     char* f = calloc(256, sizeof(char));
     sprintf(f, "res/shaders/%s", fragment_src_filename);
     const char* fragment_src = read_file(f);
@@ -35,7 +65,8 @@ unsigned int shader_manager_register_program(shader_manager* sm, char* name, cha
     char info_log[512];
     glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
 
-    if(!success) {
+    if(!success)
+    {
         glGetShaderInfoLog(fragment_shader, 512, NULL, info_log);
         printf("fragment_shader: %s\n", info_log);
         return -1;
@@ -54,7 +85,8 @@ unsigned int shader_manager_register_program(shader_manager* sm, char* name, cha
 
     glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
 
-    if(!success) {
+    if(!success)
+    {
         glGetShaderInfoLog(vertex_shader, 512, NULL, info_log);
         printf("vertex_shader: %s\n", info_log);
         return -1;
@@ -67,17 +99,15 @@ unsigned int shader_manager_register_program(shader_manager* sm, char* name, cha
     glAttachShader(shader_program, fragment_shader);
     glLinkProgram(shader_program);
 
-    
     glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
-    if(!success) {
+
+    if(!success)
+    {
         glGetProgramInfoLog(shader_program, 512, NULL, info_log);
         printf("shader_program: %s\n", info_log);
         return -1;
     }
 
-    // to use the program, run:
-    // > glUseProgram(shader_program);
-    //
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
 
@@ -87,8 +117,18 @@ unsigned int shader_manager_register_program(shader_manager* sm, char* name, cha
     return shader_program;
 }
 
-unsigned int shader_manager_get_program(shader_manager* sm, char* name) {
-    for (int i = 0; i < sm->programs->size; i++) {
+/**
+ * Use this to get a registered shader program
+ *
+ * @param shader_manager* sm
+ * @param char* name
+ *
+ * @return unsigned int
+ */
+unsigned int shader_manager_get_program(shader_manager* sm, char* name)
+{
+    for (int i = 0; i < sm->programs->size; i++)
+    {
         shader_manager_program* smp = (shader_manager_program*) sm->programs->items[i];
 
         if (strcmp(smp->name, name) == 0)
