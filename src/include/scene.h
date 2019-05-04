@@ -14,6 +14,8 @@ typedef struct SCENE_STRUCT {
 
 scene* init_scene();
 
+scene* scene_constructor(scene* s);
+
 void scene_tick(scene* s);
 
 void scene_draw(scene* s);

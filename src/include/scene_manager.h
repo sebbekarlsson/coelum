@@ -17,4 +17,6 @@ void scene_manager_register_scene(scene_manager* sm, scene* s);
 void scene_manager_draw(scene_manager* sm);
 
 void scene_manager_tick(scene_manager* sm);
+
+void scene_manager_next(scene_manager* sm);
 #endif

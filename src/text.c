@@ -13,7 +13,7 @@ extern scene_manager* SCENE_MANAGER;
 extern unsigned int SHADER_DEFAULT;
 
 
-void render_text(const char* text) {
+void render_text(const char* text, float x, float y, float z) {
     texture_t* font_texture = get_texture("res/font/null_terminator.png");
 
     int size = 24;
@@ -47,6 +47,8 @@ void render_text(const char* text) {
             0, 0, 1, 0,
             0, 0, 0, 1
         };
+        
+        glm_translate(model, (vec3){x, y, z});
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -71,6 +73,7 @@ void render_text(const char* text) {
         glActiveTexture(GL_TEXTURE0);
         unsigned int tex = get_char_texture_from_texture(c, 7, 7, 8, 12, font_texture);
         glBindTexture(GL_TEXTURE_2D, tex);
+        glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
         
         unsigned uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
@@ -78,5 +81,6 @@ void render_text(const char* text) {
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        //glBindVertexArray(0);
     }
 }

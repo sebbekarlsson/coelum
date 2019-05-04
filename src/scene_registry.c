@@ -1,4 +1,6 @@
 #include "include/scene_registry.h"
+#include "include/scene_menu.h"
+#include "include/scene_play.h"
 #include <stdio.h>
 
 /**
@@ -11,5 +13,6 @@ void register_scenes(scene_manager* sm) {
      * - register actual game scene
      */
 
-    scene_manager_register_scene(sm, init_scene());
+    scene_manager_register_scene(sm, (scene*) init_scene_menu());
+    scene_manager_register_scene(sm, (scene*) init_scene_play());
 }

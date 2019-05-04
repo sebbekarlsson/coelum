@@ -5,5 +5,5 @@
 #include "textures.h"
 
 
-void render_text(const char* text);
+void render_text(const char* text, float x, float y, float z);
 #endif

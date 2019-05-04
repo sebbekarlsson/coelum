@@ -1,13 +1,17 @@
 #include "include/scene.h"
 #include "include/actor.h"
-#include "include/actor_pad.h"
 #include <string.h>
 
 
 extern unsigned int SHADER_DEFAULT;
 
 scene* init_scene() {
-    scene* s = calloc(1, sizeof(struct SCENE_STRUCT));
+    scene* s = calloc(1, sizeof(struct SCENE_STRUCT)); 
+
+    return s;
+}
+
+scene* scene_constructor(scene* s) {
     s->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
     glGenVertexArrays(1, &s->VAO);
 
@@ -29,11 +33,7 @@ scene* init_scene() {
     memcpy(s->projection, projection, sizeof(projection));
 
     glm_translate(s->view, (vec3){0.0f, 0.0f, 0.0f});
-    glm_ortho(0.0f, 3840.0f, 2160.0f, 0.0f, 0.0f, 1.5f, s->projection);
-
-    dynamic_list_append(s->actors, init_actor_pad(64.0f * 2, 0.0f, 0.0f));
-
-    return s;
+    glm_ortho(0.0f, 3840.0f, 2160.0f, 0.0f, 0.0f, 1.5f, s->projection);  
 }
 
 void scene_tick(scene* s) {
@@ -63,7 +63,7 @@ void scene_draw(scene* s) {
             glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
             if (a->texture) {
-                 glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
+                glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
             }
 
             a->draw(a);
@@ -72,4 +72,6 @@ void scene_draw(scene* s) {
             glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
         }
     }
+
+    glBindVertexArray(0);
 }

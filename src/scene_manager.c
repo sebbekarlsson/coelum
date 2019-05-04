@@ -1,5 +1,8 @@
 #include "include/scene_manager.h"
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 
 scene_manager* init_scene_manager() {
     scene_manager* sm = calloc(1, sizeof(struct SCENE_MANAGER_STRUCT));
@@ -23,4 +26,8 @@ void scene_manager_tick(scene_manager* sm) {
 
 void scene_manager_draw(scene_manager* sm) {
     scene_draw(scene_manager_get_current_scene(sm));
+}
+
+void scene_manager_next(scene_manager* sm) {
+    sm->scene_index = MIN(sm->scene_index + 1, sm->scenes->size - 1);
 }
