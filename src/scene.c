@@ -68,6 +68,15 @@ void scene_tick(scene* s)
     for (int i = 0; i < s->actors->size; i++)
     {
         actor* a = (actor*)s->actors->items[i];
+
+        if (!a->loaded)
+        {
+            if (a->load)
+            {
+                a->load(a);
+                a->loaded = 1;
+            }
+        }
         
         if (a->tick)
             a->tick(a);

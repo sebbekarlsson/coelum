@@ -19,6 +19,17 @@ void actor_pad_key_down_callback(int state)
 }
 
 /**
+ * Called when the pad actor is loaded
+ *
+ * @param actor* self
+ */
+void actor_pad_load(actor* self)
+{
+    add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, actor_pad_key_up_callback);
+    add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, actor_pad_key_down_callback);
+}
+
+/**
  * Creates an instancec of a pad actor.
  *
  * @param float x
@@ -30,13 +41,13 @@ void actor_pad_key_down_callback(int state)
 actor_pad* init_actor_pad(float x, float y, float z)
 {
     actor_pad* pad = calloc(1, sizeof(struct ACTOR_PAD_STRUCT));
+    actor* a = (actor*) pad;
+
+    a->load = actor_pad_load;
+
+    actor_constructor(a, x, y, z, actor_pad_tick, actor_pad_draw); 
 
     pad->speed = 3.5f;
-
-    actor_constructor((actor*) pad, x, y, z, actor_pad_tick, actor_pad_draw);
-
-    add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, actor_pad_key_up_callback);
-    add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, actor_pad_key_down_callback);
 
     ((actor*)pad)->texture = get_texture("res/img/redball.png")->renderable_texture;
 

@@ -147,3 +147,14 @@ unsigned int get_char_texture_from_texture(
 
     return texture;
 }
+
+/**
+ * Deallocate a texture_t* instance.
+ *
+ * @param texture_t* texture
+ */
+void texture_free(texture_t* texture)
+{
+    stbi_image_free(texture->data);
+    free(texture);
+}

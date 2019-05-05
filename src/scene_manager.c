@@ -12,7 +12,7 @@ scene_manager* init_scene_manager()
 {
     scene_manager* sm = calloc(1, sizeof(struct SCENE_MANAGER_STRUCT));
     sm->scenes = init_dynamic_list(sizeof(struct SCENE_STRUCT));
-    sm->scene_index = 0;
+    sm->scene_index = -1;
 
     return sm;
 }
@@ -71,5 +71,19 @@ void scene_manager_draw(scene_manager* sm)
  */
 void scene_manager_next(scene_manager* sm)
 {
+
+    if (sm->scene_index != -1)
+    {
+        scene* p_scene = scene_manager_get_current_scene(sm);
+
+        if (p_scene->unload)
+            p_scene->unload(p_scene);
+    }
+
     sm->scene_index = MIN(sm->scene_index + 1, sm->scenes->size - 1);
+
+    scene* n_scene = scene_manager_get_current_scene(sm);
+
+    if (n_scene->load)
+        n_scene->load(n_scene);
 }

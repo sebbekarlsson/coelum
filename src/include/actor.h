@@ -12,9 +12,12 @@ typedef struct ACTOR_STRUCT {
     unsigned int VBO;
     unsigned int EBO;
     unsigned int texture;
+    int loaded;
     mat4 model;
     void (*tick)(void* self);
     void (*draw)(void* self);
+    void (*load)(void* self);
+    // void (*unload)(void* self);
 } actor;
 
 actor* init_actor(float x, float y, float z);

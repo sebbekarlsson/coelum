@@ -6,7 +6,7 @@
 #include <string.h>
 
 
-#define SIZE 64
+#define SIZE 16
 
 extern shader_manager* SHADER_MANAGER;
 extern scene_manager* SCENE_MANAGER;
@@ -24,10 +24,10 @@ float VERTICES_DEFAULT[] =
 float VERTICES_TEXTURED[] =
 {
     // positions          // colors           // texture coords
-     SIZE,  SIZE, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-     SIZE, -SIZE, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-    -SIZE, -SIZE, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-    -SIZE,  SIZE, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
+     SIZE,  SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // top right
+     SIZE, -SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
+    -SIZE, -SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+    -SIZE,  SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
 };
 
 unsigned int INDICES_DEFAULT [] =
@@ -71,7 +71,9 @@ actor* actor_constructor(
 {
     a->x = x;
     a->y = y;
-    a->z = z; 
+    a->z = z;
+
+    a->loaded = 0;
 
     glGenBuffers(1, &a->VBO);
     glGenBuffers(1, &a->EBO);

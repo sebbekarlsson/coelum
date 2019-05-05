@@ -21,4 +21,6 @@ unsigned int get_char_texture_from_texture(
     int n_rows_y,
     texture_t* font_texture
 );
+
+void texture_free(texture_t* texture);
 #endif

@@ -29,6 +29,9 @@ int main(int argc, char* argv[])
 
     while(!glfwWindowShouldClose(window))
     {
+        if (SCENE_MANAGER->scene_index == -1)
+            scene_manager_next(SCENE_MANAGER);
+
         glfwPollEvents();
 
         glClearColor(48.0f / 255.0f, 48.0f / 255.0f, 48.0f / 255.0f, 1.0f);

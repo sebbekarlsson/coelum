@@ -23,14 +23,19 @@ event_manager* init_event_manager()
  * @param event_manager* em
  * @param int key - key to listen for
  * @param void(*callback)() - function to be called when event is emitted
+ *
+ * @return event_listener*
  */
-void add_event_listener(event_manager* em, int key, void (*callback)())
+event_listener* add_event_listener(event_manager* em, int key, void (*callback)())
 {
     event_listener* el = calloc(1, sizeof(struct EVENT_LISTENER_STRUCT));
+    el->enabled = 1;
     el->key = key;
     el->callback = callback;
 
     dynamic_list_append(em->event_listeners, el);
+
+    return el;
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -41,6 +46,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     for (int i = 0; i < EVENT_MANAGER->event_listeners->size; i++)
     {
         event_listener* el = (event_listener*) EVENT_MANAGER->event_listeners->items[i];
+
+        if (!el->enabled)
+            continue;
 
         if (key == el->key)
             el->callback(glfwGetKey(window, el->key));

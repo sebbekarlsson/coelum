@@ -1,3 +1,6 @@
+/**
+ * TODO: add dynamic_list_remove method to remove items from list
+ */
 #include "include/dynamic_list.h"
 
 

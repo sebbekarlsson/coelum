@@ -6,6 +6,7 @@
 
 typedef struct EVENT_LISTENER_STRUCT {
     int key;
+    int enabled;
     void (*callback)();
 } event_listener;
 
@@ -15,7 +16,7 @@ typedef struct EVENT_MANAGER_STRUCT {
 
 event_manager* init_event_manager();
 
-void add_event_listener(event_manager* em, int key, void (*callback)());
+event_listener* add_event_listener(event_manager* em, int key, void (*callback)());
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 #endif

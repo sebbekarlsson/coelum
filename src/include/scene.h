@@ -12,6 +12,8 @@ typedef struct SCENE_STRUCT {
     mat4 view;
     void (*tick)(void* self);
     void (*draw)(void* self);
+    void (*load)(void* self);
+    void (*unload)(void* self);
 } scene;
 
 scene* init_scene();
