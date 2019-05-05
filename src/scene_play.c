@@ -12,7 +12,7 @@ scene_play* init_scene_play()
 {
     scene_play* s_play = calloc(1, sizeof(struct SCENE_PLAY_STRUCT));
     scene* s = (scene*) s_play;
-    scene_constructor(s);
+    scene_constructor(s, scene_play_tick, scene_play_draw);
 
     dynamic_list_append(s->actors, init_actor_pad(64.0f * 2, 0.0f, 0.0f));
 

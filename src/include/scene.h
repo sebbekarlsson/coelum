@@ -10,11 +10,13 @@ typedef struct SCENE_STRUCT {
     unsigned int VAO;
     mat4 projection;
     mat4 view;
+    void (*tick)(void* self);
+    void (*draw)(void* self);
 } scene;
 
 scene* init_scene();
 
-scene* scene_constructor(scene* s);
+scene* scene_constructor(scene* s, void (*tick)(scene* self), void (*draw)(scene* self));
 
 void scene_tick(scene* s);
 

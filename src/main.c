@@ -10,12 +10,13 @@
 shader_manager* SHADER_MANAGER;
 event_manager* EVENT_MANAGER;
 scene_manager* SCENE_MANAGER;
+GLFWwindow* window = (void*) 0;
 
 int main(int argc, char* argv[])
 {
     printf("Program started\n");
 
-    GLFWwindow* window = setup_graphical_window();
+    window = setup_graphical_window(640, 480);
 
     SHADER_MANAGER = init_shader_manager();
     register_shader_programs(SHADER_MANAGER);

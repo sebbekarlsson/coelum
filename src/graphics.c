@@ -1,24 +1,23 @@
 #include "include/graphics.h"
+#include <GLFW/glfw3.h>
 #include <stdio.h>
 
-
-#define VIEWPORT_WIDTH 3840
-#define VIEWPORT_HEIGHT 2160
 
 /**
  * Use this to create a window with OpenGL context
  *
  * @return GLFWwindow*
  */
-GLFWwindow* setup_graphical_window()
+GLFWwindow* setup_graphical_window(int width, int height)
 {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_FLOATING, GL_TRUE);
 
-    GLFWwindow* window = glfwCreateWindow(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, "cpong", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, "cpong", NULL, NULL);
 
     if (window == NULL)
     {
@@ -34,7 +33,7 @@ GLFWwindow* setup_graphical_window()
         return NULL;
     }
 
-    glViewport(0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+    glViewport(0, 0, width, height);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

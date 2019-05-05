@@ -17,20 +17,24 @@ extern unsigned int SHADER_DEFAULT;
  * @param float y
  * @param float z
  */
-void render_text(const char* text, float x, float y, float z)
+void render_text(const char* text, float x, float y, float z, float r, float g, float b)
 {
     texture_t* font_texture = get_texture("res/font/null_terminator.png");
 
-    int size = 24;
-    int spacing = 12;
+    int size = 6;
+    int spacing = 0;
+
+    float d_r = r / 255.0f;
+    float d_g = g / 255.0f;
+    float d_b = b / 255.0f;
 
     float vertices[] = 
     {
         // positions          // colors           // texture coords
-        size,  size, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-        size, -size, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -size, -size, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -size,  size, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
+        size,  size, 0.0f,   r, g, b,   1.0f, 1.0f,   // top right
+        size, -size, 0.0f,   r, g, b,   1.0f, 0.0f,   // bottom right
+        -size, -size, 0.0f,   r, g, b,   0.0f, 0.0f,   // bottom left
+        -size,  size, 0.0f,   r, g, b,   0.0f, 1.0f    // top left
     };
 
     unsigned int indices [] =
@@ -86,7 +90,7 @@ void render_text(const char* text, float x, float y, float z)
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
         
         unsigned uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
-        glm_translate(model, (vec3){(i * ((24 * 2) + spacing)), 0, 0});
+        glm_translate(model, (vec3){(i * (24 + spacing)), 0, 0});
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

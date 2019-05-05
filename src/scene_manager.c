@@ -48,7 +48,8 @@ void scene_manager_register_scene(scene_manager* sm, scene* s)
  */
 void scene_manager_tick(scene_manager* sm)
 {
-    scene_tick(scene_manager_get_current_scene(sm));
+    scene* s = scene_manager_get_current_scene(sm);
+    s->tick(s);
 }
 
 /**
@@ -58,7 +59,8 @@ void scene_manager_tick(scene_manager* sm)
  */
 void scene_manager_draw(scene_manager* sm)
 {
-    scene_draw(scene_manager_get_current_scene(sm));
+    scene* s = scene_manager_get_current_scene(sm);
+    s->draw(s);
 }
 
 /**

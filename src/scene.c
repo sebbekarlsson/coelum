@@ -26,8 +26,11 @@ scene* init_scene()
  *
  * @return scene*
  */
-scene* scene_constructor(scene* s)
+scene* scene_constructor(scene* s,  void (*tick)(scene* self), void (*draw)(scene* self))
 {
+    s->tick = tick;
+    s->draw = draw;
+
     s->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
     glGenVertexArrays(1, &s->VAO);
 
@@ -51,7 +54,7 @@ scene* scene_constructor(scene* s)
     memcpy(s->projection, projection, sizeof(projection));
 
     glm_translate(s->view, (vec3){0.0f, 0.0f, 0.0f});
-    glm_ortho(0.0f, 3840.0f, 2160.0f, 0.0f, 0.0f, 1.5f, s->projection);  
+    glm_ortho(0.0f, 640, 480, 0.0f, 0.0f, 1.5f, s->projection);  
 }
 
 /**
