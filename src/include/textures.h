@@ -9,7 +9,7 @@ typedef struct TEXTURE_STRUCT {
     int height;
 } texture_t;
 
-texture_t* get_texture(char* filepath);
+texture_t* get_texture(char* filepath, int mode);
 
 unsigned int get_subtexture(texture_t* texture, int x, int y, int h, int w);
 

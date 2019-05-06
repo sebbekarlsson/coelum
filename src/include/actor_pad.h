@@ -6,10 +6,11 @@
 typedef struct ACTOR_PAD_STRUCT {
     actor base;
     float speed;
+    int player;
 } actor_pad;
 
 
-actor_pad* init_actor_pad(float x, float y, float z);
+actor_pad* init_actor_pad(float x, float y, float z, int player);
 
 void actor_pad_tick(actor* self);
 

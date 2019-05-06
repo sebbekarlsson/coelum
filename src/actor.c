@@ -4,37 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 
 #define SIZE 16
+
+#define PI 3.14159265
 
 extern shader_manager* SHADER_MANAGER;
 extern scene_manager* SCENE_MANAGER;
 
 extern unsigned int SHADER_DEFAULT;
-
-float VERTICES_DEFAULT[] =
-{
-    SIZE,  SIZE, 0.0f,  // top right
-    SIZE, -SIZE, 0.0f,  // bottom right
-    -SIZE, -SIZE, 0.0f,  // bottom left
-    -SIZE,  SIZE, 0.0f   // top left 
-};
-
-float VERTICES_TEXTURED[] =
-{
-    // positions          // colors           // texture coords
-     SIZE,  SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // top right
-     SIZE, -SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
-    -SIZE, -SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-    -SIZE,  SIZE, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
-};
-
-unsigned int INDICES_DEFAULT [] =
-{
-    0, 1, 3,   // first triangle
-    1, 2, 3    // second triangle
-};
 
 /**
  * Initializes an actor, note that this method is sort of abstract and should
@@ -72,6 +52,12 @@ actor* actor_constructor(
     a->x = x;
     a->y = y;
     a->z = z;
+    a->dx = 0.0f;
+    a->dy = 0.0f;
+    a->dz = 0.0f;
+    a->friction = 0.0f;
+    a->width = 1;
+    a->height = 1;
 
     a->loaded = 0;
 
@@ -112,6 +98,29 @@ void actor_tick(actor* a)
  */
 void actor_draw(actor* a)
 {
+    float VERTICES_DEFAULT[] =
+    {
+        a->width,  a->height, 0.0f,  // top right
+        a->width, -a->height, 0.0f,  // bottom right
+        -a->width, -a->height, 0.0f,  // bottom left
+        -a->width,  a->height, 0.0f   // top left 
+    };
+
+    float VERTICES_TEXTURED[] =
+    {
+        // positions          // colors           // texture coords
+        a->width,  a->height, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // top right
+        a->width, -a->height, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
+        -a->width, -a->height, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+        -a->width,  a->height, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
+    };
+
+    unsigned int INDICES_DEFAULT [] =
+    {
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
+    };
+
     glBindBuffer(GL_ARRAY_BUFFER, a->VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES_TEXTURED), VERTICES_TEXTURED, GL_STATIC_DRAW);
 
@@ -141,4 +150,12 @@ void actor_draw(actor* a)
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     //glBindVertexArray(0);
+}
+
+void actor_push(actor* self, float degree, float acceleration)
+{
+    float radians = degree * (PI / 180.0f);
+
+    self->dx += cos(radians) * acceleration;
+    self->dy -= sin(radians) * acceleration;
 }

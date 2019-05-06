@@ -12,7 +12,7 @@
  *
  * @return texture_t*
  */
-texture_t* get_texture(char* filepath)
+texture_t* get_texture(char* filepath, int mode)
 {
     texture_t* tex = calloc(1, sizeof(struct TEXTURE_STRUCT));
 
@@ -30,8 +30,7 @@ texture_t* get_texture(char* filepath)
 
     if (tex->data)
     { 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->width, tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, mode, tex->width, tex->height, 0, mode, GL_UNSIGNED_BYTE, tex->data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
     else

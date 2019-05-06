@@ -9,6 +9,12 @@ typedef struct ACTOR_STRUCT {
     float x;
     float y;
     float z;
+    float dx;
+    float dy;
+    float dz;
+    float friction;
+    int width;
+    int height;
     unsigned int VBO;
     unsigned int EBO;
     unsigned int texture;
@@ -34,4 +40,6 @@ actor* actor_constructor(
 void actor_tick(actor* a);
 
 void actor_draw(actor* a);
+
+void actor_push(actor* self, float degree, float acceleration);
 #endif

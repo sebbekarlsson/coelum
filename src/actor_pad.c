@@ -38,29 +38,36 @@ void actor_pad_load(actor* self)
  *
  * @return actor_pad*
  */
-actor_pad* init_actor_pad(float x, float y, float z)
+actor_pad* init_actor_pad(float x, float y, float z, int player)
 {
     actor_pad* pad = calloc(1, sizeof(struct ACTOR_PAD_STRUCT));
-    actor* a = (actor*) pad;
+    actor* a = (actor*) pad; 
 
     a->load = actor_pad_load;
 
-    actor_constructor(a, x, y, z, actor_pad_tick, actor_pad_draw); 
+    actor_constructor(a, x, y, z, actor_pad_tick, actor_pad_draw);
 
+    a->width = 16;
+    a->height = 48;
+
+    pad->player = player;
     pad->speed = 3.5f;
 
-    ((actor*)pad)->texture = get_texture("res/img/redball.png")->renderable_texture;
+    ((actor*)pad)->texture = get_texture("res/img/pad.png", GL_RGB)->renderable_texture;
 
     return pad;
 }
 
 void actor_pad_tick(actor* self)
 {
-    if (key_up)
-        self->y -= ((actor_pad*)self)->speed;
+    if (((actor_pad*)self)->player)
+    {
+        if (key_up)
+            self->y -= ((actor_pad*)self)->speed;
 
-    if (key_down)
-        self->y += ((actor_pad*)self)->speed;
+        if (key_down)
+            self->y += ((actor_pad*)self)->speed;
+    }
 }
 
 void actor_pad_draw(actor* self)

@@ -19,7 +19,7 @@ extern unsigned int SHADER_DEFAULT;
  */
 void render_text(const char* text, float x, float y, float z, float r, float g, float b)
 {
-    texture_t* font_texture = get_texture("res/font/null_terminator.png");
+    texture_t* font_texture = get_texture("res/font/null_terminator.png", GL_RGBA);
 
     int size = 6;
     int spacing = 0;

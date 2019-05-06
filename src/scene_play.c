@@ -1,5 +1,6 @@
 #include "include/scene_play.h"
 #include "include/actor_pad.h"
+#include "include/actor_ball.h"
 #include "include/actor_text.h"
 
 
@@ -14,7 +15,9 @@ scene_play* init_scene_play()
     scene* s = (scene*) s_play;
     scene_constructor(s, scene_play_tick, scene_play_draw);
 
-    dynamic_list_append(s->actors, init_actor_pad(64.0f * 2, 0.0f, 0.0f));
+    dynamic_list_append(s->actors, init_actor_pad(48.0f, 480.0f / 2, 0.0f, 1));
+    dynamic_list_append(s->actors, init_actor_pad(640.0f - 48.0f, 480.0f / 2, 0.0f, 0));
+    dynamic_list_append(s->actors, init_actor_ball(640.0f / 2, 480.0f / 2, 0.0f));
 
     return s_play;
 }
