@@ -110,10 +110,10 @@ void actor_draw(actor* a)
     float VERTICES_TEXTURED[] =
     {
         // positions          // colors           // texture coords
-        a->width,  a->height, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // top right
-        a->width, -a->height, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
-        -a->width, -a->height, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -a->width,  a->height, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
+        0.0f,  0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // top right
+        a->width, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
+        a->width, a->height, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // bottom left
+        0.0f,  a->height, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
     };
 
     unsigned int INDICES_DEFAULT [] =

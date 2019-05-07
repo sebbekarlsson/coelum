@@ -33,8 +33,8 @@ actor_ball* init_actor_ball(float x, float y, float z)
     a->load = actor_ball_load;
     a->type = 0;
 
-    a->width = 16;
-    a->height = 16;
+    a->width = 32;
+    a->height = 32;
     a->friction = 0.01f;
 
     ((actor*)ball)->texture = get_texture("res/img/redball.png", GL_RGBA)->renderable_texture;
@@ -85,11 +85,23 @@ void actor_ball_tick(actor* self)
 
         if (a->type == 1) // pad
         {
-            if (self->x + self->width >= a->x - a->width && self->x - self->width <= a->x + a->width)
+            if (self->x + self->width > a->x && self->x < a->x + a->width)
             {
-                if (self->y + self->height >= a->y - a->height && self->y - self->height <= a->y + a->height)
+                if (self->y + self->height > a->y && self->y < a->y + a->height)
                 {
-                    actor_push(self, 180.0f, self->dx * 2.05f);
+                    self->dx = 0.0f;
+                    self->dy = 0.0f; 
+
+                    if (self->x + self->width < a->x + a->width / 2)
+                    {
+                        self->x = a->x - self->width;
+                        actor_push(self, 180.0f, 10.5f);
+                    }
+                    else
+                    {
+                        self->x = a->x + a->width;
+                        actor_push(self, 0.0f, 10.5f);
+                    }
                 }
             }
         }

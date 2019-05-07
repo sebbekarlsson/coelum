@@ -30,9 +30,9 @@ scene_play* init_scene_play()
     s_play->text_player_score_buffer = calloc(16, sizeof(char));
     s_play->text_computer_score_buffer = calloc(16, sizeof(char));
 
-    dynamic_list_append(s->actors, init_actor_pad(48.0f, 480.0f / 2, 0.0f, 1));
-    dynamic_list_append(s->actors, init_actor_pad(640.0f - 48.0f, 480.0f / 2, 0.0f, 0));
-    dynamic_list_append(s->actors, init_actor_ball(640.0f / 2, 480.0f / 2, 0.0f));
+    dynamic_list_append(s->actors, init_actor_pad(48.0f, (480.0f / 2) - 32, 0.0f, 1));
+    dynamic_list_append(s->actors, init_actor_pad(640.0f - 48.0f, (480.0f / 2) - 32, 0.0f, 0));
+    dynamic_list_append(s->actors, init_actor_ball(640.0f / 2, (480.0f / 2) - 16, 0.0f));
 
     dynamic_list_append(s->actors, init_actor_text(48.0f, 480.0f - 72.0f, 0.0f, "you", 255, 255, 255));
     dynamic_list_append(s->actors, init_actor_text(640.0f - 8 * 24, 480.0f - 72.0f, 0.0f, "computer", 255, 255, 255));
