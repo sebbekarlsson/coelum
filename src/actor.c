@@ -49,6 +49,7 @@ actor* actor_constructor(
     void (*draw)(actor* self)
 )
 {
+    a->type = -1;
     a->x = x;
     a->y = y;
     a->z = z;

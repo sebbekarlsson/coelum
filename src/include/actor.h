@@ -6,6 +6,7 @@
 
 
 typedef struct ACTOR_STRUCT {
+    int type;
     float x;
     float y;
     float z;

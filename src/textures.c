@@ -3,6 +3,7 @@
 #include "include/stb_image.h"
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
+#include <ctype.h>
 
 
 /**
@@ -104,12 +105,20 @@ unsigned int get_char_texture_from_texture(
 {
     int x = 0;
     int y = 0;
+    int ptr = 0;
 
-    /*
-     * The `a` character begins at position `33` in
-     * `res/font/null_terminator.png`
-     */
-    int ptr = -97 + (int) c + 33;
+    if (isdigit(c))
+    {
+        ptr = (((int) c) - 48) + 16;
+    }
+    else
+    {
+        /*
+         * The `a` character begins at position `33` in
+         * `res/font/null_terminator.png`
+         */
+        ptr = -97 + (int) c + 33;
+    }
 
     for (int i = 0; i < n_rows_x * n_rows_y; i++)
     {

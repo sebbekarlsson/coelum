@@ -41,11 +41,12 @@ void actor_pad_load(actor* self)
 actor_pad* init_actor_pad(float x, float y, float z, int player)
 {
     actor_pad* pad = calloc(1, sizeof(struct ACTOR_PAD_STRUCT));
-    actor* a = (actor*) pad; 
-
-    a->load = actor_pad_load;
+    actor* a = (actor*) pad;
 
     actor_constructor(a, x, y, z, actor_pad_tick, actor_pad_draw);
+    
+    a->load = actor_pad_load;
+    a->type = 1;
 
     a->width = 16;
     a->height = 48;
