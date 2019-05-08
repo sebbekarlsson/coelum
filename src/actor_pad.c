@@ -1,8 +1,11 @@
 #include "include/actor_pad.h"
 #include "include/input.h"
 #include "include/textures.h"
+#include "include/scene_manager.h"
+#include <time.h>
 
 
+extern scene_manager* SCENE_MANAGER;
 extern event_manager* EVENT_MANAGER;
 
 int key_up = 0;
@@ -52,7 +55,11 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
     a->height = 48;
 
     pad->player = player;
-    pad->speed = 3.5f;
+    pad->speed = 4.5f;
+    pad->target_x = 640 / 2;
+    pad->target_y = y;
+
+    srand(time(NULL));
 
     ((actor*)pad)->texture = get_texture("res/img/pad.png", GL_RGB)->renderable_texture;
 
@@ -61,13 +68,54 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
 
 void actor_pad_tick(actor* self)
 {
-    if (((actor_pad*)self)->player)
+    actor_pad* pad = (actor_pad*) self;
+
+    if (pad->player)
     {
         if (key_up)
             self->y -= ((actor_pad*)self)->speed;
 
         if (key_down)
             self->y += ((actor_pad*)self)->speed;
+    }
+    else
+    {
+        scene* current_scene = scene_manager_get_current_scene(SCENE_MANAGER);
+
+        actor* player = (void*) 0;
+        actor* ball = (void*) 0;
+
+        for (int i = 0; i < current_scene->actors->size; i++)
+        {
+            actor* a = (actor*) current_scene->actors->items[i];
+
+            if (a->type == 0) // ball
+            {
+                ball = a;
+            }
+            else
+            if (a->type == 1 && a != self)
+            {
+                player = a;
+            }
+        }
+
+        pad->target_y = ball->y;
+
+        if (ball->x < 640 / 2)
+        {
+            pad->target_y = player->y;
+        }
+
+        if (self->y < pad->target_y)
+        {
+            self->y += pad->speed;
+        }
+        else
+        if (self->y > pad->target_y)
+        {
+            self->y -= pad->speed;
+        }
     }
 }
 

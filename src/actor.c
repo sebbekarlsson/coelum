@@ -153,9 +153,9 @@ void actor_draw(actor* a)
     //glBindVertexArray(0);
 }
 
-void actor_push(actor* self, float degree, float acceleration)
+void actor_push(actor* self, float angle, float acceleration)
 {
-    float radians = degree * (PI / 180.0f);
+    float radians = angle * (PI / 180.0f);
 
     self->dx += cos(radians) * acceleration;
     self->dy -= sin(radians) * acceleration;

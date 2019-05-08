@@ -7,6 +7,8 @@ typedef struct ACTOR_PAD_STRUCT {
     actor base;
     float speed;
     int player;
+    float target_x;
+    float target_y;
 } actor_pad;
 
 
