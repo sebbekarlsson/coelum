@@ -11,8 +11,7 @@
 shader_manager* init_shader_manager()
 {
     shader_manager* sm = calloc(1, sizeof(struct SHADER_MANAGER_STRUCT));
-    sm->programs = init_dynamic_list(sizeof(unsigned int));
-    sm->program_names = init_dynamic_list(sizeof(char*));
+    sm->programs = init_dynamic_list(sizeof(struct SHADER_MANAGER_PROGRAM_STRUCT));
 
     return sm;
 }

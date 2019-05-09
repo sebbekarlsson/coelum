@@ -8,6 +8,9 @@
 typedef struct SCENE_STRUCT {
     dynamic_list* actors;
     unsigned int VAO;
+    unsigned uniform_mat4_model;
+    unsigned uniform_mat4_view;
+    unsigned uniform_mat4_projection;
     mat4 projection;
     mat4 view;
     void (*tick)(void* self);

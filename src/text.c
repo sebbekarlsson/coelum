@@ -8,6 +8,7 @@
 extern scene_manager* SCENE_MANAGER;
 
 extern unsigned int SHADER_DEFAULT;
+extern texture_t* TEXTURE_DEFAULT_FONT;
 
 /**
  * Used to render a text at a specific position.
@@ -19,8 +20,6 @@ extern unsigned int SHADER_DEFAULT;
  */
 void render_text(const char* text, float x, float y, float z, float r, float g, float b)
 {
-    texture_t* font_texture = get_texture("res/font/null_terminator.png", GL_RGBA);
-
     int size = 6;
     int spacing = 0;
 
@@ -42,15 +41,17 @@ void render_text(const char* text, float x, float y, float z, float r, float g, 
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
+    
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     for (int i = 0; i < strlen(text); i++)
     {
         char c = text[i];
 
-        unsigned int VBO;
         unsigned int EBO;
 
-        glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
 
         mat4 model =
@@ -63,7 +64,6 @@ void render_text(const char* text, float x, float y, float z, float r, float g, 
         
         glm_translate(model, (vec3){x, y, z});
 
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -84,7 +84,7 @@ void render_text(const char* text, float x, float y, float z, float r, float g, 
         // glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
 
         glActiveTexture(GL_TEXTURE0);
-        unsigned int tex = get_char_texture_from_texture(c, 7, 7, 8, 12, font_texture);
+        unsigned int tex = get_char_texture_from_texture(c, 7, 7, 8, 12, TEXTURE_DEFAULT_FONT);
         glBindTexture(GL_TEXTURE_2D, tex);
         glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
@@ -95,5 +95,9 @@ void render_text(const char* text, float x, float y, float z, float r, float g, 
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         //glBindVertexArray(0);
+        glDeleteBuffers(1, &EBO);
+        glDeleteTextures(1, &tex);
     }
+
+    glDeleteBuffers(1, &VBO);
 }

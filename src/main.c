@@ -5,11 +5,15 @@
 #include "include/scene_registry.h"
 #include "include/shader_manager.h"
 #include "include/shader_registry.h"
+#include "include/texture_manager.h"
+#include "include/texture_registry.h"
 
 
 shader_manager* SHADER_MANAGER;
+texture_manager* TEXTURE_MANAGER;
 event_manager* EVENT_MANAGER;
 scene_manager* SCENE_MANAGER;
+
 GLFWwindow* window = (void*) 0;
 
 int main(int argc, char* argv[])
@@ -20,6 +24,9 @@ int main(int argc, char* argv[])
 
     SHADER_MANAGER = init_shader_manager();
     register_shader_programs(SHADER_MANAGER);
+
+    TEXTURE_MANAGER = init_texture_manager();
+    register_textures(TEXTURE_MANAGER);
 
     EVENT_MANAGER = init_event_manager();
     glfwSetKeyCallback(window, key_callback);

@@ -6,7 +6,6 @@
 
 typedef struct SHADER_MANAGER_STRUCT {
     dynamic_list* programs;
-    dynamic_list* program_names;
 } shader_manager;
 
 typedef struct SHADER_MANAGER_PROGRAM_STRUCT {

@@ -93,12 +93,17 @@ void scene_draw(scene* s)
 {
     glBindVertexArray(s->VAO);
 
-    unsigned uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
-    unsigned uniform_mat4_view = glGetUniformLocation(SHADER_DEFAULT, "view");
-    unsigned uniform_mat4_projection = glGetUniformLocation(SHADER_DEFAULT, "projection");
+    if (!s->uniform_mat4_model)
+        s->uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
 
-    glUniformMatrix4fv(uniform_mat4_projection, 1, GL_FALSE, (float *) s->projection);
-    glUniformMatrix4fv(uniform_mat4_view, 1, GL_FALSE, (float *) s->view);
+    if (!s->uniform_mat4_view)
+        s->uniform_mat4_view = glGetUniformLocation(SHADER_DEFAULT, "view");
+
+    if (!s->uniform_mat4_projection)
+        s->uniform_mat4_projection = glGetUniformLocation(SHADER_DEFAULT, "projection");
+
+    glUniformMatrix4fv(s->uniform_mat4_projection, 1, GL_FALSE, (float *) s->projection);
+    glUniformMatrix4fv(s->uniform_mat4_view, 1, GL_FALSE, (float *) s->view);
 
     for (int i = 0; i < s->actors->size; i++)
     {
@@ -107,7 +112,7 @@ void scene_draw(scene* s)
         if (a->draw)
         {
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
-            glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            glUniformMatrix4fv(s->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
             if (a->texture)
             {
@@ -117,7 +122,7 @@ void scene_draw(scene* s)
             a->draw(a);
 
             glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
-            glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            glUniformMatrix4fv(s->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
         }
     }
 
