@@ -36,6 +36,7 @@ actor_ball* init_actor_ball(float x, float y, float z)
     a->texture = get_texture("res/img/redball.png", GL_RGBA)->renderable_texture;
 
     ball->target_angle = 0.0f;
+    ball->timer = 0.0f;
 
     return ball;
 }
@@ -79,56 +80,64 @@ void actor_ball_tick(actor* self)
 
     actor_ball* ball = (actor_ball*) self;
 
-    for (int i = 0; i < current_scene->actors->size; i++)
+    // timer
+    if (ball->timer > 0)
     {
-        actor* a = (actor*) current_scene->actors->items[i];
+        ball->timer -= 1.0f;
+    }
 
-        if (a->type == 1) // pad
+    if (!ball->timer)
+    {
+        for (int i = 0; i < current_scene->actors->size; i++)
         {
-            if (self->x + self->width > a->x && self->x < a->x + a->width)
+            actor* a = (actor*) current_scene->actors->items[i];
+
+            if (a->type == 1) // pad
             {
-                if (self->y + self->height > a->y && self->y < a->y + a->height)
+                if (self->x + self->width > a->x && self->x < a->x + a->width)
                 {
-                    self->dx = 0.0f;
-                    self->dy = 0.0f; 
-                    
-                    int padding = 8;
-
-                    if (self->x + self->width < a->x + a->width / 2)
+                    if (self->y + self->height > a->y && self->y < a->y + a->height)
                     {
-                        self->x = a->x - self->width;
-                        ball->target_angle = 180.0f;
-
+                        self->dx = 0.0f;
+                        self->dy = 0.0f; 
                         
-                        if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
+                        int padding = 8;
+
+                        if (self->x + self->width < a->x + a->width / 2)
                         {
-                            ball->target_angle += 10.0f;
+                            self->x = a->x - self->width;
+                            ball->target_angle = 180.0f;
+
+                            
+                            if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
+                            {
+                                ball->target_angle += 10.0f;
+                            }
+                            else
+                            if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
+                            {
+                                ball->target_angle -= 10.0f;
+                            }
+
+                            actor_push(self, ball->target_angle, 10.5f);
                         }
                         else
-                        if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
                         {
-                            ball->target_angle -= 10.0f;
+                            self->x = a->x + a->width;
+                            ball->target_angle = 0.0f;
+
+                            if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
+                            {
+                                ball->target_angle -= 10.0f;
+                            }
+                            else
+                            if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
+                            {
+                                ball->target_angle += 10.0f;
+                            }
+
+                            actor_push(self, ball->target_angle, 10.5f);
                         }
-
-                        actor_push(self, ball->target_angle, 10.5f);
-                    }
-                    else
-                    {
-                        self->x = a->x + a->width;
-                        ball->target_angle = 0.0f;
-
-                        if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
-                        {
-                            ball->target_angle -= 10.0f;
-                        }
-                        else
-                        if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
-                        {
-                            ball->target_angle += 10.0f;
-                        }
-
-
-                        actor_push(self, ball->target_angle, 10.5f);
                     }
                 }
             }
@@ -139,24 +148,38 @@ void actor_ball_tick(actor* self)
     {
         scene_play* play_scene = (scene_play*) current_scene;
         play_scene->computer_score += 1;
-        self->x = 640 / 2;
-        self->y = 480 / 2;
         self->dx = 0.0f;
         self->dy = 0.0f;
-        ball->target_angle = 180.0f;
+        ball->target_angle -= 180.0f;
         actor_push(self, ball->target_angle, 10.0f);
+        ball->timer = 10.0f;
     }
 
     if (self->x > 640)
     {
         scene_play* play_scene = (scene_play*) current_scene;
         play_scene->player_score += 1;
-        self->x = 640 / 2;
-        self->y = 480 / 2;
         self->dx = 0.0f;
         self->dy = 0.0f;
-        ball->target_angle = 0.0f;
+        ball->target_angle -= 180.0f;
         actor_push(self, ball->target_angle, 10.0f);
+        ball->timer = 10.0f;
+    }
+
+    if (self->y <= 0) // we hit the top wall
+    {
+        self->dx = 0.0f;
+        self->dy = 0.0f;
+        ball->target_angle -= 180.0f;
+        actor_push(self, ball->target_angle, 10.5f);
+    }
+
+    if (self->y >= 480.0f) // we hit the bottom wall
+    {
+        self->dx = 0.0f;
+        self->dy = 0.0f;
+        ball->target_angle -= 180.0f;
+        actor_push(self, ball->target_angle, 10.5f);
     }
 }
 

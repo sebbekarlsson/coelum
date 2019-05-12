@@ -6,6 +6,7 @@
 typedef struct ACTOR_BALL_STRUCT {
     actor base;
     float target_angle;
+    float timer;
 } actor_ball;
 
 

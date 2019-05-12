@@ -17,7 +17,7 @@ scene_manager* SCENE_MANAGER;
 GLFWwindow* window = (void*) 0;
 
 int main(int argc, char* argv[])
-{
+{ 
     printf("Program started\n");
 
     window = setup_graphical_window(640, 480);
