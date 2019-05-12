@@ -9,9 +9,9 @@
 #include "include/texture_registry.h"
 
 
+keyboard_state* KEYBOARD_STATE;
 shader_manager* SHADER_MANAGER;
 texture_manager* TEXTURE_MANAGER;
-event_manager* EVENT_MANAGER;
 scene_manager* SCENE_MANAGER;
 
 GLFWwindow* window = (void*) 0;
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     TEXTURE_MANAGER = init_texture_manager();
     register_textures(TEXTURE_MANAGER);
 
-    EVENT_MANAGER = init_event_manager();
+    KEYBOARD_STATE = init_keyboard_state();
     glfwSetKeyCallback(window, key_callback);
 
     SCENE_MANAGER = init_scene_manager();

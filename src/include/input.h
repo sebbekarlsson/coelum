@@ -4,19 +4,14 @@
 #include "dynamic_list.h"
 
 
-typedef struct EVENT_LISTENER_STRUCT {
-    int key;
-    int enabled;
-    void (*callback)();
-} event_listener;
+typedef struct KEYBOARD_STATE_STRUCT
+{
+    int* keys;
+} keyboard_state;
 
-typedef struct EVENT_MANAGER_STRUCT {
-    dynamic_list* event_listeners;
-} event_manager;
+keyboard_state* init_keyboard_state();
 
-event_manager* init_event_manager();
-
-event_listener* add_event_listener(event_manager* em, int key, void (*callback)());
+void keyboard_state_reset(keyboard_state* ks);
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 #endif

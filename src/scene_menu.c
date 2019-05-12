@@ -6,17 +6,11 @@
 
 
 extern scene_manager* SCENE_MANAGER;
-extern event_manager* EVENT_MANAGER;
+extern keyboard_state* KEYBOARD_STATE;
 extern GLFWwindow* window;
 
-/**
- * Called when the enter key is pressed or released.
- *
- * @param int state
- */
-void scene_menu_key_enter_callback(int state)
+void scene_menu_key_enter_callback(scene_menu* s_menu, int state)
 {
-    scene_menu* s_menu = (scene_menu*) scene_manager_get_current_scene(SCENE_MANAGER);
 
     if (state)
     {
@@ -36,61 +30,21 @@ void scene_menu_key_enter_callback(int state)
     }
 }
 
-/**
- * Called when the key up is pressed or released.
- *
- * @param int state
- */
-void scene_menu_key_up_callback(int state)
+void scene_menu_key_up_callback(scene_menu* s_menu, int state)
 {
-    scene_menu* s_menu = (scene_menu*) scene_manager_get_current_scene(SCENE_MANAGER);
-
-    if (s_menu->button_index > 0)
-        s_menu->button_index -= 1; 
-}
-
-/**
- * Called when the key down is pressed or released.
- *
- * @param int state
- */
-void scene_menu_key_down_callback(int state)
-{
-    scene_menu* s_menu = (scene_menu*) scene_manager_get_current_scene(SCENE_MANAGER);
-
-    if (s_menu->button_index < s_menu->buttons->size - 1)
-        s_menu->button_index += 1; 
-}
-
-/**
- * Called when the menu scene is loaded
- *
- * @param scene* self
- */
-void scene_menu_load(scene* self)
-{
-    scene_menu* s_menu = (scene_menu*) self;
-
-    for (int i = 0; i < s_menu->event_listeners->size; i++)
+    if (state)
     {
-        event_listener* el = (event_listener*) s_menu->event_listeners->items[i];
-        el->enabled = 1;
+        if (s_menu->button_index > 0)
+            s_menu->button_index -= 1;
     }
 }
 
-/**
- * Called when the menu scene is unloaded
- *
- * @param scene* self
- */
-void scene_menu_unload(scene* self)
+void scene_menu_key_down_callback(scene_menu* s_menu, int state)
 {
-    scene_menu* s_menu = (scene_menu*) self;
-
-    for (int i = 0; i < s_menu->event_listeners->size; i++)
+    if (state)
     {
-        event_listener* el = (event_listener*) s_menu->event_listeners->items[i];
-        el->enabled = 0;
+        if (s_menu->button_index < s_menu->buttons->size - 1)
+            s_menu->button_index += 1;
     }
 }
 
@@ -104,30 +58,10 @@ scene_menu* init_scene_menu()
     scene_menu* s_menu = calloc(1, sizeof(struct SCENE_MENU_STRUCT));
     scene* s = (scene*) s_menu;
 
-    s->load = scene_menu_load;
-    s->unload = scene_menu_unload;
-
     scene_constructor(s, scene_menu_tick, scene_menu_draw);
 
     s_menu->button_index = 0;
     s_menu->buttons = init_dynamic_list(sizeof(struct ACTOR_TEXT_STRUCT));
-
-    s_menu->event_listeners = init_dynamic_list(sizeof(struct EVENT_LISTENER_STRUCT));
-
-    dynamic_list_append(
-        s_menu->event_listeners,
-        add_event_listener(EVENT_MANAGER, GLFW_KEY_ENTER, scene_menu_key_enter_callback)
-    );
-
-    dynamic_list_append(
-        s_menu->event_listeners,
-        add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, scene_menu_key_up_callback)
-    );
-
-    dynamic_list_append(
-        s_menu->event_listeners,
-        add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, scene_menu_key_down_callback)
-    );
 
     actor_text* play_button = init_actor_text((640 / 2) - ((3 * 24) / 2), (480 / 2) - 16, 0.0f, "play", 255, 255, 255);
     actor_text* quit_button = init_actor_text((640 / 2) - ((3 * 24) / 2), (480 / 2) + 16, 0.0f, "quit", 255, 255, 255);
@@ -141,9 +75,13 @@ scene_menu* init_scene_menu()
 
 void scene_menu_tick(scene* self)
 {
-    scene_tick(self);
+    scene_tick(self); 
 
     scene_menu* s_menu = (scene_menu*) self;
+
+    scene_menu_key_up_callback(s_menu, KEYBOARD_STATE->keys[GLFW_KEY_UP]);
+    scene_menu_key_down_callback(s_menu, KEYBOARD_STATE->keys[GLFW_KEY_DOWN]);
+    scene_menu_key_enter_callback(s_menu, KEYBOARD_STATE->keys[GLFW_KEY_ENTER]);
 
     for (int i = 0; i < s_menu->buttons->size; i++)
     {

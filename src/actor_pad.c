@@ -6,7 +6,7 @@
 
 
 extern scene_manager* SCENE_MANAGER;
-extern event_manager* EVENT_MANAGER;
+extern keyboard_state* KEYBOARD_STATE;
 
 int key_up = 0;
 int key_down = 0;
@@ -19,17 +19,6 @@ void actor_pad_key_up_callback(int state)
 void actor_pad_key_down_callback(int state)
 {
     key_down = state;
-}
-
-/**
- * Called when the pad actor is loaded
- *
- * @param actor* self
- */
-void actor_pad_load(actor* self)
-{
-    add_event_listener(EVENT_MANAGER, GLFW_KEY_UP, actor_pad_key_up_callback);
-    add_event_listener(EVENT_MANAGER, GLFW_KEY_DOWN, actor_pad_key_down_callback);
 }
 
 /**
@@ -48,7 +37,6 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
 
     actor_constructor(a, x, y, z, actor_pad_tick, actor_pad_draw);
     
-    a->load = actor_pad_load;
     a->type = 1;
 
     a->width = 16;
@@ -68,6 +56,9 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
 
 void actor_pad_tick(actor* self)
 {
+    actor_pad_key_up_callback(KEYBOARD_STATE->keys[GLFW_KEY_UP]);
+    actor_pad_key_down_callback(KEYBOARD_STATE->keys[GLFW_KEY_DOWN]);
+
     actor_pad* pad = (actor_pad*) self;
 
     if (pad->player)
