@@ -7,6 +7,7 @@
 #include "include/shader_registry.h"
 #include "include/texture_manager.h"
 #include "include/texture_registry.h"
+#include "include/sound.h"
 
 
 keyboard_state* KEYBOARD_STATE;
@@ -21,6 +22,8 @@ int main(int argc, char* argv[])
     printf("Program started\n");
 
     window = setup_graphical_window(640, 480);
+
+    init_al();
 
     SHADER_MANAGER = init_shader_manager();
     register_shader_programs(SHADER_MANAGER);
@@ -51,7 +54,9 @@ int main(int argc, char* argv[])
         glfwSwapBuffers(window);
     }
 
-    glfwTerminate();    
+    glfwTerminate();
+
+    exit_al(); 
 
     return 0;
 }

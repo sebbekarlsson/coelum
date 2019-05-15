@@ -63,10 +63,10 @@ void actor_pad_tick(actor* self)
 
     if (pad->player)
     {
-        if (key_up)
+        if (key_up && self->y > 0)
             self->y -= ((actor_pad*)self)->speed;
 
-        if (key_down)
+        if (key_down && self->y + self->height < 480.0f)
             self->y += ((actor_pad*)self)->speed;
     }
     else

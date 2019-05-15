@@ -3,6 +3,7 @@
 #include "include/textures.h"
 #include "include/scene_manager.h"
 #include "include/scene_play.h"
+#include "include/sound.h"
 
 
 extern scene_manager* SCENE_MANAGER;
@@ -138,6 +139,8 @@ void actor_ball_tick(actor* self)
 
                             actor_push(self, ball->target_angle, 10.5f);
                         }
+
+                        play_sound_threaded(140.0, 1.0f);
                     }
                 }
             }
@@ -153,6 +156,7 @@ void actor_ball_tick(actor* self)
         ball->target_angle -= 180.0f;
         actor_push(self, ball->target_angle, 10.0f);
         ball->timer = 10.0f;
+        play_sound_threaded(300.0f, 1.0f);
     }
 
     if (self->x > 640)
@@ -164,6 +168,7 @@ void actor_ball_tick(actor* self)
         ball->target_angle -= 180.0f;
         actor_push(self, ball->target_angle, 10.0f);
         ball->timer = 10.0f;
+        play_sound_threaded(600.0f, 1.0f);
     }
 
     if (self->y <= 0) // we hit the top wall
