@@ -1,7 +1,8 @@
 #include "include/shader_registry.h"
 
 
-unsigned int SHADER_DEFAULT;
+unsigned int SHADER_TEXTURED;
+unsigned int SHADER_COLORED;
 
 /**
  * All shader programs goes here.
@@ -10,10 +11,17 @@ unsigned int SHADER_DEFAULT;
  */
 void register_shader_programs(shader_manager* sm)
 {
-    SHADER_DEFAULT = shader_manager_register_program(
+    SHADER_TEXTURED = shader_manager_register_program(
         sm,
-        "default",
-        "fragment.fs.glsl",
+        "textured",
+        "fragment_textured.fs.glsl",
+        "vertex.vs.glsl"
+    );
+
+    SHADER_COLORED = shader_manager_register_program(
+        sm,
+        "colored",
+        "fragment_colored.fs.glsl",
         "vertex.vs.glsl"
     );
 }

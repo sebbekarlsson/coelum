@@ -8,6 +8,8 @@
 extern scene_manager* SCENE_MANAGER;
 extern keyboard_state* KEYBOARD_STATE;
 
+extern unsigned int SHADER_COLORED;
+
 int key_up = 0;
 int key_down = 0;
 
@@ -39,6 +41,7 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
     
     a->type = 1;
 
+    a->shader_program = SHADER_COLORED;
     a->width = 16;
     a->height = 48;
 
@@ -46,10 +49,6 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
     pad->speed = 4.5f;
     pad->target_x = 640 / 2;
     pad->target_y = y;
-
-    srand(time(NULL));
-
-    ((actor*)pad)->texture = get_texture("res/img/pad.png", GL_RGB)->renderable_texture;
 
     return pad;
 }

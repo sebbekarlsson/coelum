@@ -91,19 +91,7 @@ void scene_tick(scene* s)
  */
 void scene_draw(scene* s)
 {
-    glBindVertexArray(s->VAO);
-
-    if (!s->uniform_mat4_model)
-        s->uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
-
-    if (!s->uniform_mat4_view)
-        s->uniform_mat4_view = glGetUniformLocation(SHADER_DEFAULT, "view");
-
-    if (!s->uniform_mat4_projection)
-        s->uniform_mat4_projection = glGetUniformLocation(SHADER_DEFAULT, "projection");
-
-    glUniformMatrix4fv(s->uniform_mat4_projection, 1, GL_FALSE, (float *) s->projection);
-    glUniformMatrix4fv(s->uniform_mat4_view, 1, GL_FALSE, (float *) s->view);
+    glBindVertexArray(s->VAO); 
 
     for (int i = 0; i < s->actors->size; i++)
     {
@@ -111,12 +99,25 @@ void scene_draw(scene* s)
 
         if (a->draw)
         {
+            glUseProgram(a->shader_program);
+            if (!s->uniform_mat4_model)
+                s->uniform_mat4_model = glGetUniformLocation(a->shader_program, "model");
+
+            if (!s->uniform_mat4_view)
+                s->uniform_mat4_view = glGetUniformLocation(a->shader_program, "view");
+
+            if (!s->uniform_mat4_projection)
+                s->uniform_mat4_projection = glGetUniformLocation(a->shader_program, "projection");
+
+            glUniformMatrix4fv(s->uniform_mat4_projection, 1, GL_FALSE, (float *) s->projection);
+            glUniformMatrix4fv(s->uniform_mat4_view, 1, GL_FALSE, (float *) s->view);
+
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
             glUniformMatrix4fv(s->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
             if (a->texture)
             {
-                glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
+                glUniform1i(glGetUniformLocation(a->shader_program, "ourTexture"), 0); 
             }
 
             a->draw(a);

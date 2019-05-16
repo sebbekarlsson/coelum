@@ -14,7 +14,7 @@
 extern shader_manager* SHADER_MANAGER;
 extern scene_manager* SCENE_MANAGER;
 
-extern unsigned int SHADER_DEFAULT;
+extern unsigned int SHADER_TEXTURED;
 
 /**
  * Initializes an actor, note that this method is sort of abstract and should
@@ -75,6 +75,7 @@ actor* actor_constructor(
 
     memcpy(a->model, model, sizeof(model));
 
+    a->shader_program = SHADER_TEXTURED;
     a->tick = tick;
     a->draw = draw;
 
@@ -139,9 +140,6 @@ void actor_draw(actor* a)
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    glUseProgram(SHADER_DEFAULT);
-    // glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
-
     if (a->texture)
     {
         glActiveTexture(GL_TEXTURE0);
@@ -150,7 +148,6 @@ void actor_draw(actor* a)
     }
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    //glBindVertexArray(0);
 }
 
 void actor_push(actor* self, float angle, float acceleration)

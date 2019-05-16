@@ -7,7 +7,7 @@
 
 extern scene_manager* SCENE_MANAGER;
 
-extern unsigned int SHADER_DEFAULT;
+extern unsigned int SHADER_TEXTURED;
 extern texture_t* TEXTURE_DEFAULT_FONT;
 
 /**
@@ -41,6 +41,9 @@ void render_text(const char* text, float x, float y, float z, float r, float g, 
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
+    
+    glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
+    glUseProgram(SHADER_TEXTURED);
     
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -80,24 +83,21 @@ void render_text(const char* text, float x, float y, float z, float r, float g, 
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
 
-        glUseProgram(SHADER_DEFAULT);
-        // glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
-
         glActiveTexture(GL_TEXTURE0);
         unsigned int tex = get_char_texture_from_texture(c, 7, 7, 8, 12, TEXTURE_DEFAULT_FONT);
         glBindTexture(GL_TEXTURE_2D, tex);
-        glUniform1i(glGetUniformLocation(SHADER_DEFAULT, "ourTexture"), 0); 
+        glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0); 
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
         
-        unsigned uniform_mat4_model = glGetUniformLocation(SHADER_DEFAULT, "model");
+        unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
         glm_translate(model, (vec3){(i * (24 + spacing)), 0, 0});
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        //glBindVertexArray(0);
         glDeleteBuffers(1, &EBO);
         glDeleteTextures(1, &tex);
     }
 
     glDeleteBuffers(1, &VBO);
+    glBindVertexArray(0);
 }

@@ -18,6 +18,7 @@ typedef struct ACTOR_STRUCT {
     int height;
     unsigned int VBO;
     unsigned int EBO;
+    unsigned int shader_program;
     unsigned int texture;
     int loaded;
     mat4 model;
