@@ -1,5 +1,5 @@
-#ifndef PONG_GRAPHICS_H
-#define PONG_GRAPHICS_H
+#ifndef PONG_WINDOW_H
+#define PONG_WINDOW_H
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 

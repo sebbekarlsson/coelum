@@ -4,6 +4,7 @@
 #include "include/scene_manager.h"
 #include "include/scene_play.h"
 #include "include/sound.h"
+#include "include/utils.h"
 
 
 extern scene_manager* SCENE_MANAGER;
@@ -108,37 +109,35 @@ void actor_ball_tick(actor* self)
                         {
                             self->x = a->x - self->width;
                             ball->target_angle = 180.0f;
-
-                            
-                            if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
-                            {
-                                ball->target_angle += 10.0f;
-                            }
-                            else
-                            if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
-                            {
-                                ball->target_angle -= 10.0f;
-                            }
-
-                            actor_push(self, ball->target_angle, 10.5f);
                         }
                         else
                         {
                             self->x = a->x + a->width;
-                            ball->target_angle = 0.0f;
+                            ball->target_angle = 0.0f; 
+                        }
 
-                            if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
+                        if (self->y + (self->height / 2) > a->y + (a->height / 2) + padding)
+                        {
+                            ball->target_angle -= 10.0f;
+                        }
+                        else
+                        if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
+                        {
+                            ball->target_angle += 10.0f;
+                        }
+                        else
+                        {
+                            if (random_int(0, 3) == 0)
                             {
                                 ball->target_angle -= 10.0f;
                             }
                             else
-                            if (self->y + (self->height / 2) < a->y + (a->height / 2) - padding)
                             {
                                 ball->target_angle += 10.0f;
                             }
-
-                            actor_push(self, ball->target_angle, 10.5f);
                         }
+                        
+                        actor_push(self, ball->target_angle, 10.5f);
 
                         play_sound_threaded(140.0, 1.0f);
                     }

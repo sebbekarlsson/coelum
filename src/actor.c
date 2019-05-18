@@ -1,6 +1,7 @@
 #include "include/actor.h"
 #include "include/scene_manager.h"
 #include "include/shader_manager.h"
+#include "include/render.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -100,46 +101,6 @@ void actor_tick(actor* a)
  */
 void actor_draw(actor* a)
 {
-    float VERTICES_DEFAULT[] =
-    {
-        a->width,  a->height, 0.0f,  // top right
-        a->width, -a->height, 0.0f,  // bottom right
-        -a->width, -a->height, 0.0f,  // bottom left
-        -a->width,  a->height, 0.0f   // top left 
-    };
-
-    float VERTICES_TEXTURED[] =
-    {
-        // positions          // colors           // texture coords
-        0.0f,  0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // top right
-        a->width, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
-        a->width, a->height, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // bottom left
-        0.0f,  a->height, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left
-    };
-
-    unsigned int INDICES_DEFAULT [] =
-    {
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };
-
-    glBindBuffer(GL_ARRAY_BUFFER, a->VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES_TEXTURED), VERTICES_TEXTURED, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, a->EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(INDICES_DEFAULT), INDICES_DEFAULT, GL_STATIC_DRAW);
-
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    // texcoords
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
-
     if (a->texture)
     {
         glActiveTexture(GL_TEXTURE0);
@@ -147,7 +108,7 @@ void actor_draw(actor* a)
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
     }
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    render_2D_mesh(a->width, a->height, 255.0f, 255.0f, 255.0f, a->VBO, a->EBO);
 }
 
 void actor_push(actor* self, float angle, float acceleration)

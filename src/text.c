@@ -1,8 +1,11 @@
 #include "include/text.h"
 #include "include/scene_manager.h"
+#include "include/render.h"
 #include <string.h>
 #include <cglm/cglm.h>
 #include <cglm/call.h>
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
 
 
 extern scene_manager* SCENE_MANAGER;
@@ -20,8 +23,8 @@ extern texture_t* TEXTURE_DEFAULT_FONT;
  */
 void render_text(const char* text, float x, float y, float z, float r, float g, float b)
 {
-    int size = 6;
-    int spacing = 0;
+    int size = 12;
+    int spacing = 9;
 
     float d_r = r / 255.0f;
     float d_g = g / 255.0f;

@@ -1,6 +1,8 @@
 #include "include/scene.h"
 #include "include/actor.h"
 #include <string.h>
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
 
 
 extern unsigned int SHADER_DEFAULT;

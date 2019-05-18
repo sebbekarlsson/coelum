@@ -1,6 +1,8 @@
 #include "include/scene_play.h"
 #include "include/actor_pad.h"
 #include "include/actor_ball.h"
+#include "include/render.h"
+#include "include/utils.h"
 #include <string.h>
 
 
@@ -10,6 +12,8 @@ void scene_play_load(scene* self)
 
     s_play->player_score = 0;
     s_play->computer_score = 0;
+
+    init_random();
 }
 
 /**
@@ -25,8 +29,8 @@ scene_play* init_scene_play()
 
     s_play->player_score = 0;
     s_play->computer_score = 0;
-    s_play->text_player_score = init_actor_text(48.0f, 480.0f - 48.0f, 0.0f, "0", 255, 255, 255);
-    s_play->text_computer_score = init_actor_text(640.0f - 8 * 24, 480.0f - 48.0f, 0.0f, "0", 255, 255, 255);
+    s_play->text_player_score = init_actor_text((640.0f / 2) - 120.0f, 64.0f, 0.0f, "0", 255, 255, 255);
+    s_play->text_computer_score = init_actor_text((640.0f / 2) + 120.0f, 64.0f, 0.0f, "0", 255, 255, 255);
     s_play->text_player_score_buffer = calloc(16, sizeof(char));
     s_play->text_computer_score_buffer = calloc(16, sizeof(char));
 
@@ -34,8 +38,6 @@ scene_play* init_scene_play()
     dynamic_list_append(s->actors, init_actor_pad(640.0f - 32.0f, (480.0f / 2) - 32, 0.0f, 0));
     dynamic_list_append(s->actors, init_actor_ball(640.0f / 2, (480.0f / 2) - 16, 0.0f));
 
-    dynamic_list_append(s->actors, init_actor_text(48.0f, 480.0f - 72.0f, 0.0f, "you", 255, 255, 255));
-    dynamic_list_append(s->actors, init_actor_text(640.0f - 8 * 24, 480.0f - 72.0f, 0.0f, "computer", 255, 255, 255));
     dynamic_list_append(s->actors, s_play->text_player_score);
     dynamic_list_append(s->actors, s_play->text_computer_score);
 
@@ -56,5 +58,8 @@ void scene_play_tick(scene* self)
 
 void scene_play_draw(scene* self)
 {
+
+    render_2D_positioned_2D_mesh(640.0f / 2, 0.0f, 16.0f, 480.0f, 255.0f, 255.0f, 255.0f, self->VAO);
+    
     scene_draw(self);
 }

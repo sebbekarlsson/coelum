@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "include/graphics.h"
+#include "include/window.h"
 #include "include/input.h"
 #include "include/scene_manager.h"
 #include "include/scene_registry.h"
