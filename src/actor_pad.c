@@ -2,6 +2,7 @@
 #include "include/input.h"
 #include "include/textures.h"
 #include "include/scene_manager.h"
+#include "include/utils.h"
 #include <time.h>
 
 
@@ -49,6 +50,8 @@ actor_pad* init_actor_pad(float x, float y, float z, int player)
     pad->speed = 4.5f;
     pad->target_x = 640 / 2;
     pad->target_y = y;
+    pad->target_y_error = 0.0f;
+    pad->use_error = 0;
 
     return pad;
 }
@@ -91,10 +94,29 @@ void actor_pad_tick(actor* self)
         }
 
         pad->target_y = ball->y;
+        
+        int chance = 32;
 
         if (ball->x < 640 / 2)
+            chance -= 8;
+
+        if (pad->use_error)
         {
-            pad->target_y = player->y;
+            pad->target_y += pad->target_y_error;
+            chance = 8;
+        }
+
+        if (random_int(0, chance) == 1) // toggle error on and off
+        {
+            if (pad->use_error)
+                pad->use_error = 0;
+            else
+                pad->use_error = 1;
+        }
+
+        if (random_int(0, 8) == 0)
+        {
+            pad->target_y_error = random_int(-480, 480);
         }
 
         if (self->y < pad->target_y)

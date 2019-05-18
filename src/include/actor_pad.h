@@ -9,6 +9,8 @@ typedef struct ACTOR_PAD_STRUCT {
     int player;
     float target_x;
     float target_y;
+    int target_y_error;
+    int use_error;
 } actor_pad;
 
 
