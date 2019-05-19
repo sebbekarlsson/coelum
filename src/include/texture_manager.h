@@ -1,5 +1,5 @@
-#ifndef PONG_TEXTURE_MANAGER_H
-#define PONG_TEXTURE_MANAGER_H
+#ifndef COELUM_TEXTURE_MANAGER_H
+#define COELUM_TEXTURE_MANAGER_H
 #include "dynamic_list.h"
 #include "textures.h"
 #include <glad/glad.h> 

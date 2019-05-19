@@ -1,5 +1,5 @@
-#ifndef PONG_TEXTURES_H
-#define PONG_TEXTURES_H
+#ifndef COELUM_TEXTURES_H
+#define COELUM_TEXTURES_H
 
 
 typedef struct TEXTURE_STRUCT {

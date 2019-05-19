@@ -1,5 +1,5 @@
-#ifndef PONG_TEXTURE_REGISTRY_H
-#define PONG_TEXTURE_REGISTRY_H
+#ifndef COELUM_TEXTURE_REGISTRY_H
+#define COELUM_TEXTURE_REGISTRY_H
 #include "texture_manager.h"
 
 

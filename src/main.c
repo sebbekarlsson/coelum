@@ -17,9 +17,9 @@ scene_manager* SCENE_MANAGER;
 
 GLFWwindow* window = (void*) 0;
 
-int main(int argc, char* argv[])
-{ 
-    printf("Program started\n");
+void coelum_init()
+{
+    printf("Coelum is being initialized...\n");
 
     window = setup_graphical_window(640, 480);
 
@@ -35,9 +35,14 @@ int main(int argc, char* argv[])
     glfwSetKeyCallback(window, key_callback);
 
     SCENE_MANAGER = init_scene_manager();
-    register_scenes(SCENE_MANAGER); 
+    register_scenes(SCENE_MANAGER);
 
-    while(!glfwWindowShouldClose(window))
+    printf("Coelum was initialized.\n");
+}
+
+int coelum_main(int argc, char* argv[])
+{ 
+    while(!glfwWindowShouldClose(window) &&  SCENE_MANAGER->scenes->size > 0)
     {
         if (SCENE_MANAGER->scene_index == -1)
             scene_manager_next(SCENE_MANAGER);

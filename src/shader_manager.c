@@ -50,7 +50,7 @@ unsigned int shader_manager_register_program(
     char* vertex_src_filename
 ) {
     char* f = calloc(256, sizeof(char));
-    sprintf(f, "res/shaders/%s", fragment_src_filename);
+    sprintf(f, "/usr/local/share/coelum/res/shaders/%s", fragment_src_filename);
     const char* fragment_src = read_file(f);
     free(f);
 
@@ -72,7 +72,7 @@ unsigned int shader_manager_register_program(
     }
 
     char* v = calloc(256, sizeof(char));
-    sprintf(v, "res/shaders/%s", vertex_src_filename);
+    sprintf(v, "/usr/local/share/coelum/res/shaders/%s", vertex_src_filename);
     const char* vertex_src = read_file(v);
     free(v);
 

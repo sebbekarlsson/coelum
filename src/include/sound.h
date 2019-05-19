@@ -1,5 +1,5 @@
-#ifndef PONG_SOUND_H
-#define PONG_SOUND_H
+#ifndef COELUM_SOUND_H
+#define COELUM_SOUND_H
 
 typedef struct SOUND_STRUCT {
     unsigned frequency;

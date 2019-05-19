@@ -1,5 +1,5 @@
-#ifndef PONG_TEXT_H
-#define PONG_TEXT_H
+#ifndef COELUM_TEXT_H
+#define COELUM_TEXT_H
 #include "textures.h"
 
 

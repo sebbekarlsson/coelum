@@ -1,5 +1,5 @@
-#ifndef PONG_SHADER_MANAGER_H
-#define PONG_SHADER_MANAGER_H
+#ifndef COELUM_SHADER_MANAGER_H
+#define COELUM_SHADER_MANAGER_H
 #include "dynamic_list.h"
 #include <glad/glad.h> 
 

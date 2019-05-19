@@ -12,7 +12,7 @@ void register_textures(texture_manager* _tm)
 {
     TEXTURE_DEFAULT_FONT = texture_manager_register_texture(
         _tm,
-        "res/font/null_terminator.png",
+        "/usr/local/share/coelum/res/font/null_terminator.png",
         GL_RGBA
     );
 }

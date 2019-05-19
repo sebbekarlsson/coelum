@@ -1,5 +1,5 @@
-#ifndef PONG_SCENE_MANAGER_H
-#define PONG_SCENE_MANAGER_H
+#ifndef COELUM_SCENE_MANAGER_H
+#define COELUM_SCENE_MANAGER_H
 #include "dynamic_list.h"
 #include "scene.h"
 

@@ -1,5 +1,5 @@
-#ifndef PONG_SCENE_H
-#define PONG_SCENE_H
+#ifndef COELUM_SCENE_H
+#define COELUM_SCENE_H
 #include "dynamic_list.h"
 #include <cglm/cglm.h>
 #include <cglm/call.h>

@@ -1,5 +1,5 @@
-#ifndef PONG_SHADER_REGISTRY_H
-#define PONG_SHADER_REGISTRY_H
+#ifndef COELUM_SHADER_REGISTRY_H
+#define COELUM_SHADER_REGISTRY_H
 #include "shader_manager.h"
 
 

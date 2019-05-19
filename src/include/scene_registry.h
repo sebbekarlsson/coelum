@@ -1,5 +1,5 @@
-#ifndef PONG_SCENE_REGISTRY_H
-#define PONG_SCENE_REGISTRY_H
+#ifndef COELUM_SCENE_REGISTRY_H
+#define COELUM_SCENE_REGISTRY_H
 #include "scene_manager.h"
 
 

@@ -1,5 +1,5 @@
-#ifndef PONG_DYNAMIC_LIST_H
-#define PONG_DYNAMIC_LIST_H
+#ifndef COELUM_DYNAMIC_LIST_H
+#define COELUM_DYNAMIC_LIST_H
 #include <stdlib.h>
 
 

@@ -1,5 +1,5 @@
-#ifndef PONG_ACTOR_H
-#define PONG_ACTOR_H
+#ifndef COELUM_ACTOR_H
+#define COELUM_ACTOR_H
 #include <cglm/cglm.h>
 #include <cglm/call.h>
 

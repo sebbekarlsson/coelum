@@ -1,5 +1,5 @@
-#ifndef PONG_INPUT_H
-#define PONG_INPUT_H
+#ifndef COELUM_INPUT_H
+#define COELUM_INPUT_H
 #include <GLFW/glfw3.h>
 #include "dynamic_list.h"
 

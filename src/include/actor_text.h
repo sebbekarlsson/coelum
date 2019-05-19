@@ -1,5 +1,5 @@
-#ifndef PONG_ACTOR_TEXT_H
-#define PONG_ACTOR_TEXT_H
+#ifndef COELUM_ACTOR_TEXT_H
+#define COELUM_ACTOR_TEXT_H
 #include "actor.h"
 
 
