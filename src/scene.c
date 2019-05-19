@@ -36,27 +36,7 @@ scene* scene_constructor(scene* s,  void (*tick)(scene* self), void (*draw)(scen
     s->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
     glGenVertexArrays(1, &s->VAO);
 
-    mat4 view =
-    {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
-
-    mat4 projection =
-    {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
-
-    memcpy(s->view, view, sizeof(view));
-    memcpy(s->projection, projection, sizeof(projection));
-
-    glm_translate(s->view, (vec3){0.0f, 0.0f, 0.0f});
-    glm_ortho(0.0f, 640, 480, 0.0f, 0.0f, 1.5f, s->projection);  
+    s->pv = init_projection_view();
 }
 
 /**
@@ -93,7 +73,10 @@ void scene_tick(scene* s)
  */
 void scene_draw(scene* s)
 {
-    glBindVertexArray(s->VAO); 
+
+    projection_view* pv = s->pv;
+
+    glBindVertexArray(s->VAO);
 
     for (int i = 0; i < s->actors->size; i++)
     {
@@ -105,14 +88,14 @@ void scene_draw(scene* s)
             if (!s->uniform_mat4_model)
                 s->uniform_mat4_model = glGetUniformLocation(a->shader_program, "model");
 
-            if (!s->uniform_mat4_view)
-                s->uniform_mat4_view = glGetUniformLocation(a->shader_program, "view");
+            if (!pv->uniform_mat4_view)
+                pv->uniform_mat4_view = glGetUniformLocation(a->shader_program, "view");
 
-            if (!s->uniform_mat4_projection)
-                s->uniform_mat4_projection = glGetUniformLocation(a->shader_program, "projection");
+            if (!pv->uniform_mat4_projection)
+                pv->uniform_mat4_projection = glGetUniformLocation(a->shader_program, "projection");
 
-            glUniformMatrix4fv(s->uniform_mat4_projection, 1, GL_FALSE, (float *) s->projection);
-            glUniformMatrix4fv(s->uniform_mat4_view, 1, GL_FALSE, (float *) s->view);
+            glUniformMatrix4fv(pv->uniform_mat4_projection, 1, GL_FALSE, (float *) pv->projection);
+            glUniformMatrix4fv(pv->uniform_mat4_view, 1, GL_FALSE, (float *) pv->view);
 
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
             glUniformMatrix4fv(s->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);

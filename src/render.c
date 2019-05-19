@@ -7,7 +7,15 @@
 
 extern unsigned int SHADER_COLORED;
 
-void render_2D_mesh(float width, float height, float r, float g, float b, unsigned int VBO, unsigned int EBO)
+void render_2D_mesh(
+    float width,
+    float height,
+    float r,
+    float g,
+    float b,
+    unsigned int VBO,
+    unsigned int EBO
+)
 {
     float VERTICES_DEFAULT[] =
     {
@@ -52,11 +60,30 @@ void render_2D_mesh(float width, float height, float r, float g, float b, unsign
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void render_2D_positioned_2D_mesh(float x, float y, float width, float height, float r, float g, float b, unsigned int VAO)
+void render_2D_positioned_2D_mesh(
+    float x,
+    float y,
+    float width,
+    float height,
+    float r,
+    float g,
+    float b,
+    unsigned int VAO,
+    projection_view* pv
+)
 {
 
     glBindVertexArray(VAO);
     glUseProgram(SHADER_COLORED);
+
+    if (!pv->uniform_mat4_view)
+        pv->uniform_mat4_view = glGetUniformLocation(SHADER_COLORED, "view");
+
+    if (!pv->uniform_mat4_projection)
+        pv->uniform_mat4_projection = glGetUniformLocation(SHADER_COLORED, "projection");
+
+    glUniformMatrix4fv(pv->uniform_mat4_projection, 1, GL_FALSE, (float *) pv->projection);
+    glUniformMatrix4fv(pv->uniform_mat4_view, 1, GL_FALSE, (float *) pv->view);
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);

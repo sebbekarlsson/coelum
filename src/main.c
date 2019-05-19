@@ -8,6 +8,7 @@
 #include "include/texture_manager.h"
 #include "include/texture_registry.h"
 #include "include/sound.h"
+#include "include/dev_gui.h"
 
 
 keyboard_state* KEYBOARD_STATE;
@@ -40,7 +41,7 @@ void coelum_init()
     printf("Coelum was initialized.\n");
 }
 
-int coelum_main(int argc, char* argv[])
+int coelum_main(int argc, char* argv[], int dev_mode)
 { 
     while(!glfwWindowShouldClose(window) &&  SCENE_MANAGER->scenes->size > 0)
     {
@@ -50,11 +51,16 @@ int coelum_main(int argc, char* argv[])
         glfwPollEvents();
 
         glClearColor(48.0f / 255.0f, 48.0f / 255.0f, 48.0f / 255.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT); 
 
-        // render here
-        scene_manager_tick(SCENE_MANAGER);
+        scene_manager_tick(SCENE_MANAGER); 
         scene_manager_draw(SCENE_MANAGER);
+
+        if (dev_mode)
+        {
+            dev_gui_tick();
+            dev_gui_draw();
+        }
         
         glfwSwapBuffers(window);
     }
