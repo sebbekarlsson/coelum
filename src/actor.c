@@ -6,11 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <cglm/types.h>
 
-
-#define SIZE 16
-
-#define PI 3.14159265
 
 extern shader_manager_T* SHADER_MANAGER;
 extern scene_manager_T* SCENE_MANAGER;
@@ -60,6 +57,7 @@ actor_T* actor_constructor(
     actor->friction = 0.0f;
     actor->width = 1;
     actor->height = 1;
+    actor->depth = 1;
 
     actor->loaded = 0;
 
@@ -113,7 +111,7 @@ void actor_draw(actor_T* actor)
 
 void actor_push(actor_T* self, float angle, float acceleration)
 {
-    float radians = angle * (PI / 180.0f);
+    float radians = angle * (GLM_PI / 180.0f);
 
     self->dx += cos(radians) * acceleration;
     self->dy -= sin(radians) * acceleration;

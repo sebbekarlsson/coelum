@@ -29,21 +29,13 @@ void render_2D_mesh(
     unsigned int EBO
 )
 {
-    float VERTICES_DEFAULT[] =
-    {
-        width,   height,   0.0f,  // top right
-        width,   -height,   0.0f,  // bottom right
-        -width,  -height,  0.0f,  // bottom left
-        -width,  height,  0.0f   // top left 
-    };
-
     float VERTICES_TEXTURED[] =
     {
-        // positions                // colors  // texture coords
-        0.0f,     0.0f,      0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   0.0f, 0.0f,   // top right
-        width, 0.0f,      0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   1.0f, 0.0f,   // bottom right
-        width, height, 0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   1.0f, 1.0f,   // bottom left
-        0.0f,     height, 0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   0.0f, 1.0f    // top left
+        // positions            // colors                             // texture coords
+        0.0f,   0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   0.0f, 0.0f,   // top right
+        width,  0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   1.0f, 0.0f,   // bottom right
+        width,  height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   1.0f, 1.0f,   // bottom left
+        0.0f,   height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   0.0f, 1.0f    // top left
     };
 
     unsigned int INDICES_DEFAULT [] =

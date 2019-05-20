@@ -5,7 +5,7 @@
 
 
 typedef struct ACTOR_STRUCT {
-    int type;
+    int type; // used to separate actors from one and other
     float x;
     float y;
     float z;
@@ -15,6 +15,7 @@ typedef struct ACTOR_STRUCT {
     float friction;
     int width;
     int height;
+    int depth;
     unsigned int VBO;
     unsigned int EBO;
     unsigned int shader_program;
@@ -24,7 +25,6 @@ typedef struct ACTOR_STRUCT {
     void (*tick)(void* self);
     void (*draw)(void* self);
     void (*load)(void* self);
-    // void (*unload)(void* self);
 } actor_T;
 
 actor_T* init_actor(float x, float y, float z);
