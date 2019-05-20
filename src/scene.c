@@ -37,6 +37,9 @@ scene_T* scene_constructor(scene_T* scene,  void (*tick)(scene_T* self), void (*
     scene->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
     glGenVertexArrays(1, &scene->VAO);
 
+    scene->bg_r = 255.0f;
+    scene->bg_g = 255.0f;
+    scene->bg_b = 255.0f;
     scene->camera = init_camera();
 }
 

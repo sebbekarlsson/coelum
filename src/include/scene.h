@@ -12,6 +12,9 @@ typedef struct SCENE_STRUCT
     unsigned int VAO;
     unsigned uniform_mat4_model;
     camera_T* camera;
+    float bg_r;
+    float bg_g;
+    float bg_b;
     void (*tick)(void* self);
     void (*draw)(void* self);
     void (*load)(void* self);

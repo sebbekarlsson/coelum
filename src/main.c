@@ -50,9 +50,11 @@ int coelum_main(int argc, char* argv[], int dev_mode)
         if (SCENE_MANAGER->scene_index == -1)
             scene_manager_next(SCENE_MANAGER);
 
+        scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+
         glfwPollEvents();
 
-        glClearColor(48.0f / 255.0f, 48.0f / 255.0f, 48.0f / 255.0f, 1.0f);
+        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT); 
 
         scene_manager_tick(SCENE_MANAGER); 
