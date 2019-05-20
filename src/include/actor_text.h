@@ -3,7 +3,8 @@
 #include "actor.h"
 
 
-typedef struct ACTOR_TEXT_STRUCT {
+typedef struct ACTOR_TEXT_STRUCT
+{
     actor_T base;
     char* text;
     float r;

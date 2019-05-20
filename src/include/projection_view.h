@@ -4,7 +4,8 @@
 #include <cglm/call.h>
 
 
-typedef struct PROJECTION_VIEW_STRUCT {
+typedef struct PROJECTION_VIEW_STRUCT
+{
     unsigned uniform_mat4_projection;
     unsigned uniform_mat4_view;
     mat4 projection;

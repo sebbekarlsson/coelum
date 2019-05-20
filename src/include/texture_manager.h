@@ -5,11 +5,13 @@
 #include <glad/glad.h> 
 
 
-typedef struct TEXTURE_MANAGER_STRUCT {
+typedef struct TEXTURE_MANAGER_STRUCT
+{
     dynamic_list_T* textures;
 } texture_manager_T;
 
-typedef struct TEXTURE_MANAGER_TEXTURE_STRUCT {
+typedef struct TEXTURE_MANAGER_TEXTURE_STRUCT
+{
     char* name;
     texture_T* texture;
 } texture_manager_texture_T;

@@ -4,7 +4,8 @@
 #include <cglm/call.h>
 
 
-typedef struct ACTOR_STRUCT {
+typedef struct ACTOR_STRUCT
+{
     int type; // used to separate actors from one and other
     float x;
     float y;

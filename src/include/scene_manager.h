@@ -4,7 +4,8 @@
 #include "scene.h"
 
 
-typedef struct SCENE_MANAGER_STRUCT {
+typedef struct SCENE_MANAGER_STRUCT
+{
     int scene_index;
     dynamic_list_T* scenes;
 } scene_manager_T;

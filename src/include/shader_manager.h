@@ -4,11 +4,13 @@
 #include <glad/glad.h> 
 
 
-typedef struct SHADER_MANAGER_STRUCT {
+typedef struct SHADER_MANAGER_STRUCT
+{
     dynamic_list_T* programs;
 } shader_manager_T;
 
-typedef struct SHADER_MANAGER_PROGRAM_STRUCT {
+typedef struct SHADER_MANAGER_PROGRAM_STRUCT
+{
     char* name;
     unsigned int program;
 } shader_manager_program_T;

@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 
-typedef struct DYNAMIC_LIST_STRUCT {
+typedef struct DYNAMIC_LIST_STRUCT
+{
     size_t size;
     size_t item_size;
     void** items;

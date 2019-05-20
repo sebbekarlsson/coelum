@@ -2,7 +2,8 @@
 #define COELUM_TEXTURES_H
 
 
-typedef struct TEXTURE_STRUCT {
+typedef struct TEXTURE_STRUCT
+{
     unsigned char* data;
     unsigned int renderable_texture;
     int width;
