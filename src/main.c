@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include "include/main.h"
+#include "include/constants.h"
 #include "include/window.h"
 #include "include/input.h"
 #include "include/scene_manager.h"
@@ -22,7 +24,7 @@ void coelum_init()
 {
     printf("Coelum is being initialized...\n");
 
-    window = setup_graphical_window(640, 480);
+    window = setup_graphical_window(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     init_al();
 

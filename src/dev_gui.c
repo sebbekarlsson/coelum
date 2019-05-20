@@ -16,5 +16,5 @@ void dev_gui_tick()
 void dev_gui_draw()
 {
     // scene* s = scene_manager_get_current_scene(SCENE_MANAGER);
-    // render_2D_positioned_2D_mesh(0.0f, 480 / 2, 640.0f, 24.0f, 255.0f, 0.0f, 0.0f, s->VAO, s->pv);
+    // render_2D_positioned_2D_mesh(0.0f, WINDOW_HEIGHT / 2, WINDOW_WIDTH, 24.0f, 255.0f, 0.0f, 0.0f, s->VAO, s->pv);
 }
