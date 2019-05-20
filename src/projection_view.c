@@ -25,8 +25,13 @@ projection_view_T* init_projection_view()
     memcpy(pv->view, view, sizeof(view));
     memcpy(pv->projection, projection, sizeof(projection));
 
-    glm_translate(pv->view, (vec3){0.0f, 0.0f, 0.0f});
+    projection_view_translate(pv, 0.0f, 0.0f, 0.0f);
     glm_ortho(0.0f, 640, 480, 0.0f, 0.0f, 1.5f, pv->projection);
 
     return pv;
+}
+
+void projection_view_translate(projection_view_T* projection_view, float x, float y, float z)
+{
+    glm_translate(projection_view->view, (vec3){x, y, z});
 }

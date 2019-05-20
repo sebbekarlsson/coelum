@@ -12,4 +12,6 @@ typedef struct PROJECTION_VIEW_STRUCT {
 } projection_view_T;
 
 projection_view_T* init_projection_view();
+
+void projection_view_translate(projection_view_T* projection_view, float x, float y, float z);
 #endif

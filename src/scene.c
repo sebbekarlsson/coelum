@@ -79,6 +79,8 @@ void scene_draw(scene_T* scene)
 
     glBindVertexArray(scene->VAO);
 
+    camera_bind(scene->camera);
+
     for (int i = 0; i < scene->actors->size; i++)
     {
         actor_T* a = ((actor_T*)scene->actors->items[i]);
@@ -106,6 +108,8 @@ void scene_draw(scene_T* scene)
             glUniformMatrix4fv(scene->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
         }
     }
+
+    camera_unbind(scene->camera);
 
     glBindVertexArray(0);
 }
