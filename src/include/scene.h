@@ -10,7 +10,6 @@ typedef struct SCENE_STRUCT
 {
     dynamic_list_T* actors;
     unsigned int VAO;
-    unsigned uniform_mat4_model;
     camera_T* camera;
     float bg_r;
     float bg_g;

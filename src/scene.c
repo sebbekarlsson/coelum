@@ -94,11 +94,8 @@ void scene_draw(scene_T* scene)
 
             send_projection_view_state(a->shader_program, pv);
 
-            glUniformMatrix4fv(pv->uniform_mat4_projection, 1, GL_FALSE, (float *) pv->projection);
-            glUniformMatrix4fv(pv->uniform_mat4_view, 1, GL_FALSE, (float *) pv->view);
-
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
-            glUniformMatrix4fv(scene->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            send_model_state(a->shader_program, a->model);
 
             if (a->texture)
             {
@@ -108,7 +105,7 @@ void scene_draw(scene_T* scene)
             a->draw(a);
 
             glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
-            glUniformMatrix4fv(scene->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            send_model_state(a->shader_program, a->model);
         }
     }
 
