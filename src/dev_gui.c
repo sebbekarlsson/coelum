@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 
-extern scene_manager* SCENE_MANAGER;
+extern scene_manager_T* SCENE_MANAGER;
 extern unsigned int SHADER_COLORED;
 
 

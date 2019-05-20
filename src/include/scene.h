@@ -1,27 +1,27 @@
 #ifndef COELUM_SCENE_H
 #define COELUM_SCENE_H
 #include "dynamic_list.h"
-#include "projection_view.h"
+#include "camera.h"
 #include <cglm/cglm.h>
 #include <cglm/call.h>
 
 
 typedef struct SCENE_STRUCT {
-    dynamic_list* actors;
+    dynamic_list_T* actors;
     unsigned int VAO;
     unsigned uniform_mat4_model;
-    projection_view* pv;
+    camera_T* camera;
     void (*tick)(void* self);
     void (*draw)(void* self);
     void (*load)(void* self);
     void (*unload)(void* self);
-} scene;
+} scene_T;
 
-scene* init_scene();
+scene_T* init_scene();
 
-scene* scene_constructor(scene* s, void (*tick)(scene* self), void (*draw)(scene* self));
+scene_T* scene_constructor(scene_T* scene, void (*tick)(scene_T* self), void (*draw)(scene_T* self));
 
-void scene_tick(scene* s);
+void scene_tick(scene_T* scene);
 
-void scene_draw(scene* s);
+void scene_draw(scene_T* scene);
 #endif

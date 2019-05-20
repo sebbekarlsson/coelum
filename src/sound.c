@@ -36,7 +36,7 @@ void exit_al()
 
 void play_sound_threaded(unsigned frequency, float seconds)
 {
-    sound* s = calloc(1, sizeof(struct SOUND_STRUCT));
+    sound_T* s = calloc(1, sizeof(struct SOUND_STRUCT));
     s->frequency = frequency;
     s->seconds = seconds;
 
@@ -47,7 +47,7 @@ void play_sound_threaded(unsigned frequency, float seconds)
 
 void* play_sound(void* s)
 {
-    sound* snd = (sound*) s;
+    sound_T* snd = (sound_T*) s;
     unsigned frequency = snd->frequency;
     float seconds = snd->seconds;
 

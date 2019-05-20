@@ -6,60 +6,60 @@
 /**
  * Creates a new scene_manager.
  *
- * @return scene_manager*
+ * @return scene_manager_T*
  */
-scene_manager* init_scene_manager()
+scene_manager_T* init_scene_manager()
 {
-    scene_manager* sm = calloc(1, sizeof(struct SCENE_MANAGER_STRUCT));
-    sm->scenes = init_dynamic_list(sizeof(struct SCENE_STRUCT));
-    sm->scene_index = -1;
+    scene_manager_T* scene_manager = calloc(1, sizeof(struct SCENE_MANAGER_STRUCT));
+    scene_manager->scenes = init_dynamic_list(sizeof(struct SCENE_STRUCT));
+    scene_manager->scene_index = -1;
 
-    return sm;
+    return scene_manager;
 }
 
 /**
  * Use this to get the current scene.
  * The current scene is based on the scene_manager's scene_index
  *
- * @param scene_manager* sm
+ * @param scene_manager_T* scene_manager
  *
- * @return scene*
+ * @return scene_T*
  */
-scene* scene_manager_get_current_scene(scene_manager* sm)
+scene_T* scene_manager_get_current_scene(scene_manager_T* scene_manager)
 {
-    return (scene*) sm->scenes->items[sm->scene_index];
+    return (scene_T*) scene_manager->scenes->items[scene_manager->scene_index];
 }
 
 /**
  * Use this to register a new scene to a scene_manager.
  *
- * @param scene_manager* sm
- * @param scene* s
+ * @param scene_manager_T* scene_manager
+ * @param scene_T* s
  */
-void scene_manager_register_scene(scene_manager* sm, scene* s)
+void scene_manager_register_scene(scene_manager_T* scene_manager, scene_T* s)
 {
-    dynamic_list_append(sm->scenes, s);
+    dynamic_list_append(scene_manager->scenes, s);
 }
 
 /**
  * Updates the current scene
  *
- * @param scene_manager* sm
+ * @param scene_manager_T* scene_manager
  */
-void scene_manager_tick(scene_manager* sm)
+void scene_manager_tick(scene_manager_T* scene_manager)
 {
-    scene* s = scene_manager_get_current_scene(sm);
+    scene_T* s = scene_manager_get_current_scene(scene_manager);
     s->tick(s);
 }
 
 /**
  * Draws the current scene
  *
- * @param scene_manager* sm
+ * @param scene_manager_T* scene_manager
  */
-void scene_manager_draw(scene_manager* sm)
+void scene_manager_draw(scene_manager_T* scene_manager)
 {
-    scene* s = scene_manager_get_current_scene(sm);
+    scene_T* s = scene_manager_get_current_scene(scene_manager);
     s->draw(s);
 }
 
@@ -67,22 +67,22 @@ void scene_manager_draw(scene_manager* sm)
  * Use this to move to the next scene.
  * This method basically just increases the scene_index.
  *
- * @param scene_manager* sm
+ * @param scene_manager_T* scene_manager
  */
-void scene_manager_next(scene_manager* sm)
+void scene_manager_next(scene_manager_T* scene_manager)
 {
 
-    if (sm->scene_index != -1)
+    if (scene_manager->scene_index != -1)
     {
-        scene* p_scene = scene_manager_get_current_scene(sm);
+        scene_T* p_scene = scene_manager_get_current_scene(scene_manager);
 
         if (p_scene->unload)
             p_scene->unload(p_scene);
     }
 
-    sm->scene_index = MIN(sm->scene_index + 1, sm->scenes->size - 1);
+    scene_manager->scene_index = MIN(scene_manager->scene_index + 1, scene_manager->scenes->size - 1);
 
-    scene* n_scene = scene_manager_get_current_scene(sm);
+    scene_T* n_scene = scene_manager_get_current_scene(scene_manager);
 
     if (n_scene->load)
         n_scene->load(n_scene);

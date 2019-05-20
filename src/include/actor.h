@@ -25,22 +25,22 @@ typedef struct ACTOR_STRUCT {
     void (*draw)(void* self);
     void (*load)(void* self);
     // void (*unload)(void* self);
-} actor;
+} actor_T;
 
-actor* init_actor(float x, float y, float z);
+actor_T* init_actor(float x, float y, float z);
 
-actor* actor_constructor(
-    actor* a,
+actor_T* actor_constructor(
+    actor_T* a,
     float x,
     float y,
     float z,
-    void (*tick)(actor* self),
-    void (*draw)(actor* self)
+    void (*tick)(actor_T* self),
+    void (*draw)(actor_T* self)
 );
 
-void actor_tick(actor* a);
+void actor_tick(actor_T* a);
 
-void actor_draw(actor* a);
+void actor_draw(actor_T* a);
 
-void actor_push(actor* self, float angle, float acceleration);
+void actor_push(actor_T* self, float angle, float acceleration);
 #endif

@@ -5,24 +5,24 @@
 
 
 typedef struct SHADER_MANAGER_STRUCT {
-    dynamic_list* programs;
-} shader_manager;
+    dynamic_list_T* programs;
+} shader_manager_T;
 
 typedef struct SHADER_MANAGER_PROGRAM_STRUCT {
     char* name;
     unsigned int program;
-} shader_manager_program;
+} shader_manager_program_T;
 
-shader_manager* init_shader_manager();
+shader_manager_T* init_shader_manager();
 
-shader_manager_program* init_shader_manager_program();
+shader_manager_program_T* init_shader_manager_program();
 
 unsigned int shader_manager_register_program(
-    shader_manager* sm,
+    shader_manager_T* sm,
     char* name,
     char* fragment_src_filename,
     char* vertex_src_filename
 );
 
-unsigned int shader_manager_get_program(shader_manager* sm, char* name);
+unsigned int shader_manager_get_program(shader_manager_T* sm, char* name);
 #endif

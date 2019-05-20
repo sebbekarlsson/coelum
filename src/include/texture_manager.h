@@ -6,23 +6,23 @@
 
 
 typedef struct TEXTURE_MANAGER_STRUCT {
-    dynamic_list* textures;
-} texture_manager;
+    dynamic_list_T* textures;
+} texture_manager_T;
 
 typedef struct TEXTURE_MANAGER_TEXTURE_STRUCT {
     char* name;
-    texture_t* texture;
-} texture_manager_texture;
+    texture_T* texture;
+} texture_manager_texture_T;
 
-texture_manager* init_texture_manager();
+texture_manager_T* init_texture_manager();
 
-texture_manager_texture* init_texture_manager_texture();
+texture_manager_texture_T* init_texture_manager_texture();
 
-texture_t* texture_manager_register_texture(
-    texture_manager* _tm,
+texture_T* texture_manager_register_texture(
+    texture_manager_T* texture_manager,
     char* texture_src_filename,
     int mode
 );
 
-texture_t* texture_manager_get_texture(texture_manager* sm, char* name);
+texture_T* texture_manager_get_texture(texture_manager_T* texture_manager, char* name);
 #endif

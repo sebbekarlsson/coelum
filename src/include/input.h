@@ -7,11 +7,11 @@
 typedef struct KEYBOARD_STATE_STRUCT
 {
     int* keys;
-} keyboard_state;
+} keyboard_state_T;
 
-keyboard_state* init_keyboard_state();
+keyboard_state_T* init_keyboard_state();
 
-void keyboard_state_reset(keyboard_state* ks);
+void keyboard_state_reset(keyboard_state_T* keyboard_state);
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 #endif

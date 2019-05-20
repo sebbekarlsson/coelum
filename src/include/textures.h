@@ -7,11 +7,11 @@ typedef struct TEXTURE_STRUCT {
     unsigned int renderable_texture;
     int width;
     int height;
-} texture_t;
+} texture_T;
 
-texture_t* get_texture(char* filepath, int mode);
+texture_T* get_texture(char* filepath, int mode);
 
-unsigned int get_subtexture(texture_t* texture, int x, int y, int h, int w);
+unsigned int get_subtexture(texture_T* texture, int x, int y, int h, int w);
 
 unsigned int get_char_texture_from_texture(
     char c,
@@ -19,8 +19,8 @@ unsigned int get_char_texture_from_texture(
     int char_h,
     int n_rows_x,
     int n_rows_y,
-    texture_t* font_texture
+    texture_T* font_texture
 );
 
-void texture_free(texture_t* texture);
+void texture_free(texture_T* texture);
 #endif

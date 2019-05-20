@@ -7,6 +7,18 @@
 
 extern unsigned int SHADER_COLORED;
 
+void send_projection_view_state(unsigned int shader_program, projection_view_T* projection_view)
+{
+    if (!projection_view->uniform_mat4_view)
+        projection_view->uniform_mat4_view = glGetUniformLocation(shader_program, "view");
+
+    if (!projection_view->uniform_mat4_projection)
+        projection_view->uniform_mat4_projection = glGetUniformLocation(shader_program, "projection");
+
+    glUniformMatrix4fv(projection_view->uniform_mat4_projection, 1, GL_FALSE, (float *) projection_view->projection);
+    glUniformMatrix4fv(projection_view->uniform_mat4_view, 1, GL_FALSE, (float *) projection_view->view);
+}
+
 void render_2D_mesh(
     float width,
     float height,
@@ -69,21 +81,13 @@ void render_2D_positioned_2D_mesh(
     float g,
     float b,
     unsigned int VAO,
-    projection_view* pv
+    projection_view_T* projection_view
 )
 {
-
     glBindVertexArray(VAO);
     glUseProgram(SHADER_COLORED);
 
-    if (!pv->uniform_mat4_view)
-        pv->uniform_mat4_view = glGetUniformLocation(SHADER_COLORED, "view");
-
-    if (!pv->uniform_mat4_projection)
-        pv->uniform_mat4_projection = glGetUniformLocation(SHADER_COLORED, "projection");
-
-    glUniformMatrix4fv(pv->uniform_mat4_projection, 1, GL_FALSE, (float *) pv->projection);
-    glUniformMatrix4fv(pv->uniform_mat4_view, 1, GL_FALSE, (float *) pv->view);
+    send_projection_view_state(SHADER_COLORED, projection_view); 
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);

@@ -11,10 +11,10 @@
 #include "include/dev_gui.h"
 
 
-keyboard_state* KEYBOARD_STATE;
-shader_manager* SHADER_MANAGER;
-texture_manager* TEXTURE_MANAGER;
-scene_manager* SCENE_MANAGER;
+keyboard_state_T* KEYBOARD_STATE;
+shader_manager_T* SHADER_MANAGER;
+texture_manager_T* TEXTURE_MANAGER;
+scene_manager_T* SCENE_MANAGER;
 
 GLFWwindow* window = (void*) 0;
 

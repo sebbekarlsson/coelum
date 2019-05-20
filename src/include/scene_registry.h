@@ -3,5 +3,5 @@
 #include "scene_manager.h"
 
 
-void register_scenes(scene_manager* sm);
+void register_scenes(scene_manager_T* sm);
 #endif

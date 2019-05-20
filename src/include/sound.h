@@ -4,7 +4,7 @@
 typedef struct SOUND_STRUCT {
     unsigned frequency;
     float seconds;
-} sound;
+} sound_T;
 
 void init_al();
 void exit_al();

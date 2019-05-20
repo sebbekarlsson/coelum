@@ -3,5 +3,5 @@
 #include "shader_manager.h"
 
 
-void register_shader_programs(shader_manager* sm);
+void register_shader_programs(shader_manager_T* sm);
 #endif

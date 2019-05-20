@@ -6,14 +6,14 @@
 /**
  * Creates a new shader_manager
  * 
- * @return shader_manager*
+ * @return shader_manager_T*
  */
-shader_manager* init_shader_manager()
+shader_manager_T* init_shader_manager()
 {
-    shader_manager* sm = calloc(1, sizeof(struct SHADER_MANAGER_STRUCT));
-    sm->programs = init_dynamic_list(sizeof(struct SHADER_MANAGER_PROGRAM_STRUCT));
+    shader_manager_T* shader_manager = calloc(1, sizeof(struct SHADER_MANAGER_STRUCT));
+    shader_manager->programs = init_dynamic_list(sizeof(struct SHADER_MANAGER_PROGRAM_STRUCT));
 
-    return sm;
+    return shader_manager;
 }
 
 /**
@@ -22,15 +22,15 @@ shader_manager* init_shader_manager()
  * @param char* name - the name of the programe
  * @param unsigned int program - the program
  *
- * @return shader_manager_program*
+ * @return shader_manager_program_T*
  */
-shader_manager_program* init_shader_manager_program(char* name, unsigned int program)
+shader_manager_program_T* init_shader_manager_program(char* name, unsigned int program)
 {
-    shader_manager_program* smp = calloc(1, sizeof(struct SHADER_MANAGER_PROGRAM_STRUCT));
-    smp->name = name;
-    smp->program = program;
+    shader_manager_program_T* shader_managerp = calloc(1, sizeof(struct SHADER_MANAGER_PROGRAM_STRUCT));
+    shader_managerp->name = name;
+    shader_managerp->program = program;
 
-    return smp;
+    return shader_managerp;
 }
 
 /**
@@ -38,13 +38,13 @@ shader_manager_program* init_shader_manager_program(char* name, unsigned int pro
  * This method also compiles a shader based on fragment and vertex shader
  * sources.
  *
- * shader_manager* sm
+ * shader_manager_T* shader_manager
  * char* name
  * char* fragment_src_filename
  * char* vertex_src_filename
  */
 unsigned int shader_manager_register_program(
-    shader_manager* sm,
+    shader_manager_T* shader_manager,
     char* name,
     char* fragment_src_filename,
     char* vertex_src_filename
@@ -110,8 +110,8 @@ unsigned int shader_manager_register_program(
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
 
-    shader_manager_program* smp = init_shader_manager_program(name, shader_program);
-    dynamic_list_append(sm->programs, smp);
+    shader_manager_program_T* shader_managerp = init_shader_manager_program(name, shader_program);
+    dynamic_list_append(shader_manager->programs, shader_managerp);
     
     return shader_program;
 }
@@ -119,19 +119,19 @@ unsigned int shader_manager_register_program(
 /**
  * Use this to get a registered shader program
  *
- * @param shader_manager* sm
+ * @param shader_manager_T* shader_manager
  * @param char* name
  *
  * @return unsigned int
  */
-unsigned int shader_manager_get_program(shader_manager* sm, char* name)
+unsigned int shader_manager_get_program(shader_manager_T* shader_manager, char* name)
 {
-    for (int i = 0; i < sm->programs->size; i++)
+    for (int i = 0; i < shader_manager->programs->size; i++)
     {
-        shader_manager_program* smp = (shader_manager_program*) sm->programs->items[i];
+        shader_manager_program_T* shader_managerp = (shader_manager_program_T*) shader_manager->programs->items[i];
 
-        if (strcmp(smp->name, name) == 0)
-            return smp->program;
+        if (strcmp(shader_managerp->name, name) == 0)
+            return shader_managerp->program;
     }
 
     return -1;

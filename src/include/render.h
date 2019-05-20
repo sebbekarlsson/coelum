@@ -2,6 +2,8 @@
 #define COELUM_RENDER_H
 #include "projection_view.h"
 
+void send_projection_view_state(unsigned int shader_program, projection_view_T* projection_view);
+
 void render_2D_mesh(
     float width,
     float height,
@@ -21,6 +23,6 @@ void render_2D_positioned_2D_mesh(
     float g,
     float b,
     unsigned int VAO,
-    projection_view* pv
+    projection_view_T* projection_view
 );
 #endif

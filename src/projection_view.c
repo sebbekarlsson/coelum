@@ -2,9 +2,9 @@
 #include <string.h>
 
 
-projection_view* init_projection_view()
+projection_view_T* init_projection_view()
 {
-    projection_view* pv = calloc(1, sizeof(struct PROJECTION_VIEW_STRUCT));
+    projection_view_T* pv = calloc(1, sizeof(struct PROJECTION_VIEW_STRUCT));
 
     mat4 view =
     {

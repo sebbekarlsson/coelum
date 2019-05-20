@@ -3,17 +3,17 @@
 #include <string.h>
 
 
-extern keyboard_state* KEYBOARD_STATE;
+extern keyboard_state_T* KEYBOARD_STATE;
 
 
 /**
  * Creates a new keyboard_state
  *
- * @return keyboard_state*
+ * @return keyboard_state_T*
  */
-keyboard_state* init_keyboard_state()
+keyboard_state_T* init_keyboard_state()
 {
-    keyboard_state* ks = calloc(1, sizeof(struct KEYBOARD_STATE_STRUCT));
+    keyboard_state_T* ks = calloc(1, sizeof(struct KEYBOARD_STATE_STRUCT));
     ks->keys = calloc(300, sizeof(int));
 
     keyboard_state_reset(ks);
@@ -21,10 +21,10 @@ keyboard_state* init_keyboard_state()
     return ks;
 }
 
-void keyboard_state_reset(keyboard_state* ks)
+void keyboard_state_reset(keyboard_state_T* keyboard_state)
 {
     // fill with zeroes.
-    memset(&*ks->keys, 0, 300 * sizeof(int));
+    memset(&*keyboard_state->keys, 0, 300 * sizeof(int));
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

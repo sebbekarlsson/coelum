@@ -7,11 +7,11 @@ typedef struct DYNAMIC_LIST_STRUCT {
     size_t size;
     size_t item_size;
     void** items;
-} dynamic_list;
+} dynamic_list_T;
 
-dynamic_list* init_dynamic_list(size_t item_size);
+dynamic_list_T* init_dynamic_list(size_t item_size);
 
-void dynamic_list_append(dynamic_list* dlist, void* item);
+void dynamic_list_append(dynamic_list_T* dlist, void* item);
 
-void dynamic_list_free(dynamic_list* dlist);
+void dynamic_list_free(dynamic_list_T* dlist);
 #endif

@@ -1,5 +1,6 @@
 #include "include/scene.h"
 #include "include/actor.h"
+#include "include/render.h"
 #include <string.h>
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
@@ -11,11 +12,11 @@ extern unsigned int SHADER_DEFAULT;
  * Creates a new scene.
  * (This function is abstract and should not be used)
  *
- * @return scene*
+ * @return scene_T*
  */
-scene* init_scene()
+scene_T* init_scene()
 {
-    scene* s = calloc(1, sizeof(struct SCENE_STRUCT)); 
+    scene_T* s = calloc(1, sizeof(struct SCENE_STRUCT)); 
 
     return s;
 }
@@ -24,32 +25,32 @@ scene* init_scene()
  * Scene constructor, structs that inherit from scene should use this in their
  * initialization method.
  *
- * @param scene* s
+ * @param scene_T* s
  *
- * @return scene*
+ * @return scene_T*
  */
-scene* scene_constructor(scene* s,  void (*tick)(scene* self), void (*draw)(scene* self))
+scene_T* scene_constructor(scene_T* scene,  void (*tick)(scene_T* self), void (*draw)(scene_T* self))
 {
-    s->tick = tick;
-    s->draw = draw;
+    scene->tick = tick;
+    scene->draw = draw;
 
-    s->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
-    glGenVertexArrays(1, &s->VAO);
+    scene->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
+    glGenVertexArrays(1, &scene->VAO);
 
-    s->pv = init_projection_view();
+    scene->camera = init_camera();
 }
 
 /**
  * Default scene tick method.
  * This method calls tick on all child actors.
  *
- * @param scene* s
+ * @param scene_T* s
  */
-void scene_tick(scene* s)
+void scene_tick(scene_T* scene)
 {
-    for (int i = 0; i < s->actors->size; i++)
+    for (int i = 0; i < scene->actors->size; i++)
     {
-        actor* a = (actor*)s->actors->items[i];
+        actor_T* a = (actor_T*)scene->actors->items[i];
 
         if (!a->loaded)
         {
@@ -69,36 +70,30 @@ void scene_tick(scene* s)
  * Default scene draw method.
  * This method draws all child actors.
  *
- * @param scene* s
+ * @param scene_T* scene
  */
-void scene_draw(scene* s)
+void scene_draw(scene_T* scene)
 {
 
-    projection_view* pv = s->pv;
+    projection_view_T* pv = scene->camera->projection_view;
 
-    glBindVertexArray(s->VAO);
+    glBindVertexArray(scene->VAO);
 
-    for (int i = 0; i < s->actors->size; i++)
+    for (int i = 0; i < scene->actors->size; i++)
     {
-        actor* a = ((actor*)s->actors->items[i]);
+        actor_T* a = ((actor_T*)scene->actors->items[i]);
 
         if (a->draw)
         {
             glUseProgram(a->shader_program);
-            if (!s->uniform_mat4_model)
-                s->uniform_mat4_model = glGetUniformLocation(a->shader_program, "model");
 
-            if (!pv->uniform_mat4_view)
-                pv->uniform_mat4_view = glGetUniformLocation(a->shader_program, "view");
-
-            if (!pv->uniform_mat4_projection)
-                pv->uniform_mat4_projection = glGetUniformLocation(a->shader_program, "projection");
+            send_projection_view_state(a->shader_program, pv);
 
             glUniformMatrix4fv(pv->uniform_mat4_projection, 1, GL_FALSE, (float *) pv->projection);
             glUniformMatrix4fv(pv->uniform_mat4_view, 1, GL_FALSE, (float *) pv->view);
 
             glm_translate(a->model, (vec3){a->x, a->y, a->z});
-            glUniformMatrix4fv(s->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            glUniformMatrix4fv(scene->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
 
             if (a->texture)
             {
@@ -108,7 +103,7 @@ void scene_draw(scene* s)
             a->draw(a);
 
             glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
-            glUniformMatrix4fv(s->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
+            glUniformMatrix4fv(scene->uniform_mat4_model, 1, GL_FALSE, (float *) a->model);
         }
     }
 

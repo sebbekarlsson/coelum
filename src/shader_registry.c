@@ -7,19 +7,19 @@ unsigned int SHADER_COLORED;
 /**
  * All shader programs goes here.
  *
- * @param shader_manager* sm
+ * @param shader_manager_T* shader_manager
  */
-void register_shader_programs(shader_manager* sm)
+void register_shader_programs(shader_manager_T* shader_manager)
 {
     SHADER_TEXTURED = shader_manager_register_program(
-        sm,
+        shader_manager,
         "textured",
         "fragment_textured.fs.glsl",
         "vertex.vs.glsl"
     );
 
     SHADER_COLORED = shader_manager_register_program(
-        sm,
+        shader_manager,
         "colored",
         "fragment_colored.fs.glsl",
         "vertex.vs.glsl"

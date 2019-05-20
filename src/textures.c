@@ -7,15 +7,15 @@
 
 
 /**
- * Creates a new instance of texture_t and loads a texture to it.
+ * Creates a new instance of texture_T and loads a texture to it.
  *
  * @param char* filepath - path to file
  *
- * @return texture_t*
+ * @return texture_T*
  */
-texture_t* get_texture(char* filepath, int mode)
+texture_T* get_texture(char* filepath, int mode)
 {
-    texture_t* tex = calloc(1, sizeof(struct TEXTURE_STRUCT));
+    texture_T* tex = calloc(1, sizeof(struct TEXTURE_STRUCT));
 
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -49,7 +49,7 @@ texture_t* get_texture(char* filepath, int mode)
 /**
  * "Cut" out a piece of a texture
  *
- * @param texture_t* texture
+ * @param texture_T* texture
  * @param int x
  * @param int y
  * @param int h
@@ -57,7 +57,7 @@ texture_t* get_texture(char* filepath, int mode)
  *
  * @return unsigned int
  */
-unsigned int get_subtexture(texture_t* texture, int x, int y, int h, int w)
+unsigned int get_subtexture(texture_T* texture, int x, int y, int h, int w)
 {
     unsigned int cut_texture;
     glGenTextures(1, &cut_texture);
@@ -92,7 +92,7 @@ unsigned int get_subtexture(texture_t* texture, int x, int y, int h, int w)
  * @param int char_h
  * @param int n_rows_x
  * @param int n_rows_y
- * @param texture_t* font_texture
+ * @param texture_T* font_texture
  */
 unsigned int get_char_texture_from_texture(
     char c,
@@ -100,7 +100,7 @@ unsigned int get_char_texture_from_texture(
     int char_h,
     int n_rows_x,
     int n_rows_y,
-    texture_t* font_texture
+    texture_T* font_texture
 )
 {
     int x = 0;
@@ -157,11 +157,11 @@ unsigned int get_char_texture_from_texture(
 }
 
 /**
- * Deallocate a texture_t* instance.
+ * Deallocate a texture_T* instance.
  *
- * @param texture_t* texture
+ * @param texture_T* texture
  */
-void texture_free(texture_t* texture)
+void texture_free(texture_T* texture)
 {
     stbi_image_free(texture->data);
     free(texture);

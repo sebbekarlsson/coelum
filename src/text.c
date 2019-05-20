@@ -8,10 +8,10 @@
 #include <GLFW/glfw3.h>
 
 
-extern scene_manager* SCENE_MANAGER;
+extern scene_manager_T* SCENE_MANAGER;
 
 extern unsigned int SHADER_TEXTURED;
-extern texture_t* TEXTURE_DEFAULT_FONT;
+extern texture_T* TEXTURE_DEFAULT_FONT;
 
 /**
  * Used to render a text at a specific position.

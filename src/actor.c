@@ -12,8 +12,8 @@
 
 #define PI 3.14159265
 
-extern shader_manager* SHADER_MANAGER;
-extern scene_manager* SCENE_MANAGER;
+extern shader_manager_T* SHADER_MANAGER;
+extern scene_manager_T* SCENE_MANAGER;
 
 extern unsigned int SHADER_TEXTURED;
 
@@ -25,46 +25,46 @@ extern unsigned int SHADER_TEXTURED;
  * @param float y
  * @param float z
  *
- * @return actor*
+ * @return actor_T*
  */
-actor* init_actor(float x, float y, float z)
+actor_T* init_actor(float x, float y, float z)
 {
-    return (actor*) calloc(1, sizeof(struct ACTOR_STRUCT));
+    return (actor_T*) calloc(1, sizeof(struct ACTOR_STRUCT));
 }
 
 /**
  * Actor constructor, structs that inherit from actor should use this in their
  * initialization method.
  *
- * @param actor* a
+ * @param actor_T* actor
  * @param float x
  * @param float y
  * @param float z
  */
-actor* actor_constructor(
-    actor* a,
+actor_T* actor_constructor(
+    actor_T* actor,
     float x,
     float y,
     float z,
-    void (*tick)(actor* self),
-    void (*draw)(actor* self)
+    void (*tick)(actor_T* self),
+    void (*draw)(actor_T* self)
 )
 {
-    a->type = -1;
-    a->x = x;
-    a->y = y;
-    a->z = z;
-    a->dx = 0.0f;
-    a->dy = 0.0f;
-    a->dz = 0.0f;
-    a->friction = 0.0f;
-    a->width = 1;
-    a->height = 1;
+    actor->type = -1;
+    actor->x = x;
+    actor->y = y;
+    actor->z = z;
+    actor->dx = 0.0f;
+    actor->dy = 0.0f;
+    actor->dz = 0.0f;
+    actor->friction = 0.0f;
+    actor->width = 1;
+    actor->height = 1;
 
-    a->loaded = 0;
+    actor->loaded = 0;
 
-    glGenBuffers(1, &a->VBO);
-    glGenBuffers(1, &a->EBO);
+    glGenBuffers(1, &actor->VBO);
+    glGenBuffers(1, &actor->EBO);
 
     mat4 model =
     {
@@ -74,21 +74,21 @@ actor* actor_constructor(
         0, 0, 0, 1
     };
 
-    memcpy(a->model, model, sizeof(model));
+    memcpy(actor->model, model, sizeof(model));
 
-    a->shader_program = SHADER_TEXTURED;
-    a->tick = tick;
-    a->draw = draw;
+    actor->shader_program = SHADER_TEXTURED;
+    actor->tick = tick;
+    actor->draw = draw;
 
-    return a;
+    return actor;
 }
 
 /**
  * Default actor tick method
  *
- * @param actor* a
+ * @param actor_T* actor
  */
-void actor_tick(actor* a)
+void actor_tick(actor_T* actor)
 {
     // silence
 }
@@ -97,21 +97,21 @@ void actor_tick(actor* a)
  * Default actor draw method.
  * Currently draws the actor->texture if it exists.
  *
- * @param actor* a
+ * @param actor_T* actor
  */
-void actor_draw(actor* a)
+void actor_draw(actor_T* actor)
 {
-    if (a->texture)
+    if (actor->texture)
     {
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, a->texture);
+        glBindTexture(GL_TEXTURE_2D, actor->texture);
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
     }
 
-    render_2D_mesh(a->width, a->height, 255.0f, 255.0f, 255.0f, a->VBO, a->EBO);
+    render_2D_mesh(actor->width, actor->height, 255.0f, 255.0f, 255.0f, actor->VBO, actor->EBO);
 }
 
-void actor_push(actor* self, float angle, float acceleration)
+void actor_push(actor_T* self, float angle, float acceleration)
 {
     float radians = angle * (PI / 180.0f);
 

@@ -11,34 +11,34 @@
  *
  * @param size_t item_size
  */
-dynamic_list* init_dynamic_list(size_t item_size)
+dynamic_list_T* init_dynamic_list(size_t item_size)
 {
-    dynamic_list* dlist = calloc(1, sizeof(struct DYNAMIC_LIST_STRUCT));
-    dlist->item_size = item_size;
-    dlist->size = 0;
+    dynamic_list_T* dynamic_list = calloc(1, sizeof(struct DYNAMIC_LIST_STRUCT));
+    dynamic_list->item_size = item_size;
+    dynamic_list->size = 0;
 
-    return dlist;
+    return dynamic_list;
 }
 
 /**
  * Appends and item to a dynamic_list
  *
- * @param dynamic_list* dlist
+ * @param dynamic_list_T* dynamic_list
  * @param void* item
  */
-void dynamic_list_append(dynamic_list* dlist, void* item)
+void dynamic_list_append(dynamic_list_T* dynamic_list, void* item)
 {
-    dlist->size++;
-    dlist->items = realloc(dlist->items, (dlist->size + 1) * dlist->item_size);
-    dlist->items[dlist->size - 1] = item;
+    dynamic_list->size++;
+    dynamic_list->items = realloc(dynamic_list->items, (dynamic_list->size + 1) * dynamic_list->item_size);
+    dynamic_list->items[dynamic_list->size - 1] = item;
 }
 
 /**
  * Use this to free / deallocate a dynamic_list.
  *
- * @param dynamic_list* dlist
+ * @param dynamic_list_T* dynamic_list
  */
-void dynamic_list_free(dynamic_list* dlist)
+void dynamic_list_free(dynamic_list_T* dynamic_list)
 {
     // silence
 }
