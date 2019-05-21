@@ -1,11 +1,11 @@
-#ifndef COELUM_RENDER_H
-#define COELUM_RENDER_H
+#ifndef COELUM_DRAW_UTILS_H
+#define COELUM_DRAW_UTILS_H
 #include "projection_view.h"
 
 void send_projection_view_state(unsigned int shader_program, projection_view_T* projection_view);
 void send_model_state(unsigned int shader_program, mat4 model);
 
-void render_2D_mesh(
+void draw_2D_mesh(
     float width,
     float height,
     float r,
@@ -15,7 +15,7 @@ void render_2D_mesh(
     unsigned int EBO
 );
 
-void render_2D_positioned_2D_mesh(
+void draw_2D_positioned_2D_mesh(
     float x,
     float y,
     float width,
@@ -27,7 +27,7 @@ void render_2D_positioned_2D_mesh(
     projection_view_T* projection_view
 );
 
-void render_line(
+void draw_line(
     float x,
     float y,
     float z,

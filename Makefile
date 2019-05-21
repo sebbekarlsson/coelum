@@ -32,4 +32,5 @@ install:
 clean:
 	-rm *.out
 	-rm *.o
+	-rm *.a
 	-rm src/*.o

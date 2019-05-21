@@ -1,4 +1,4 @@
-#include "include/render.h"
+#include "include/draw_utils.h"
 #include "include/shader_registry.h"
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
@@ -9,11 +9,8 @@ extern unsigned int SHADER_COLORED;
 
 void send_projection_view_state(unsigned int shader_program, projection_view_T* projection_view)
 {
-    unsigned uniform_mat4_view = glGetUniformLocation(shader_program, "view");
-    unsigned uniform_mat4_projection = glGetUniformLocation(shader_program, "projection");
-
-    glUniformMatrix4fv(uniform_mat4_projection, 1, GL_FALSE, (float *) projection_view->projection);
-    glUniformMatrix4fv(uniform_mat4_view, 1, GL_FALSE, (float *) projection_view->view);
+    glUniformMatrix4fv(glGetUniformLocation(shader_program, "projection"), 1, GL_FALSE, (float *) projection_view->projection);
+    glUniformMatrix4fv(glGetUniformLocation(shader_program, "view"), 1, GL_FALSE, (float *) projection_view->view);
 }
 
 void send_model_state(unsigned int shader_program, mat4 model)
@@ -22,7 +19,7 @@ void send_model_state(unsigned int shader_program, mat4 model)
     glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 }
 
-void render_2D_mesh(
+void draw_2D_mesh(
     float width,
     float height,
     float r,
@@ -67,7 +64,7 @@ void render_2D_mesh(
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void render_2D_positioned_2D_mesh(
+void draw_2D_positioned_2D_mesh(
     float x,
     float y,
     float width,
@@ -103,14 +100,14 @@ void render_2D_positioned_2D_mesh(
     glm_translate(model, (vec3){x, y, 0.0f});
     send_model_state(SHADER_COLORED, model); 
 
-    render_2D_mesh(width, height, r, g, b, VBO, EBO);
+    draw_2D_mesh(width, height, r, g, b, VBO, EBO);
 
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glm_translate(model, (vec3){-x, -y, -0.0f});
 }
 
-void render_line(
+void draw_line(
     float x,
     float y,
     float z,

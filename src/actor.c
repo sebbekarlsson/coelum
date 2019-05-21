@@ -1,7 +1,7 @@
 #include "include/actor.h"
 #include "include/scene_manager.h"
 #include "include/shader_manager.h"
-#include "include/render.h"
+#include "include/draw_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -106,7 +106,7 @@ void actor_draw(actor_T* actor)
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
     }
 
-    render_2D_mesh(actor->width, actor->height, 255.0f, 255.0f, 255.0f, actor->VBO, actor->EBO);
+    draw_2D_mesh(actor->width, actor->height, 255.0f, 255.0f, 255.0f, actor->VBO, actor->EBO);
 }
 
 void actor_push(actor_T* self, float angle, float acceleration)

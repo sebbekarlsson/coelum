@@ -1,6 +1,6 @@
 #include "include/text.h"
 #include "include/scene_manager.h"
-#include "include/render.h"
+#include "include/draw_utils.h"
 #include <string.h>
 #include <cglm/cglm.h>
 #include <cglm/call.h>
@@ -14,14 +14,14 @@ extern unsigned int SHADER_TEXTURED;
 extern texture_T* TEXTURE_DEFAULT_FONT;
 
 /**
- * Used to render a text at a specific position.
+ * Used to draw a text at a specific position.
  *
  * @param const char* text
  * @param float x
  * @param float y
  * @param float z
  */
-void render_text(const char* text, float x, float y, float z, float r, float g, float b)
+void draw_text(const char* text, float x, float y, float z, float r, float g, float b)
 {
     int size = 12;
     int spacing = 9;
