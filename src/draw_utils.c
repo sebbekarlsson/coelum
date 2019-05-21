@@ -7,10 +7,24 @@
 
 extern unsigned int SHADER_COLORED;
 
-void send_projection_view_state(unsigned int shader_program, projection_view_T* projection_view)
+void send_projection_view_state(
+    unsigned int shader_program,
+    projection_view_T* projection_view
+)
 {
-    glUniformMatrix4fv(glGetUniformLocation(shader_program, "projection"), 1, GL_FALSE, (float *) projection_view->projection);
-    glUniformMatrix4fv(glGetUniformLocation(shader_program, "view"), 1, GL_FALSE, (float *) projection_view->view);
+    glUniformMatrix4fv(
+        glGetUniformLocation(shader_program, "projection"),
+        1,
+        GL_FALSE,
+        (float *) projection_view->projection
+    );
+
+    glUniformMatrix4fv(
+        glGetUniformLocation(shader_program, "view"),
+        1,
+        GL_FALSE,
+        (float *) projection_view->view
+    );
 }
 
 void send_model_state(unsigned int shader_program, mat4 model)
@@ -130,10 +144,6 @@ void draw_line(
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    unsigned int EBO;
-
-    glGenBuffers(1, &EBO);
-
     mat4 model =
     {
         1, 0, 0, 0,
@@ -148,7 +158,7 @@ void draw_line(
     float VERTICES[] =
     {
         // positions               // colors                             
-        x,       y,       z,  r / 255.0f, g / 255.0f, b / 255.0f,
+        x,       y,       z,       r / 255.0f, g / 255.0f, b / 255.0f,
         endx,    endy,    endz,    r / 255.0f, g / 255.0f, b / 255.0f
     };
 
@@ -165,5 +175,4 @@ void draw_line(
     glDrawArrays(GL_LINES, 0, 3);
 
     glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
 }
