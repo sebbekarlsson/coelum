@@ -9,6 +9,8 @@
 typedef struct SCENE_MAIN_STRUCT {
     scene_T base;
     grid_T* grid;
+    int cursor_x;
+    int cursor_y;
 } scene_main_T;
 
 scene_main_T* init_scene_main();

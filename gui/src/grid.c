@@ -18,13 +18,16 @@ grid_T* init_grid()
         }
     }
 
+    grid->cursor_x = (WINDOW_WIDTH / 16) / 2;
+    grid->cursor_y = (WINDOW_HEIGHT / 16) / 2;
+
     return grid;
 }
 
 void grid_tick(grid_T* grid)
 {
     // just for the goofs and giggles, testing stuff
-    for (int x = 0; x < WINDOW_WIDTH / 16; x++)
+    /*for (int x = 0; x < WINDOW_WIDTH / 16; x++)
     {
         for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
         {
@@ -38,7 +41,7 @@ void grid_tick(grid_T* grid)
                     cell->selected = 0;
             }
         }
-    }
+    }*/
 }
 
 void grid_draw(grid_T* grid)
@@ -118,6 +121,21 @@ void grid_draw(grid_T* grid)
                 scene->camera->projection_view
             );
 
+            if (grid->cursor_x == x && grid->cursor_y == y)
+            {
+                draw_2D_positioned_2D_mesh(
+                    cell_x,
+                    cell_y,
+                    16,
+                    16,
+                    157.0f,
+                    0.0f,
+                    6.0f,
+                    scene->VAO,
+                    scene->camera->projection_view
+                );
+            }
+            else
             if (cell->selected)
             {
                 draw_2D_positioned_2D_mesh(
@@ -132,6 +150,17 @@ void grid_draw(grid_T* grid)
                     scene->camera->projection_view
                 );
             }
+        }
+    }
+}
+
+void grid_unselect(grid_T* grid)
+{
+    for (int x = 0; x < WINDOW_WIDTH / 16; x++)
+    {
+        for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
+        {
+            grid->cells[x][y]->selected = 0;
         }
     }
 }
