@@ -3,5 +3,5 @@
 #include "textures.h"
 
 
-void draw_text(const char* text, float x, float y, float z, float r, float g, float b);
+void draw_text(const char* text, float x, float y, float z, float r, float g, float b, float size, float spacing);
 #endif

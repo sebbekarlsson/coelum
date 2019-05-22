@@ -37,5 +37,5 @@ void actor_text_draw(actor_T* self)
 {
     actor_text_T* a_t = (actor_text_T*) self;
 
-    draw_text(((actor_text_T*)self)->text, self->x, self->y, self->z, a_t->r, a_t->g, a_t->b);
+    draw_text(((actor_text_T*)self)->text, self->x, self->y, self->z, a_t->r, a_t->g, a_t->b, 12, 9);
 }

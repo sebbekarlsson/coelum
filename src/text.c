@@ -20,12 +20,14 @@ extern texture_T* TEXTURE_DEFAULT_FONT;
  * @param float x
  * @param float y
  * @param float z
+ * @param float r
+ * @param float g
+ * @param float b
+ * @param float size
+ * @param float spacing
  */
-void draw_text(const char* text, float x, float y, float z, float r, float g, float b)
+void draw_text(const char* text, float x, float y, float z, float r, float g, float b, float size, float spacing)
 {
-    int size = 12;
-    int spacing = 9;
-
     float d_r = r / 255.0f;
     float d_g = g / 255.0f;
     float d_b = b / 255.0f;
@@ -33,10 +35,10 @@ void draw_text(const char* text, float x, float y, float z, float r, float g, fl
     float vertices[] = 
     {
         // positions          // colors           // texture coords
-        size,  size, 0.0f,   r, g, b,   1.0f, 1.0f,   // top right
-        size, -size, 0.0f,   r, g, b,   1.0f, 0.0f,   // bottom right
-        -size, -size, 0.0f,   r, g, b,   0.0f, 0.0f,   // bottom left
-        -size,  size, 0.0f,   r, g, b,   0.0f, 1.0f    // top left
+        size,  size, 0.0f,   d_r, d_g, d_b,   1.0f, 1.0f,   // top right
+        size, -size, 0.0f,   d_r, d_g, d_b,   1.0f, 0.0f,   // bottom right
+        -size, -size, 0.0f,   d_r, d_g, d_b,   0.0f, 0.0f,   // bottom left
+        -size,  size, 0.0f,   d_r, d_g, d_b,   0.0f, 1.0f    // top left
     };
 
     unsigned int indices [] =
@@ -44,9 +46,11 @@ void draw_text(const char* text, float x, float y, float z, float r, float g, fl
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
-    
-    glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
+   
+    scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER); 
+    glBindVertexArray(scene->VAO);
     glUseProgram(SHADER_TEXTURED);
+    send_projection_view_state(SHADER_TEXTURED, scene->camera->projection_view);
     
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -93,7 +97,7 @@ void draw_text(const char* text, float x, float y, float z, float r, float g, fl
         glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
         
         unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
-        glm_translate(model, (vec3){(i * (24 + spacing)), 0, 0});
+        glm_translate(model, (vec3){(i * (size + spacing)), 0, 0});
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

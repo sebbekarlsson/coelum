@@ -3,11 +3,13 @@
 #include <coelum/scene.h>
 #include <coelum/constants.h>
 #include <coelum/dynamic_list.h>
+#include "window_manager.h"
 #include "grid.h"
 
 
 typedef struct SCENE_MAIN_STRUCT {
     scene_T base;
+    window_manager_T* window_manager;
     grid_T* grid;
     int cursor_x;
     int cursor_y;
