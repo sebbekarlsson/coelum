@@ -50,76 +50,48 @@ void grid_draw(grid_T* grid)
 
     for (int x = 0; x < WINDOW_WIDTH / 16; x++)
     {
+        float cell_x = x * 16;
+
+        float r = 124.0f;
+        float g = 111.0f;
+        float b = 100.0f;
+
+        draw_line(
+            cell_x,
+            0.0f,
+            0.0f,
+            cell_x,
+            WINDOW_HEIGHT,
+            0.0f,
+            r,
+            g,
+            b,
+            scene->VAO,
+            scene->camera->projection_view
+        );
+
         for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
         {
             cell_T* cell = grid->cells[x][y];
 
-            float cell_x = x * 16;
             float cell_y = y * 16;
 
-            float r = 124.0f;
-            float g = 111.0f;
-            float b = 100.0f;
-
-            // top
-            draw_line(
-                cell_x,
-                cell_y,
-                0.0f,
-                cell_x + 16,
-                cell_y,
-                0.0f,
-                r,
-                g,
-                b,
-                scene->VAO,
-                scene->camera->projection_view
-            );
-
-            // bottom
-            draw_line(
-                cell_x,
-                cell_y + 16,
-                0.0f,
-                cell_x + 16,
-                cell_y + 16,
-                0.0f,
-                r,
-                g,
-                b,
-                scene->VAO,
-                scene->camera->projection_view
-            );
-
-            // left
-            draw_line(
-                cell_x,
-                cell_y,
-                0.0f,
-                cell_x,
-                cell_y + 16,
-                0.0f,
-                r,
-                g,
-                b,
-                scene->VAO,
-                scene->camera->projection_view
-            );
-
-            // right
-            draw_line(
-                cell_x + 16,
-                cell_y,
-                0.0f,
-                cell_x + 16,
-                cell_y + 16,
-                0.0f,
-                r,
-                g,
-                b,
-                scene->VAO,
-                scene->camera->projection_view
-            );
+            if (cell_x == 0)
+            {
+                draw_line(
+                    0.0,
+                    cell_y,
+                    0.0f,
+                    WINDOW_WIDTH,
+                    cell_y,
+                    0.0f,
+                    r,
+                    g,
+                    b,
+                    scene->VAO,
+                    scene->camera->projection_view
+                );
+            }
 
             if (grid->cursor_x == x && grid->cursor_y == y)
             {
@@ -151,6 +123,13 @@ void grid_draw(grid_T* grid)
                 );
             }
         }
+    }
+
+    for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
+    {
+        float cell_y = y * 16;
+
+        
     }
 }
 
