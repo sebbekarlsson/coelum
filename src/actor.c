@@ -116,3 +116,9 @@ void actor_push(actor_T* self, float angle, float acceleration)
     self->dx += cos(radians) * acceleration;
     self->dy -= sin(radians) * acceleration;
 }
+
+void actor_free(actor_T* actor)
+{
+    glDeleteBuffers(1, &actor->VBO);
+    glDeleteBuffers(1, &actor->EBO);
+}

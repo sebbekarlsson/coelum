@@ -44,4 +44,6 @@ void actor_tick(actor_T* a);
 void actor_draw(actor_T* a);
 
 void actor_push(actor_T* self, float angle, float acceleration);
+
+void actor_free(actor_T* actor);
 #endif

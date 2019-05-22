@@ -12,7 +12,11 @@ typedef struct DYNAMIC_LIST_STRUCT
 
 dynamic_list_T* init_dynamic_list(size_t item_size);
 
-void dynamic_list_append(dynamic_list_T* dlist, void* item);
+void dynamic_list_append(dynamic_list_T* dynamic_list, void* item);
 
-void dynamic_list_free(dynamic_list_T* dlist);
+void dynamic_list_shift_left(dynamic_list_T* dynamic_list, int index);
+
+void dynamic_list_remove(dynamic_list_T* dynamic_list, void* element, void (*free_method)(void* item));
+
+void dynamic_list_free(dynamic_list_T* dynamic_list);
 #endif

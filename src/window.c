@@ -1,4 +1,5 @@
 #include "include/window.h"
+#include "include/constants.h"
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 
@@ -53,5 +54,5 @@ GLFWwindow* setup_graphical_window(int width, int height)
  */
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    //glViewport(0, 0, width, height);
+    glViewport((width / 2) - (WINDOW_WIDTH / 2), (height / 2) - (WINDOW_HEIGHT / 2), 640, 480);
 }

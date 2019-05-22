@@ -2,6 +2,7 @@
 #include "include/window_manager.h"
 #include <coelum/constants.h>
 #include <coelum/actor_text.h>
+#include <coelum/actor.h>
 #include <coelum/input.h>
 
 
@@ -10,6 +11,7 @@ extern window_manager_T* WINDOW_MANAGER;
 
 int KEY_C_LATCH = 0;
 int KEY_I_LATCH = 0;
+int KEY_Q_LATCH = 0;
 
 /**
  * Creates a new scene_main
@@ -32,6 +34,13 @@ scene_main_T* init_scene_main()
 
 
     return s_main;
+}
+
+
+void remove_window_callback(void* item)
+{
+    actor_T* a = (actor_T*) item;
+    actor_free(a);
 }
 
 void scene_main_tick(scene_T* self)
@@ -88,6 +97,20 @@ void scene_main_tick(scene_T* self)
     } else if (!KEYBOARD_STATE->keys[GLFW_KEY_I])
     {
         KEY_I_LATCH = 0;
+    }
+
+    if (KEYBOARD_STATE->keys[GLFW_KEY_Q] && KEY_Q_LATCH == 0 && s_main->window_manager->windows->size)
+    {
+        dynamic_list_remove(
+            s_main->window_manager->windows,
+            s_main->window_manager->windows->items[s_main->window_manager->windows->size - 1],
+            remove_window_callback
+        );
+
+        KEY_Q_LATCH = 1;
+    } else if (!KEYBOARD_STATE->keys[GLFW_KEY_Q])
+    {
+        KEY_Q_LATCH = 0;
     }
     
     grid_tick(s_main->grid); 
