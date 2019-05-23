@@ -1,4 +1,5 @@
 #include "include/scene.h"
+#include "include/constants.h"
 #include "include/actor.h"
 #include "include/draw_utils.h"
 #include <string.h>
@@ -29,18 +30,13 @@ scene_T* init_scene()
  *
  * @return scene_T*
  */
-scene_T* scene_constructor(scene_T* scene,  void (*tick)(scene_T* self), void (*draw)(scene_T* self))
+scene_T* scene_constructor(scene_T* scene,  void (*tick)(state_T* self), void (*draw)(state_T* self))
 {
-    scene->tick = tick;
-    scene->draw = draw;
-
-    scene->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
-    glGenVertexArrays(1, &scene->VAO);
+    state_constructor((state_T*) scene, tick, draw, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     scene->bg_r = 255.0f;
     scene->bg_g = 255.0f;
-    scene->bg_b = 255.0f;
-    scene->camera = init_camera();
+    scene->bg_b = 255.0f; 
 }
 
 /**
@@ -51,22 +47,8 @@ scene_T* scene_constructor(scene_T* scene,  void (*tick)(scene_T* self), void (*
  */
 void scene_tick(scene_T* scene)
 {
-    for (int i = 0; i < scene->actors->size; i++)
-    {
-        actor_T* a = (actor_T*)scene->actors->items[i];
-
-        if (!a->loaded)
-        {
-            if (a->load)
-            {
-                a->load(a);
-                a->loaded = 1;
-            }
-        }
-        
-        if (a->tick)
-            a->tick(a);
-    }
+    state_T* state = (state_T*) scene;
+    state_tick(state); 
 }
 
 /**
@@ -77,39 +59,6 @@ void scene_tick(scene_T* scene)
  */
 void scene_draw(scene_T* scene)
 {
-
-    projection_view_T* pv = scene->camera->projection_view;
-
-    glBindVertexArray(scene->VAO);
-
-    camera_bind(scene->camera);
-
-    for (int i = 0; i < scene->actors->size; i++)
-    {
-        actor_T* a = ((actor_T*)scene->actors->items[i]);
-
-        if (a->draw)
-        {
-            glUseProgram(a->shader_program);
-
-            send_projection_view_state(a->shader_program, pv);
-
-            glm_translate(a->model, (vec3){a->x, a->y, a->z});
-            send_model_state(a->shader_program, a->model);
-
-            if (a->texture)
-            {
-                glUniform1i(glGetUniformLocation(a->shader_program, "ourTexture"), 0); 
-            }
-
-            a->draw(a);
-
-            glm_translate(a->model, (vec3){-a->x, -a->y, -a->z});
-            send_model_state(a->shader_program, a->model);
-        }
-    }
-
-    camera_unbind(scene->camera);
-
-    glBindVertexArray(0);
+    state_T* state = (state_T*) scene;
+    state_draw(state); 
 }

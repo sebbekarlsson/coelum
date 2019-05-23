@@ -47,6 +47,7 @@ void grid_tick(grid_T* grid)
 void grid_draw(grid_T* grid)
 {
     scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+    state_T* state = (state_T*) scene;
 
     for (int x = 0; x < WINDOW_WIDTH / 16; x++)
     {
@@ -66,8 +67,8 @@ void grid_draw(grid_T* grid)
             r,
             g,
             b,
-            scene->VAO,
-            scene->camera->projection_view
+            state->VAO,
+            state->camera->projection_view
         );
 
         for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
@@ -88,8 +89,8 @@ void grid_draw(grid_T* grid)
                     r,
                     g,
                     b,
-                    scene->VAO,
-                    scene->camera->projection_view
+                    state->VAO,
+                    state->camera->projection_view
                 );
             }
 
@@ -103,8 +104,8 @@ void grid_draw(grid_T* grid)
                     157.0f,
                     0.0f,
                     6.0f,
-                    scene->VAO,
-                    scene->camera->projection_view
+                    state->VAO,
+                    state->camera->projection_view
                 );
             }
             else
@@ -118,8 +119,8 @@ void grid_draw(grid_T* grid)
                     r,
                     g,
                     b,
-                    scene->VAO,
-                    scene->camera->projection_view
+                    state->VAO,
+                    state->camera->projection_view
                 );
             }
         }

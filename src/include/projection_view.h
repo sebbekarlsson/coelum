@@ -10,7 +10,7 @@ typedef struct PROJECTION_VIEW_STRUCT
     mat4 view;
 } projection_view_T;
 
-projection_view_T* init_projection_view();
+projection_view_T* init_projection_view(int width, int height);
 
 void projection_view_translate(projection_view_T* projection_view, float x, float y, float z);
 #endif

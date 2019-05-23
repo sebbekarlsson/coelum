@@ -48,9 +48,11 @@ void draw_text(const char* text, float x, float y, float z, float r, float g, fl
     };
    
     scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER); 
-    glBindVertexArray(scene->VAO);
+    state_T* state = (state_T*) scene;
+
+    glBindVertexArray(state->VAO);
     glUseProgram(SHADER_TEXTURED);
-    send_projection_view_state(SHADER_TEXTURED, scene->camera->projection_view);
+    send_projection_view_state(SHADER_TEXTURED, state->camera->projection_view);
     
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -94,7 +96,7 @@ void draw_text(const char* text, float x, float y, float z, float r, float g, fl
         unsigned int tex = get_char_texture_from_texture(c, 7, 7, 8, 12, TEXTURE_DEFAULT_FONT);
         glBindTexture(GL_TEXTURE_2D, tex);
         glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0); 
-        glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
+        glBindVertexArray(state->VAO);
         
         unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
         glm_translate(model, (vec3){(i * (size + spacing)), 0, 0});

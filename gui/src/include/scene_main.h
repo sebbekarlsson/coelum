@@ -17,7 +17,7 @@ typedef struct SCENE_MAIN_STRUCT {
 
 scene_main_T* init_scene_main();
 
-void scene_main_tick(scene_T* self);
+void scene_main_tick(state_T* self);
 
-void scene_main_draw(scene_T* self);
+void scene_main_draw(state_T* self);
 #endif

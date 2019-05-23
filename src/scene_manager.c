@@ -49,7 +49,8 @@ void scene_manager_register_scene(scene_manager_T* scene_manager, scene_T* s)
 void scene_manager_tick(scene_manager_T* scene_manager)
 {
     scene_T* s = scene_manager_get_current_scene(scene_manager);
-    s->tick(s);
+    state_T* state = (state_T*) s;
+    state->tick(state);
 }
 
 /**
@@ -60,7 +61,8 @@ void scene_manager_tick(scene_manager_T* scene_manager)
 void scene_manager_draw(scene_manager_T* scene_manager)
 {
     scene_T* s = scene_manager_get_current_scene(scene_manager);
-    s->draw(s);
+    state_T* state = (state_T*) s;
+    state->draw(state);
 }
 
 /**

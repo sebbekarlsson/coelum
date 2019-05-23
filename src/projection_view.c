@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-projection_view_T* init_projection_view()
+projection_view_T* init_projection_view(int width, int height)
 {
     projection_view_T* pv = calloc(1, sizeof(struct PROJECTION_VIEW_STRUCT));
 
@@ -27,7 +27,7 @@ projection_view_T* init_projection_view()
     memcpy(pv->projection, projection, sizeof(projection));
 
     projection_view_translate(pv, 0.0f, 0.0f, 0.0f);
-    glm_ortho(0.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 0.0f, 0.0f, 1.5f, pv->projection);
+    glm_ortho(0.0f, width, height, 0.0f, 0.0f, 1.5f, pv->projection);
 
     return pv;
 }

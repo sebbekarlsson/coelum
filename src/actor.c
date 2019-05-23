@@ -99,11 +99,12 @@ void actor_tick(actor_T* actor)
  */
 void actor_draw(actor_T* actor)
 {
+    state_T* state = (state_T*) scene_manager_get_current_scene(SCENE_MANAGER);
     if (actor->texture)
     {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, actor->texture);
-        glBindVertexArray(scene_manager_get_current_scene(SCENE_MANAGER)->VAO);
+        glBindVertexArray(state->VAO);
     }
 
     draw_2D_mesh(actor->width, actor->height, 255.0f, 255.0f, 255.0f, actor->VBO, actor->EBO);
