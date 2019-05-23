@@ -1,12 +1,12 @@
 #include "include/text_field.h"
-#include <coelum/scene_manager.h>
+#include <coelum/theatre.h>
 #include <coelum/draw_utils.h>
 #include <coelum/text.h>
 #include <coelum/input.h>
 #include <string.h>
 
 
-extern scene_manager_T* SCENE_MANAGER;
+extern theatre_T* THEATRE;
 extern keyboard_state_T* KEYBOARD_STATE;
 
 text_field_T* init_text_field(float x, float y, float width, float height, window_T* window)
@@ -47,7 +47,7 @@ void text_field_draw(actor_T* self)
 
     if (!text_field->window)
     {
-        state = (state_T*) scene_manager_get_current_scene(SCENE_MANAGER);
+        state = (state_T*) scene_manager_get_current_scene(THEATRE->scene_manager);
     }
     else
     {

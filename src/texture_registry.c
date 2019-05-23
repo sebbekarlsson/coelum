@@ -1,4 +1,5 @@
 #include "include/texture_registry.h"
+#include <glad/glad.h> 
 
 
 texture_T* TEXTURE_DEFAULT_FONT;

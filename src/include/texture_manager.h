@@ -2,7 +2,6 @@
 #define COELUM_TEXTURE_MANAGER_H
 #include "dynamic_list.h"
 #include "textures.h"
-#include <glad/glad.h> 
 
 
 typedef struct TEXTURE_MANAGER_STRUCT

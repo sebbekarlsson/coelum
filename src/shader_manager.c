@@ -1,6 +1,7 @@
 #include "include/shader_manager.h"
 #include "include/io.h"
 #include <string.h>
+#include <glad/glad.h> 
 
 
 /**

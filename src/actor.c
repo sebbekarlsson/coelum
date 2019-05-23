@@ -1,16 +1,15 @@
 #include "include/actor.h"
-#include "include/scene_manager.h"
-#include "include/shader_manager.h"
+#include "include/theatre.h"
 #include "include/draw_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <cglm/types.h>
+#include <glad/glad.h> 
 
 
-extern shader_manager_T* SHADER_MANAGER;
-extern scene_manager_T* SCENE_MANAGER;
+extern theatre_T* THEATRE;
 
 extern unsigned int SHADER_TEXTURED;
 
@@ -99,7 +98,7 @@ void actor_tick(actor_T* actor)
  */
 void actor_draw(actor_T* actor)
 {
-    state_T* state = (state_T*) scene_manager_get_current_scene(SCENE_MANAGER);
+    state_T* state = (state_T*) scene_manager_get_current_scene(THEATRE->scene_manager);
     if (actor->texture)
     {
         glActiveTexture(GL_TEXTURE0);

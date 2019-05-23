@@ -1,7 +1,6 @@
 #ifndef COELUM_SHADER_MANAGER_H
 #define COELUM_SHADER_MANAGER_H
 #include "dynamic_list.h"
-#include <glad/glad.h> 
 
 
 typedef struct SHADER_MANAGER_STRUCT

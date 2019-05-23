@@ -3,9 +3,7 @@
 #include "include/constants.h"
 #include "include/window.h"
 #include "include/input.h"
-#include "include/scene_manager.h"
-#include "include/scene_registry.h"
-#include "include/shader_manager.h"
+#include "include/theatre.h"
 #include "include/shader_registry.h"
 #include "include/texture_manager.h"
 #include "include/texture_registry.h"
@@ -13,9 +11,7 @@
 
 
 keyboard_state_T* KEYBOARD_STATE;
-shader_manager_T* SHADER_MANAGER;
-texture_manager_T* TEXTURE_MANAGER;
-scene_manager_T* SCENE_MANAGER;
+theatre_T* THEATRE;
 
 GLFWwindow* window = (void*) 0;
 
@@ -27,38 +23,34 @@ void coelum_init()
 
     init_al();
 
-    SHADER_MANAGER = init_shader_manager();
-    register_shader_programs(SHADER_MANAGER);
-
-    TEXTURE_MANAGER = init_texture_manager();
-    register_textures(TEXTURE_MANAGER);
+    THEATRE = init_theatre();
+    register_shader_programs(THEATRE->shader_manager);
+    register_textures(THEATRE->texture_manager);
+    register_scenes(THEATRE->scene_manager);
 
     KEYBOARD_STATE = init_keyboard_state();
     glfwSetKeyCallback(window, key_callback);
     glfwSetCharCallback(window, character_callback);
-
-    SCENE_MANAGER = init_scene_manager();
-    register_scenes(SCENE_MANAGER);
 
     printf("Coelum was initialized.\n");
 }
 
 int coelum_main(int argc, char* argv[])
 { 
-    while(!glfwWindowShouldClose(window) &&  SCENE_MANAGER->scenes->size > 0)
+    while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0)
     {
-        if (SCENE_MANAGER->scene_index == -1)
-            scene_manager_next(SCENE_MANAGER);
+        if (THEATRE->scene_manager->scene_index == -1)
+            scene_manager_next(THEATRE->scene_manager);
 
-        scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+        scene_T* scene = scene_manager_get_current_scene(THEATRE->scene_manager);
 
         glfwPollEvents();
 
         glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT); 
-
-        scene_manager_tick(SCENE_MANAGER); 
-        scene_manager_draw(SCENE_MANAGER);
+ 
+        theatre_tick(THEATRE);
+        theatre_draw(THEATRE);
 
         glfwSwapBuffers(window);
     }

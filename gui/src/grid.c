@@ -1,10 +1,10 @@
 #include "include/grid.h"
 #include <coelum/draw_utils.h>
-#include <coelum/scene_manager.h>
+#include <coelum/theatre.h>
 #include <coelum/utils.h>
 
 
-extern scene_manager_T* SCENE_MANAGER;
+extern theatre_T* THEATRE;;
 
 grid_T* init_grid()
 {
@@ -46,7 +46,7 @@ void grid_tick(grid_T* grid)
 
 void grid_draw(grid_T* grid)
 {
-    scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+    scene_T* scene = scene_manager_get_current_scene(THEATRE->scene_manager);
     state_T* state = (state_T*) scene;
 
     for (int x = 0; x < WINDOW_WIDTH / 16; x++)

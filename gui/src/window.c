@@ -1,12 +1,12 @@
 #include "include/window.h"
-#include <coelum/scene_manager.h>
+#include <coelum/theatre.h>
 #include <coelum/draw_utils.h>
 #include <coelum/text.h>
 #include <string.h>
 #include "include/text_field.h"
 
 
-extern scene_manager_T* SCENE_MANAGER;
+extern theatre_T* THEATRE;
 
 window_T* init_window(float x, float y, float width, float height, char* title)
 {
@@ -32,7 +32,7 @@ void window_tick(actor_T* self)
 void window_draw(actor_T* self)
 {
     window_T* window = (window_T*) self;
-    scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+    scene_T* scene = scene_manager_get_current_scene(THEATRE->scene_manager);
     state_T* state = (state_T*) scene;
 
     draw_2D_positioned_2D_mesh(
