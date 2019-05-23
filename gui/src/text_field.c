@@ -79,9 +79,9 @@ void text_field_draw(actor_T* self)
             self->x - (strlen(text_field->value) * size),
             self->y,
             0.0f,
-            0.0f, // r
-            0.0f, // g
-            0.0f, // b
+            60.0f,
+            56.0f,
+            54.0f,
             size, // size
             spacing, // spacing
             state
