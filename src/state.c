@@ -82,3 +82,16 @@ void state_draw(state_T* state)
 
     glBindVertexArray(0);
 }
+
+void state_free(state_T* state)
+{
+    glDeleteBuffers(1, &state->VAO);
+    
+    for (int i = 0; i < state->actors->size; i++)
+        actor_free((actor_T*) state->actors->items[i]);
+
+    free(state->actors);
+    camera_free(state->camera);
+
+    free(state);
+}

@@ -26,7 +26,18 @@ extern texture_T* TEXTURE_DEFAULT_FONT;
  * @param float size
  * @param float spacing
  */
-void draw_text(const char* text, float x, float y, float z, float r, float g, float b, float size, float spacing)
+void draw_text(
+    const char* text,
+    float x,
+    float y,
+    float z,
+    float r,
+    float g,
+    float b,
+    float size,
+    float spacing,
+    state_T* state
+)
 {
     float d_r = r / 255.0f;
     float d_g = g / 255.0f;
@@ -47,9 +58,6 @@ void draw_text(const char* text, float x, float y, float z, float r, float g, fl
         1, 2, 3    // second triangle
     };
    
-    scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER); 
-    state_T* state = (state_T*) scene;
-
     glBindVertexArray(state->VAO);
     glUseProgram(SHADER_TEXTURED);
     send_projection_view_state(SHADER_TEXTURED, state->camera->projection_view);

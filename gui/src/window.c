@@ -3,6 +3,7 @@
 #include <coelum/draw_utils.h>
 #include <coelum/text.h>
 #include <string.h>
+#include "include/text_field.h"
 
 
 extern scene_manager_T* SCENE_MANAGER;
@@ -16,6 +17,8 @@ window_T* init_window(float x, float y, float width, float height, char* title)
     actor_constructor((actor_T*) w, x, y, 0.0f, window_tick, window_draw);
     w->state = init_state();
     state_constructor(w->state, (void*)0, (void*)0, width, height);
+
+    dynamic_list_append(w->state->actors, init_text_field(width/2, height/2, 200, 32, w));
 
     return w;
 }
@@ -31,8 +34,6 @@ void window_draw(actor_T* self)
     window_T* window = (window_T*) self;
     scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
     state_T* state = (state_T*) scene;
-
-    state_draw(window->state);
 
     draw_2D_positioned_2D_mesh(
         self->x - (window->width / 2),
@@ -70,6 +71,9 @@ void window_draw(actor_T* self)
         56.0f,
         54.0f,
         text_size,
-        text_spacing
+        text_spacing,
+        state
     );
+    
+    state_draw(window->state);
 }

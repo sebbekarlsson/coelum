@@ -1,6 +1,7 @@
 #include "include/scene_main.h"
 #include "include/window_manager.h"
 #include "include/window.h"
+#include "include/text_field.h"
 #include <coelum/constants.h>
 #include <coelum/actor_text.h>
 #include <coelum/actor.h>
@@ -39,6 +40,20 @@ scene_main_T* init_scene_main()
 
 void remove_window_callback(void* item)
 {
+    window_T* window = (window_T*) item;
+    
+    for (int i = 0; i < window->state->actors->size; i++)
+    {
+        text_field_T* text_field = (text_field_T*) window->state->actors->items[i];
+
+        if (text_field->value)
+            free(text_field->value);
+
+        //dynamic_list_remove(window->state->actors, window->state->actors->items[i], (void*)0);
+    }
+
+    state_free(window->state);
+
     actor_free((actor_T*) item);
 }
 

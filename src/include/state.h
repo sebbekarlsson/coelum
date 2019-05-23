@@ -25,4 +25,6 @@ state_T* state_constructor(state_T* state, void (*tick)(state_T* self), void (*d
 void state_tick(state_T* state);
 
 void state_draw(state_T* state);
+
+void state_free(state_T* state);
 #endif

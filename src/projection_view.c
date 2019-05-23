@@ -36,3 +36,8 @@ void projection_view_translate(projection_view_T* projection_view, float x, floa
 {
     glm_translate(projection_view->view, (vec3){x, y, z});
 }
+
+void projection_view_free(projection_view_T* projection_view)
+{
+    free(projection_view);
+}

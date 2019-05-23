@@ -2,7 +2,10 @@
 #include "include/input.h"
 #include "include/textures.h"
 #include "include/text.h"
+#include "include/scene_manager.h"
 
+
+extern scene_manager_T* SCENE_MANAGER;
 
 /**
  * Creates an instancec of a text actor.
@@ -37,5 +40,19 @@ void actor_text_draw(actor_T* self)
 {
     actor_text_T* a_t = (actor_text_T*) self;
 
-    draw_text(((actor_text_T*)self)->text, self->x, self->y, self->z, a_t->r, a_t->g, a_t->b, 12, 9);
+    scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+    state_T* state = (state_T*) scene;
+
+    draw_text(
+        ((actor_text_T*)self)->text,
+        self->x,
+        self->y,
+        self->z,
+        a_t->r,
+        a_t->g,
+        a_t->b,
+        12,
+        9,
+        state
+    );
 }

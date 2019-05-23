@@ -35,3 +35,9 @@ void camera_unbind(camera_T* camera)
 {
     glm_translate(camera->projection_view->view, (vec3){camera->x, camera->y, camera->z});
 }
+
+void camera_free(camera_T* camera)
+{
+    projection_view_free(camera->projection_view);
+    free(camera);
+}

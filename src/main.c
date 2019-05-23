@@ -35,6 +35,7 @@ void coelum_init()
 
     KEYBOARD_STATE = init_keyboard_state();
     glfwSetKeyCallback(window, key_callback);
+    glfwSetCharCallback(window, character_callback);
 
     SCENE_MANAGER = init_scene_manager();
     register_scenes(SCENE_MANAGER);
