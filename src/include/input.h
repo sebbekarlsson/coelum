@@ -6,8 +6,8 @@
 
 typedef struct KEYBOARD_STATE_STRUCT
 {
-    unsigned int* keys;
-    char* buffer; 
+    unsigned int* keys; // all possible keys, on / off
+    char* buffer; // randomly accessible keyboard input buffer
 } keyboard_state_T;
 
 keyboard_state_T* init_keyboard_state();
