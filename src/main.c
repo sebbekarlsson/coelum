@@ -4,6 +4,7 @@
 #include "include/window.h"
 #include "include/input.h"
 #include "include/theatre.h"
+#include "include/scene_registry.h"
 #include "include/shader_registry.h"
 #include "include/texture_manager.h"
 #include "include/texture_registry.h"

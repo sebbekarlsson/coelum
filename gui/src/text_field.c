@@ -41,10 +41,6 @@ void text_field_tick(actor_T* self)
 
             KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 1;
         }
-        else
-        {
-            //KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 0;
-        }
     }
     else
     {
@@ -53,10 +49,6 @@ void text_field_tick(actor_T* self)
             text_field->focused = 1;
             keyboard_state_copy_buffer(KEYBOARD_STATE, text_field->value);
             KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 1;
-        }
-        else
-        {
-            //KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 0;
         }
     }
 }
@@ -94,7 +86,7 @@ void text_field_draw(actor_T* self)
     {
         draw_text(
             text_field->value,
-            (self->x + text_field->width / 2) - (strlen(text_field->value) * size),
+            (self->x + text_field->width / 2) - (strlen(text_field->value) * size + spacing),
             self->y + text_field->height / 2,
             0.0f,
             60.0f,

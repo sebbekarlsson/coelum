@@ -1,6 +1,7 @@
 #include "include/scene_main.h"
 #include "include/window_manager.h"
-#include "include/window.h"
+#include "include/window_create.h"
+#include "include/window_insert.h"
 #include "include/text_field.h"
 #include <coelum/constants.h>
 #include <coelum/actor_text.h>
@@ -80,7 +81,7 @@ void handle_inputs(state_T* self)
     {
         dynamic_list_append(
             s_main->window_manager->windows,
-            init_window(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 420, 340, "create")
+            init_window_create(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         );
 
         KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 1;
@@ -93,7 +94,7 @@ void handle_inputs(state_T* self)
     {
         dynamic_list_append(
             s_main->window_manager->windows,
-            init_window(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 420, 340, "insert")
+            init_window_insert(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
         );
 
         KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 1;

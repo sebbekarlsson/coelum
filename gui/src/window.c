@@ -3,27 +3,25 @@
 #include <coelum/draw_utils.h>
 #include <coelum/text.h>
 #include <string.h>
-#include "include/text_field.h"
 
 
 extern theatre_T* THEATRE;
 
-window_T* init_window(float x, float y, float width, float height, char* title)
+window_T* init_window()
 {
-    window_T* w = calloc(1, sizeof(struct WINDOW_STRUCT));
-    w->title = title;
-    w->width = width;
-    w->height = height;
-    actor_constructor((actor_T*) w, x, y, 0.0f, window_tick, window_draw);
-    w->state = init_state();
-    state_constructor(w->state, (void*)0, (void*)0, width, height);
+    return calloc(1, sizeof(struct WINDOW_STRUCT));
+}
 
-    dynamic_list_append(
-        w->state->actors,
-        init_text_field((width/2) - 200 / 2, (height/2) - 32 / 2, 200, 32, w)
-    );
+window_T* window_constructor(window_T* window, float x, float y, float width, float height, char* title, void (*tick)(actor_T* self), void (*draw)(actor_T* self))
+{
+    window->title = title;
+    window->width = width;
+    window->height = height;
+    actor_constructor((actor_T*) window, x, y, 0.0f, tick, draw);
+    window->state = init_state();
+    state_constructor(window->state, (void*)0, (void*)0, width, height);
 
-    return w;
+    return window;
 }
 
 void window_tick(actor_T* self)

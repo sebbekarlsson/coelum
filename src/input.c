@@ -47,9 +47,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     KEYBOARD_STATE->keys[key] = (int) (glfwGetKey(window, key) == GLFW_PRESS);
 
     if (KEYBOARD_STATE->keys[GLFW_KEY_BACKSPACE])
-    {
         KEYBOARD_STATE->buffer[strlen(KEYBOARD_STATE->buffer) - 1] = '\0';
-    }
 }
 
 void keyboard_state_inread(keyboard_state_T* keyboard_state, char **s)
