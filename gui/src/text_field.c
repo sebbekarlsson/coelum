@@ -17,7 +17,7 @@ text_field_T* init_text_field(float x, float y, float width, float height, windo
     text_field->width = width;
     text_field->height = height;
     text_field->window = window;
-    text_field->focused = 1;
+    text_field->focused = 0;
 }
 
 void text_field_tick(actor_T* self)
@@ -26,16 +26,37 @@ void text_field_tick(actor_T* self)
 
     if (text_field->focused)
     {
-        if (strlen(KEYBOARD_STATE->buffer))
+        KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 1;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_Q] = 1;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 1;
+
+        keyboard_state_inread(KEYBOARD_STATE, &text_field->value);
+
+        if (KEYBOARD_STATE->keys[GLFW_KEY_ENTER] && KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] == 0)
         {
-            text_field->value = realloc(text_field->value, 1 + strlen(KEYBOARD_STATE->buffer) * sizeof(char));
-            strcpy(text_field->value, KEYBOARD_STATE->buffer);
+            text_field->focused = 0;
+            KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 0;
+            KEYBOARD_STATE->key_locks[GLFW_KEY_Q] = 0;
+            KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 0;
+
+            KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 1;
         }
         else
         {
-            free(text_field->value);
-            text_field->value = calloc(1, sizeof(char));
-            text_field->value[0] = '\0';
+            //KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 0;
+        }
+    }
+    else
+    {
+        if (KEYBOARD_STATE->keys[GLFW_KEY_ENTER] && KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] == 0)
+        {
+            text_field->focused = 1;
+            keyboard_state_copy_buffer(KEYBOARD_STATE, text_field->value);
+            KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 1;
+        }
+        else
+        {
+            //KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 0;
         }
     }
 }
@@ -54,12 +75,9 @@ void text_field_draw(actor_T* self)
         state = text_field->window->state;
     }
 
-    float render_x = self->x - text_field->width / 2; 
-    float render_y = self->y - text_field->height / 2;
-
     draw_2D_positioned_2D_mesh(
-        render_x,
-        render_y,
+        self->x,
+        self->y,
         text_field->width,
         text_field->height,
         255,
@@ -76,8 +94,8 @@ void text_field_draw(actor_T* self)
     {
         draw_text(
             text_field->value,
-            self->x - (strlen(text_field->value) * size),
-            self->y,
+            (self->x + text_field->width / 2) - (strlen(text_field->value) * size),
+            self->y + text_field->height / 2,
             0.0f,
             60.0f,
             56.0f,
@@ -85,6 +103,21 @@ void text_field_draw(actor_T* self)
             size, // size
             spacing, // spacing
             state
+        );
+    }
+
+    if (text_field->focused)
+    {
+        draw_2D_positioned_2D_mesh(
+            self->x,
+            self->y + text_field->height,
+            text_field->width,
+            text_field->height / 4,
+            215,
+            153,
+            33,
+            state->VAO,
+            state->camera->projection_view
         );
     }
 }

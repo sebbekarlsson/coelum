@@ -15,8 +15,7 @@ keyboard_state_T* init_keyboard_state()
 {
     keyboard_state_T* ks = calloc(1, sizeof(struct KEYBOARD_STATE_STRUCT));
     ks->keys = calloc(300, sizeof(int));
-    ks->buffer = calloc(1, sizeof(char));
-    ks->buffer[0] = '\0';
+    ks->key_locks = calloc(300, sizeof(int));
 
     keyboard_state_reset(ks);
 
@@ -27,10 +26,21 @@ void keyboard_state_reset(keyboard_state_T* keyboard_state)
 {
     // fill with zeroes.
     memset(&*keyboard_state->keys, 0, 300 * sizeof(int));
+    memset(&*keyboard_state->key_locks, 0, 300 * sizeof(int));
+    free(keyboard_state->buffer);
+    keyboard_state->buffer = calloc(1, sizeof(char));
+    keyboard_state->buffer[0] = '\0';
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    if (KEYBOARD_STATE->key_locks[key] == 1)
+    {
+        KEYBOARD_STATE->keys[key] = 0;
+        KEYBOARD_STATE->key_locks[key] = 0;
+        return;
+    }
+
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, 1);
 
@@ -38,10 +48,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     if (KEYBOARD_STATE->keys[GLFW_KEY_BACKSPACE])
     {
-        free(KEYBOARD_STATE->buffer);
-        KEYBOARD_STATE->buffer = calloc(1, sizeof(char));
-        KEYBOARD_STATE->buffer[0] = '\0';
+        KEYBOARD_STATE->buffer[strlen(KEYBOARD_STATE->buffer) - 1] = '\0';
     }
+}
+
+void keyboard_state_inread(keyboard_state_T* keyboard_state, char **s)
+{
+    if (*s)
+        free(*s);
+
+    *s = calloc(strlen(keyboard_state->buffer) + 1, sizeof(char));
+    strcpy(*s, keyboard_state->buffer);
 }
 
 void character_callback(GLFWwindow* window, unsigned int codepoint)
@@ -56,4 +73,30 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
     strcat(KEYBOARD_STATE->buffer, char_str);
 
     free(char_str);
+}
+
+void keyboard_state_clear_buffer(keyboard_state_T* keyboard_state)
+{
+    free(keyboard_state->buffer);
+    keyboard_state->buffer = calloc(1, sizeof(char));
+    keyboard_state->buffer[0] = '\0';
+}
+
+void keyboard_state_copy_buffer(keyboard_state_T* keyboard_state, char* buffer)
+{
+    if (!buffer)
+    {
+        free(keyboard_state->buffer);
+        keyboard_state->buffer = calloc(1, sizeof(char));
+        keyboard_state->buffer[0] = '\0';
+
+        return;
+    }
+
+    if (keyboard_state->buffer)
+        free(keyboard_state->buffer);
+
+    keyboard_state->buffer = calloc(strlen(buffer) + 1, sizeof(char));
+    keyboard_state->buffer[0] = '\0';
+    strcpy(keyboard_state->buffer, buffer);
 }

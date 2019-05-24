@@ -47,8 +47,8 @@ int coelum_main(int argc, char* argv[])
         glfwPollEvents();
 
         glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT); 
- 
+        glClear(GL_COLOR_BUFFER_BIT);
+
         theatre_tick(THEATRE);
         theatre_draw(THEATRE);
 

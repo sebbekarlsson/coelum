@@ -11,10 +11,6 @@
 extern keyboard_state_T* KEYBOARD_STATE;
 extern window_manager_T* WINDOW_MANAGER;
 
-unsigned int KEY_C_LOCK = 0;
-unsigned int KEY_I_LOCK = 0;
-unsigned int KEY_Q_LOCK = 0;
-
 /**
  * Creates a new scene_main
  *
@@ -80,32 +76,33 @@ void handle_inputs(state_T* self)
     if (KEYBOARD_STATE->keys[GLFW_KEY_D])
         grid_unselect(s_main->grid);
     
-    if (KEYBOARD_STATE->keys[GLFW_KEY_C] && KEY_C_LOCK == 0)
+    if (KEYBOARD_STATE->keys[GLFW_KEY_C] && KEYBOARD_STATE->key_locks[GLFW_KEY_C] == 0)
     {
         dynamic_list_append(
             s_main->window_manager->windows,
             init_window(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 420, 340, "create")
         );
 
-        KEY_C_LOCK = 1;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 1;
     } else if (!KEYBOARD_STATE->keys[GLFW_KEY_C])
     {
-        KEY_C_LOCK = 0;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 0;
     }
 
-    if (KEYBOARD_STATE->keys[GLFW_KEY_I] && KEY_I_LOCK == 0)
+    if (KEYBOARD_STATE->keys[GLFW_KEY_I] && KEYBOARD_STATE->key_locks[GLFW_KEY_I] == 0)
     {
         dynamic_list_append(
             s_main->window_manager->windows,
             init_window(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 420, 340, "insert")
         );
-        KEY_I_LOCK = 1;
+
+        KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 1;
     } else if (!KEYBOARD_STATE->keys[GLFW_KEY_I])
     {
-        KEY_I_LOCK = 0;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 0;
     }
 
-    if (KEYBOARD_STATE->keys[GLFW_KEY_Q] && KEY_Q_LOCK == 0 && s_main->window_manager->windows->size)
+    if (KEYBOARD_STATE->keys[GLFW_KEY_Q] && KEYBOARD_STATE->key_locks[GLFW_KEY_Q] == 0 && s_main->window_manager->windows->size)
     {
         dynamic_list_remove(
             s_main->window_manager->windows,
@@ -113,10 +110,10 @@ void handle_inputs(state_T* self)
             remove_window_callback
         );
 
-        KEY_Q_LOCK = 1;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_Q] == 1;
     } else if (!KEYBOARD_STATE->keys[GLFW_KEY_Q])
     {
-        KEY_Q_LOCK = 0;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_Q] == 0;
     }
 }
 

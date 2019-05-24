@@ -18,7 +18,10 @@ window_T* init_window(float x, float y, float width, float height, char* title)
     w->state = init_state();
     state_constructor(w->state, (void*)0, (void*)0, width, height);
 
-    dynamic_list_append(w->state->actors, init_text_field(width/2, height/2, 200, 32, w));
+    dynamic_list_append(
+        w->state->actors,
+        init_text_field((width/2) - 200 / 2, (height/2) - 32 / 2, 200, 32, w)
+    );
 
     return w;
 }
