@@ -127,13 +127,6 @@ void grid_draw(grid_T* grid)
             }
         }
     }
-
-    for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
-    {
-        float cell_y = y * 16;
-
-        
-    }
 }
 
 void grid_unselect(grid_T* grid)
