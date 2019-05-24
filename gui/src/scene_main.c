@@ -12,6 +12,8 @@
 extern keyboard_state_T* KEYBOARD_STATE;
 extern window_manager_T* WINDOW_MANAGER;
 
+extern const float COLOR_BG_BRIGHT[3];
+
 /**
  * Creates a new scene_main
  *
@@ -24,9 +26,9 @@ scene_main_T* init_scene_main()
 
     scene_constructor(s, scene_main_tick, scene_main_draw);
 
-    s->bg_r = 251.0f;
-    s->bg_g = 241.0f;
-    s->bg_b = 199.0f; 
+    s->bg_r = COLOR_BG_BRIGHT[0];
+    s->bg_g = COLOR_BG_BRIGHT[1];
+    s->bg_b = COLOR_BG_BRIGHT[2]; 
 
     s_main->window_manager = init_window_manager();
     s_main->grid = init_grid();

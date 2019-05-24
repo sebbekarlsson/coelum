@@ -9,6 +9,9 @@
 extern theatre_T* THEATRE;
 extern keyboard_state_T* KEYBOARD_STATE;
 
+extern const float COLOR_FG[3];
+extern const float COLOR_CONTRAST[3];
+
 text_field_T* init_text_field(float x, float y, float width, float height, window_T* window)
 {
     text_field_T* text_field = calloc(1, sizeof(struct TEXT_FIELD_STRUCT));
@@ -89,9 +92,9 @@ void text_field_draw(actor_T* self)
             (self->x + text_field->width / 2) - (strlen(text_field->value) * size + spacing),
             self->y + text_field->height / 2,
             0.0f,
-            60.0f,
-            56.0f,
-            54.0f,
+            COLOR_FG[0],
+            COLOR_FG[1],
+            COLOR_FG[2],
             size, // size
             spacing, // spacing
             state
@@ -105,9 +108,9 @@ void text_field_draw(actor_T* self)
             self->y + text_field->height,
             text_field->width,
             text_field->height / 4,
-            215,
-            153,
-            33,
+            COLOR_CONTRAST[0],
+            COLOR_CONTRAST[1],
+            COLOR_CONTRAST[2],
             state->VAO,
             state->camera->projection_view
         );

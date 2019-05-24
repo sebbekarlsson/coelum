@@ -4,7 +4,9 @@
 #include <coelum/utils.h>
 
 
-extern theatre_T* THEATRE;;
+extern theatre_T* THEATRE;
+
+extern const float COLOR_BG_DARK[3];
 
 grid_T* init_grid()
 {
@@ -53,9 +55,9 @@ void grid_draw(grid_T* grid)
     {
         float cell_x = x * 16;
 
-        float r = 124.0f;
-        float g = 111.0f;
-        float b = 100.0f;
+        float r = COLOR_BG_DARK[0];
+        float g = COLOR_BG_DARK[1];
+        float b = COLOR_BG_DARK[2];
 
         draw_line(
             cell_x,
@@ -101,9 +103,9 @@ void grid_draw(grid_T* grid)
                     cell_y,
                     16,
                     16,
-                    157.0f,
-                    0.0f,
-                    6.0f,
+                    r,
+                    g,
+                    b,
                     state->VAO,
                     state->camera->projection_view
                 );

@@ -7,6 +7,10 @@
 
 extern theatre_T* THEATRE;
 
+extern const float COLOR_FG[3];
+extern const float COLOR_BG_DARK[3];
+extern const float COLOR_BG_DARK_BRIGHT[3];
+
 window_T* init_window()
 {
     return calloc(1, sizeof(struct WINDOW_STRUCT));
@@ -41,9 +45,9 @@ void window_draw(actor_T* self)
         self->y - (window->height / 2),
         window->width,
         window->height,
-        168,
-        153,
-        132,
+        COLOR_BG_DARK[0],
+        COLOR_BG_DARK[1],
+        COLOR_BG_DARK[2],
         state->VAO,
         state->camera->projection_view
     );
@@ -53,9 +57,9 @@ void window_draw(actor_T* self)
         self->y - (window->height / 2),
         window->width,
         64,
-        189,
-        174,
-        147,
+        COLOR_BG_DARK_BRIGHT[0],
+        COLOR_BG_DARK_BRIGHT[1],
+        COLOR_BG_DARK_BRIGHT[2],
         state->VAO,
         state->camera->projection_view
     );
@@ -68,9 +72,9 @@ void window_draw(actor_T* self)
         self->x - (((text_size + text_spacing) * strlen(window->title)) / 2),
         self->y - (window->height / 2) + (64 / 2),
         0.0f,
-        60.0f,
-        56.0f,
-        54.0f,
+        COLOR_FG[0],
+        COLOR_FG[1],
+        COLOR_FG[2],
         text_size,
         text_spacing,
         state
