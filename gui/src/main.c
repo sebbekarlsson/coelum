@@ -12,5 +12,10 @@ int main(int argc, char* argv[])
 
     scene_manager_register_scene(THEATRE->scene_manager, (scene_T*) init_scene_main());
 
-    return coelum_main(argc, argv);
+    if (coelum_main(argc, argv))
+    {
+        printf("Coelum crashed.");
+    }
+
+    return 0;
 }

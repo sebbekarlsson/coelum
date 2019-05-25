@@ -1,6 +1,7 @@
 #ifndef COELUM_DRAW_UTILS_H
 #define COELUM_DRAW_UTILS_H
 #include "projection_view.h"
+#include "state.h"
 
 
 void send_projection_view_state(
@@ -28,8 +29,7 @@ void draw_2D_positioned_2D_mesh(
     float r,
     float g,
     float b,
-    unsigned int VAO,
-    projection_view_T* projection_view
+    state_T* state
 );
 
 void draw_line(
@@ -42,7 +42,19 @@ void draw_line(
     float r,
     float g,
     float b,
-    unsigned int VAO,
-    projection_view_T* projection_view
+    state_T* state
+);
+
+void draw_text(
+    const char* text,
+    float x,
+    float y,
+    float z,
+    float r,
+    float g,
+    float b,
+    float size,
+    float spacing,
+    state_T* state
 );
 #endif

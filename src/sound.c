@@ -42,7 +42,6 @@ void play_sound_threaded(unsigned frequency, float seconds)
 
     pthread_t thread_id;
     pthread_create(&thread_id, NULL, play_sound, s);
-    //pthread_join(thread_id, NULL);    
 }
 
 void* play_sound(void* s)
@@ -51,26 +50,20 @@ void* play_sound(void* s)
     unsigned frequency = snd->frequency;
     float seconds = snd->seconds;
 
-    /* initialize OpenAL */
-    //init_al();
-
     /* Create buffer to store samples */
     ALuint buf;
     alGenBuffers(1, &buf);
-    //al_check_error();
 
     /* Fill buffer with Sine-Wave */
     unsigned sample_rate = 22050;
     size_t buf_size = seconds * sample_rate;
 
     short *samples = calloc(buf_size, sizeof(short));
+
     for(int i=0; i<buf_size; ++i)
-    {
         samples[i] = 32760 * sin((2.f * M_PI * frequency) / sample_rate * i);
-    }
 
     alBufferData(buf, AL_FORMAT_MONO16, samples, buf_size, sample_rate);
-    //al_check_error();
 
     /* Set-up sound source and play buffer */
     ALuint src = 0;
@@ -79,12 +72,8 @@ void* play_sound(void* s)
     alSourcePlay(src);
 
     /* While sound is playing, sleep */
-    //al_check_error();
     sleep(seconds);
 
-    /* Dealloc OpenAL */
-    //exit_al();
-    //al_check_error();
     free(samples);
     free(snd);
 

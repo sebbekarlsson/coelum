@@ -1,7 +1,7 @@
 exec = coelumg.out
 sources := $(wildcard src/*.c)
 objects = $(sources:.c=.o)
-flags = -g -lcoelum -lglfw -ldl -lcglm -lm -lopenal -lpthread
+flags = -g -lcoelum -I../GL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread
 
 
 $(exec): $(objects)

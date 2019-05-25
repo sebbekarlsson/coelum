@@ -1,7 +1,6 @@
 #include "include/text_field.h"
 #include <coelum/theatre.h>
 #include <coelum/draw_utils.h>
-#include <coelum/text.h>
 #include <coelum/input.h>
 #include <string.h>
 
@@ -59,16 +58,7 @@ void text_field_tick(actor_T* self)
 void text_field_draw(actor_T* self)
 {
     text_field_T* text_field = (text_field_T*) self;
-    state_T* state;
-
-    if (!text_field->window)
-    {
-        state = (state_T*) scene_manager_get_current_scene(THEATRE->scene_manager);
-    }
-    else
-    {
-        state = text_field->window->state;
-    }
+    state_T* state = (state_T*) scene_manager_get_current_scene(THEATRE->scene_manager);
 
     draw_2D_positioned_2D_mesh(
         self->x,
@@ -78,18 +68,20 @@ void text_field_draw(actor_T* self)
         255,
         255,
         255,
-        state->VAO,
-        state->camera->projection_view
+        state
     );
 
-    float size = 5;
+    float size = 6;
     float spacing = 7;
+    float left_padding = 4 + size;
 
     if (text_field->value)
     {
+        glEnable(GL_SCISSOR_TEST);
+        glScissor(self->x, self->y - text_field->height, text_field->width, text_field->height);
         draw_text(
             text_field->value,
-            (self->x + text_field->width / 2) - (strlen(text_field->value) * size + spacing),
+            left_padding + self->x,
             self->y + text_field->height / 2,
             0.0f,
             COLOR_FG[0],
@@ -99,6 +91,7 @@ void text_field_draw(actor_T* self)
             spacing, // spacing
             state
         );
+        glDisable(GL_SCISSOR_TEST);
     }
 
     if (text_field->focused)
@@ -111,8 +104,7 @@ void text_field_draw(actor_T* self)
             COLOR_CONTRAST[0],
             COLOR_CONTRAST[1],
             COLOR_CONTRAST[2],
-            state->VAO,
-            state->camera->projection_view
+            state
         );
     }
 }

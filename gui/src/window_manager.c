@@ -2,7 +2,6 @@
 #include "include/window.h"
 #include <coelum/actor.h>
 #include <coelum/draw_utils.h>
-#include <coelum/text.h>
 #include <string.h>
 
 

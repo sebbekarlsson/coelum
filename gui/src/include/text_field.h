@@ -2,6 +2,7 @@
 #define COELUMG_TEXT_FIELD_H
 #include <coelum/actor.h>
 #include "window.h"
+#include <glad/glad.h> 
 
 
 typedef struct TEXT_FIELD_STRUCT

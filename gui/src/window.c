@@ -1,7 +1,6 @@
 #include "include/window.h"
 #include <coelum/theatre.h>
 #include <coelum/draw_utils.h>
-#include <coelum/text.h>
 #include <string.h>
 
 
@@ -48,8 +47,7 @@ void window_draw(actor_T* self)
         COLOR_BG_DARK[0],
         COLOR_BG_DARK[1],
         COLOR_BG_DARK[2],
-        state->VAO,
-        state->camera->projection_view
+        state
     );
 
     draw_2D_positioned_2D_mesh(
@@ -60,8 +58,7 @@ void window_draw(actor_T* self)
         COLOR_BG_DARK_BRIGHT[0],
         COLOR_BG_DARK_BRIGHT[1],
         COLOR_BG_DARK_BRIGHT[2],
-        state->VAO,
-        state->camera->projection_view
+        state
     );
 
     float text_size = 6;

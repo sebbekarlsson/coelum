@@ -13,8 +13,8 @@ window_create_T* init_window_create(float x, float y)
     dynamic_list_append(
         state->actors,
         init_text_field(
-            (window->width / 2) - 200 / 2,
-            (window->height / 2) - 32 / 2,
+            x - (window->width  / 2) + 200 /2,
+            y,
             200,
             32,
             window

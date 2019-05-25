@@ -69,8 +69,7 @@ void grid_draw(grid_T* grid)
             r,
             g,
             b,
-            state->VAO,
-            state->camera->projection_view
+            state
         );
 
         for (int y = 0; y < WINDOW_HEIGHT/ 16; y++)
@@ -91,8 +90,7 @@ void grid_draw(grid_T* grid)
                     r,
                     g,
                     b,
-                    state->VAO,
-                    state->camera->projection_view
+                    state
                 );
             }
 
@@ -106,8 +104,7 @@ void grid_draw(grid_T* grid)
                     r,
                     g,
                     b,
-                    state->VAO,
-                    state->camera->projection_view
+                    state
                 );
             }
             else
@@ -121,8 +118,7 @@ void grid_draw(grid_T* grid)
                     r,
                     g,
                     b,
-                    state->VAO,
-                    state->camera->projection_view
+                    state
                 );
             }
         }

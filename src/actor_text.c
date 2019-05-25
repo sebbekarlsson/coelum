@@ -1,7 +1,7 @@
 #include "include/actor_text.h"
 #include "include/input.h"
 #include "include/textures.h"
-#include "include/text.h"
+#include "include/draw_utils.h"
 #include "include/scene_manager.h"
 
 
