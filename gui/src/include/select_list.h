@@ -21,6 +21,7 @@ typedef struct SELECT_LIST_STRUCT
     dynamic_list_T* items;
     float width;
     float height;
+    float scroll_position;
     window_T* window;
 } select_list_T;
 

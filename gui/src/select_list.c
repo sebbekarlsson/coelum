@@ -11,6 +11,7 @@ extern keyboard_state_T* KEYBOARD_STATE;
 extern const float COLOR_BG_DARK_BRIGHT[3];
 extern const float COLOR_BG_DARK[3];
 extern const float COLOR_FG[3];
+extern const float COLOR_BG_BRIGHT[3];
 
 select_list_item_T* init_select_list_item(char* key, char* value)
 {
@@ -31,6 +32,7 @@ select_list_T* init_select_list(float x, float y, float width, float height, dyn
     select_list->items = items;
     select_list->window = window; 
     select_list->selected_index = 0;
+    select_list->scroll_position = 0;
 
     return select_list;
 }
@@ -51,6 +53,15 @@ void select_list_tick(actor_T* self)
             else
             {
                 select_list->selected_index = 0;
+            }
+
+            if (select_list->selected_index * 32 >= select_list->height)
+            {
+                select_list->scroll_position += 64.0f;
+            }
+            else
+            {
+                select_list->scroll_position = 0.0f;
             }
         
             KEYBOARD_STATE->key_locks[GLFW_KEY_DOWN] = 1;
@@ -76,15 +87,21 @@ void select_list_draw(actor_T* self)
         state
     );
 
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(self->x, (select_list->height / 2) - self->y + 32, select_list->width, select_list->height);
     for (int i = 0; i < select_list->items->size; i++)
     {
         select_list_item_T* item = (select_list_item_T*) select_list->items->items[i];
+        
+        const float* text_color = COLOR_FG;
 
         if (select_list->selected_index == i)
         {
+            text_color = COLOR_BG_BRIGHT;
+
             draw_2D_positioned_2D_mesh(
                 self->x,
-                self->y + (i * 32),
+                self->y + (i * 32) - select_list->scroll_position,
                 select_list->width,
                 32,
                 COLOR_BG_DARK[0],
@@ -96,10 +113,10 @@ void select_list_draw(actor_T* self)
 
         draw_line(
             self->x,
-            self->y + 32 + (32 * i),
+            self->y + 32 + (32 * i) - select_list->scroll_position,
             0.0f,
             self->x + select_list->width,
-            self->y + 32 + (32 * i),
+            self->y + 32 + (32 * i) - select_list->scroll_position,
             0.0f,
             COLOR_BG_DARK[0],
             COLOR_BG_DARK[1],
@@ -114,14 +131,15 @@ void select_list_draw(actor_T* self)
         draw_text(
             item->key,
             left_padding + self->x,
-            self->y + (((32) * i) + 32 / 2),
+            self->y + (((32) * i) + 32 / 2) - select_list->scroll_position,
             0.0f,
-            COLOR_FG[0],
-            COLOR_FG[1],
-            COLOR_FG[2],
+            text_color[0],
+            text_color[1],
+            text_color[2],
             size, // size
             spacing, // spacing
             state
         );
     }
+    glDisable(GL_SCISSOR_TEST);
 }
