@@ -1,5 +1,6 @@
 #include "include/window_create.h"
 #include "include/text_field.h"
+#include "include/label.h"
 
 
 window_create_T* init_window_create(float x, float y)
@@ -10,11 +11,88 @@ window_create_T* init_window_create(float x, float y)
     window_T* window = (window_T*) window_create;
     state_T* state = window->state;
 
+    float component_y = 96;
+
+    window_attach_actor(
+        window,
+        (actor_T*) init_label(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y - 16,
+            "width",
+            window
+        )      
+    );
     window_attach_actor(
         window,
         (actor_T*) init_text_field(
             x - 200 / 2,
-            y,
+            y - ((window->height / 2)) + component_y,
+            200,
+            32,
+            window
+        )
+    );
+
+    component_y += 86;
+    
+    window_attach_actor(
+        window,
+        (actor_T*) init_label(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y - 16,
+            "height",
+            window
+        )      
+    );
+    window_attach_actor(
+        window,
+        (actor_T*) init_text_field(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y,
+            200,
+            32,
+            window
+        )
+    );
+
+    component_y += 86;
+
+    window_attach_actor(
+        window,
+        (actor_T*) init_label(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y - 16,
+            "texture",
+            window
+        )      
+    );
+    window_attach_actor(
+        window,
+        (actor_T*) init_text_field(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y,
+            200,
+            32,
+            window
+        )
+    );
+
+    component_y += 86;
+
+    window_attach_actor(
+        window,
+        (actor_T*) init_label(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y - 16,
+            "tick",
+            window
+        )      
+    );
+    window_attach_actor(
+        window,
+        (actor_T*) init_text_field(
+            x - 200 / 2,
+            y - ((window->height / 2)) + component_y,
             200,
             32,
             window
