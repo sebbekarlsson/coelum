@@ -44,7 +44,7 @@ void window_tick(actor_T* self)
         /* if more "focusable" actors are implemented, they also need to be
          * string-compared here.
          */
-        if (strcmp(actor->type_name, "text_field") == 0)
+        if (strcmp(actor->type_name, "text_field") == 0 || strcmp(actor->type_name, "select_list") == 0)
             window_component = (window_component_T*) actor;
 
         if (window->focus_index == i)
