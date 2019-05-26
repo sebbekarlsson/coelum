@@ -14,7 +14,7 @@ window_insert_T* init_window_insert(float x, float y)
 
     // just for playing around atm
     dynamic_list_T* items = init_dynamic_list(sizeof(struct SELECT_LIST_ITEM_STRUCT));
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 25; i++)
     {
         char* k = calloc(16, sizeof(char));
         sprintf(k, "item %d", i);

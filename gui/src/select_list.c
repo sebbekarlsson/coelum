@@ -55,9 +55,9 @@ void select_list_tick(actor_T* self)
                 select_list->selected_index = 0;
             }
 
-            if (select_list->selected_index * 32 >= select_list->height)
+            if (select_list->selected_index * (32 + 8) >= select_list->height)
             {
-                select_list->scroll_position += 64.0f;
+                select_list->scroll_position += 32.0f;
             }
             else
             {
