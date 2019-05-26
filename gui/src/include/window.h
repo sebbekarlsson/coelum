@@ -2,6 +2,7 @@
 #define COELUMG_WINDOW_H
 #include <coelum/actor.h>
 #include <coelum/state.h>
+#include <coelum/dynamic_list.h>
 
 
 typedef struct WINDOW_STRUCT
@@ -11,6 +12,7 @@ typedef struct WINDOW_STRUCT
     char* title;
     float width;
     float height;
+    unsigned int focus_index;
 } window_T;
 
 window_T* init_window();
@@ -20,4 +22,6 @@ window_T* window_constructor(window_T* window, float x, float y, float width, fl
 void window_tick(actor_T* self);
 
 void window_draw(actor_T* self);
+
+actor_T* window_attach_actor(window_T* window, actor_T* actor);
 #endif

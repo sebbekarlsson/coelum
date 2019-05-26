@@ -1,7 +1,6 @@
 #ifndef COELUMG_WINDOW_insert_H
 #define COELUMG_WINDOW_insert_H
 #include "window.h"
-#include <coelum/dynamic_list.h>
 
 
 typedef struct WINDOW_insert_STRUCT

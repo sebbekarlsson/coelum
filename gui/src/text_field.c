@@ -14,19 +14,21 @@ extern const float COLOR_CONTRAST[3];
 text_field_T* init_text_field(float x, float y, float width, float height, window_T* window)
 {
     text_field_T* text_field = calloc(1, sizeof(struct TEXT_FIELD_STRUCT));
-    actor_constructor((actor_T*) text_field, x, y, 0.0f, text_field_tick, text_field_draw, "text_field");
+    window_component_constructor((window_component_T*) text_field, x, y, text_field_tick, text_field_draw, "text_field");
 
     text_field->width = width;
     text_field->height = height;
     text_field->window = window;
-    text_field->focused = 0;
+
+    return text_field;
 }
 
 void text_field_tick(actor_T* self)
 {
     text_field_T* text_field = (text_field_T*) self;
+    window_component_T* window_component = (window_component_T*) text_field;
 
-    if (text_field->focused)
+    if (window_component->focused)
     {
         KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 1;
         KEYBOARD_STATE->key_locks[GLFW_KEY_Q] = 1;
@@ -39,6 +41,7 @@ void text_field_tick(actor_T* self)
 void text_field_draw(actor_T* self)
 {
     text_field_T* text_field = (text_field_T*) self;
+    window_component_T* window_component = (window_component_T*) text_field;
     state_T* state = (state_T*) scene_manager_get_current_scene(THEATRE->scene_manager);
 
     draw_2D_positioned_2D_mesh(
@@ -75,7 +78,7 @@ void text_field_draw(actor_T* self)
         //glDisable(GL_SCISSOR_TEST);
     }
 
-    if (text_field->focused)
+    if (window_component->focused)
     {
         draw_2D_positioned_2D_mesh(
             self->x,

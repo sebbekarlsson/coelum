@@ -1,17 +1,16 @@
 #ifndef COELUMG_TEXT_FIELD_H
 #define COELUMG_TEXT_FIELD_H
-#include <coelum/actor.h>
 #include "window.h"
+#include "window_component.h"
 #include <glad/glad.h> 
 
 
 typedef struct TEXT_FIELD_STRUCT
 {
-    actor_T base;
+    window_component_T base;
     char* value;
     float width;
     float height;
-    unsigned int focused;
     window_T* window;
 } text_field_T;
 

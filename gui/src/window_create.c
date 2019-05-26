@@ -10,9 +10,9 @@ window_create_T* init_window_create(float x, float y)
     window_T* window = (window_T*) window_create;
     state_T* state = window->state;
 
-    dynamic_list_append(
-        state->actors,
-        init_text_field(
+    window_attach_actor(
+        window,
+        (actor_T*) init_text_field(
             x - 200 / 2,
             y,
             200,
