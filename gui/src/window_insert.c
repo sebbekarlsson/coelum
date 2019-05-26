@@ -2,6 +2,10 @@
 #include "include/select_list.h"
 #include <coelum/actor_text.h>
 #include <coelum/input.h>
+#include <coelum/io.h>
+#include "parsing/include/lexer.h"
+#include "parsing/include/config_parser.h"
+#include <string.h>
 
 
 extern keyboard_state_T* KEYBOARD_STATE;
@@ -12,15 +16,21 @@ window_insert_T* init_window_insert(float x, float y)
     window_T* window = (window_T*) window_insert;
     window_constructor(window, x, y, 420, 430, "insert", window_insert_tick, window_insert_draw, "window_insert");
 
-    // just for playing around atm
     dynamic_list_T* items = init_dynamic_list(sizeof(struct SELECT_LIST_ITEM_STRUCT));
-    for (int i = 0; i < 25; i++)
-    {
-        char* k = calloc(16, sizeof(char));
-        sprintf(k, "item %d", i);
 
-        select_list_item_T* item = init_select_list_item(k, "0");
-        dynamic_list_append(items, item);
+    lexer_T* lexer = init_lexer(read_file("actors.txt"));
+    config_parser_T* parser = init_config_parser(lexer);
+    config_parser_parse(parser);
+
+    for (int i = 0; i < parser->blocks->size; i++)
+    {
+        AST_T* ast = (AST_T*) parser->blocks->items[i];
+
+        if (strcmp(ast->type_name, "block") == 0)
+        {
+            select_list_item_T* item = init_select_list_item(ast_get_value_by_key(ast, "name"), "0");
+            dynamic_list_append(items, item);
+        }
     }
 
     window_attach_actor(

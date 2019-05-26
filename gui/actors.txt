@@ -1,0 +1,13 @@
+apple {
+    width = 32;
+    height = 32;
+    texture = "res/img/apple.PNG";
+    tick = "scripts/apple.zcs";
+};
+
+banana {
+    width = 32;
+    height = 32;
+    texture = "res/img/banana.png";
+    tick = "scripts/banana.zcs";
+};

@@ -1,5 +1,6 @@
 exec = coelumg.out
-sources := $(wildcard src/*.c)
+sources = $(wildcard src/*.c)
+sources += $(wildcard src/parsing/*.c)
 objects = $(sources:.c=.o)
 flags = -g -lcoelum -I../GL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread
 
@@ -14,3 +15,4 @@ clean:
 	-rm *.out
 	-rm *.o
 	-rm src/*.o
+	-rm src/parsing/*.o
