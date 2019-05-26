@@ -5,7 +5,7 @@
 window_create_T* init_window_create(float x, float y)
 {
     window_create_T* window_create = calloc(1, sizeof(struct WINDOW_CREATE_STRUCT));
-    window_constructor((window_T*) window_create, x, y, 420, 430, "create", window_create_tick, window_create_draw);
+    window_constructor((window_T*) window_create, x, y, 420, 430, "create", window_create_tick, window_create_draw, "window_create");
 
     window_T* window = (window_T*) window_create;
     state_T* state = window->state;
@@ -13,7 +13,7 @@ window_create_T* init_window_create(float x, float y)
     dynamic_list_append(
         state->actors,
         init_text_field(
-            x - (window->width  / 2) + 200 /2,
+            x - 200 / 2,
             y,
             200,
             32,

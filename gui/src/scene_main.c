@@ -41,7 +41,7 @@ void remove_window_callback(void* item)
 {
     window_T* window = (window_T*) item;
     
-    for (int i = 0; i < window->state->actors->size; i++)
+    /*for (int i = 0; i < window->state->actors->size; i++)
     {
         text_field_T* text_field = (text_field_T*) window->state->actors->items[i];
 
@@ -49,7 +49,7 @@ void remove_window_callback(void* item)
             free(text_field->value);
 
         //dynamic_list_remove(window->state->actors, window->state->actors->items[i], (void*)0);
-    }
+    }*/
 
     state_free(window->state);
 

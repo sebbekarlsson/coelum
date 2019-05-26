@@ -14,7 +14,7 @@ extern const float COLOR_CONTRAST[3];
 text_field_T* init_text_field(float x, float y, float width, float height, window_T* window)
 {
     text_field_T* text_field = calloc(1, sizeof(struct TEXT_FIELD_STRUCT));
-    actor_constructor((actor_T*) text_field, x, y, 0.0f, text_field_tick, text_field_draw);
+    actor_constructor((actor_T*) text_field, x, y, 0.0f, text_field_tick, text_field_draw, "text_field");
 
     text_field->width = width;
     text_field->height = height;
@@ -33,25 +33,6 @@ void text_field_tick(actor_T* self)
         KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 1;
 
         keyboard_state_inread(KEYBOARD_STATE, &text_field->value);
-
-        if (KEYBOARD_STATE->keys[GLFW_KEY_ENTER] && KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] == 0)
-        {
-            text_field->focused = 0;
-            KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 0;
-            KEYBOARD_STATE->key_locks[GLFW_KEY_Q] = 0;
-            KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 0;
-
-            KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 1;
-        }
-    }
-    else
-    {
-        if (KEYBOARD_STATE->keys[GLFW_KEY_ENTER] && KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] == 0)
-        {
-            text_field->focused = 1;
-            keyboard_state_copy_buffer(KEYBOARD_STATE, text_field->value);
-            KEYBOARD_STATE->key_locks[GLFW_KEY_ENTER] = 1;
-        }
     }
 }
 
@@ -77,8 +58,8 @@ void text_field_draw(actor_T* self)
 
     if (text_field->value)
     {
-        glEnable(GL_SCISSOR_TEST);
-        glScissor(self->x, self->y - text_field->height, text_field->width, text_field->height);
+        //glEnable(GL_SCISSOR_TEST);
+        //glScissor(self->x, self->y - text_field->height, text_field->width, text_field->height);
         draw_text(
             text_field->value,
             left_padding + self->x,
@@ -91,7 +72,7 @@ void text_field_draw(actor_T* self)
             spacing, // spacing
             state
         );
-        glDisable(GL_SCISSOR_TEST);
+        //glDisable(GL_SCISSOR_TEST);
     }
 
     if (text_field->focused)

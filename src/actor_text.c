@@ -2,10 +2,10 @@
 #include "include/input.h"
 #include "include/textures.h"
 #include "include/draw_utils.h"
-#include "include/scene_manager.h"
+#include "include/theatre.h"
 
 
-extern scene_manager_T* SCENE_MANAGER;
+extern theatre_T* THEATRE;
 
 /**
  * Creates an instancec of a text actor.
@@ -17,7 +17,7 @@ extern scene_manager_T* SCENE_MANAGER;
  *
  * @return actor_text_T*
  */
-actor_text_T* init_actor_text(float x, float y, float z, char* text, float r, float g, float b)
+actor_text_T* init_actor_text(float x, float y, float z, char* text, float r, float g, float b, float size, float spacing)
 {
     actor_text_T* a_text = calloc(1, sizeof(struct ACTOR_TEXT_STRUCT));
 
@@ -25,8 +25,10 @@ actor_text_T* init_actor_text(float x, float y, float z, char* text, float r, fl
     a_text->r = r;
     a_text->g = g;
     a_text->b = b;
+    a_text->size = size;
+    a_text->spacing = spacing;
 
-    actor_constructor((actor_T*) a_text, x, y, z, actor_text_tick, actor_text_draw);
+    actor_constructor((actor_T*) a_text, x, y, z, actor_text_tick, actor_text_draw, "text");
     return a_text;
 }
 
@@ -40,7 +42,7 @@ void actor_text_draw(actor_T* self)
 {
     actor_text_T* a_t = (actor_text_T*) self;
 
-    scene_T* scene = scene_manager_get_current_scene(SCENE_MANAGER);
+    scene_T* scene = scene_manager_get_current_scene(THEATRE->scene_manager);
     state_T* state = (state_T*) scene;
 
     draw_text(
@@ -51,8 +53,8 @@ void actor_text_draw(actor_T* self)
         a_t->r,
         a_t->g,
         a_t->b,
-        12,
-        9,
+        a_t->size,
+        a_t->spacing,
         state
     );
 }

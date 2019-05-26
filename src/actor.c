@@ -43,10 +43,10 @@ actor_T* actor_constructor(
     float y,
     float z,
     void (*tick)(actor_T* self),
-    void (*draw)(actor_T* self)
+    void (*draw)(actor_T* self),
+    const char* type_name
 )
 {
-    actor->type = -1;
     actor->x = x;
     actor->y = y;
     actor->z = z;
@@ -76,6 +76,7 @@ actor_T* actor_constructor(
     actor->shader_program = SHADER_TEXTURED;
     actor->tick = tick;
     actor->draw = draw;
+    actor->type_name = type_name;
 
     return actor;
 }

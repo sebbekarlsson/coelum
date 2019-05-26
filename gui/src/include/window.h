@@ -15,7 +15,7 @@ typedef struct WINDOW_STRUCT
 
 window_T* init_window();
 
-window_T* window_constructor(window_T* window, float x, float y, float width, float height, char* title, void (*tick)(actor_T* self), void (*draw)(actor_T* self));
+window_T* window_constructor(window_T* window, float x, float y, float width, float height, char* title, void (*tick)(actor_T* self), void (*draw)(actor_T* self), const char* type_name);
 
 void window_tick(actor_T* self);
 

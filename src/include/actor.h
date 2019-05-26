@@ -6,7 +6,7 @@
 
 typedef struct ACTOR_STRUCT
 {
-    int type; // used to separate actors from one and other
+    const char* type_name; // used to separate actors from one and other.
     float x;
     float y;
     float z;
@@ -36,7 +36,8 @@ actor_T* actor_constructor(
     float y,
     float z,
     void (*tick)(actor_T* self),
-    void (*draw)(actor_T* self)
+    void (*draw)(actor_T* self),
+    const char* type_name
 );
 
 void actor_tick(actor_T* a);
