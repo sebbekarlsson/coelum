@@ -1,0 +1,19 @@
+one {
+    actors = [
+        {
+            type_name = "apple";
+            x = 128;
+            y = 128;
+        };
+    ];
+};
+
+two {
+    actors = [
+        {
+            type_name = "apple";
+            x = 128;
+            y = 128;
+        };
+    ];
+};

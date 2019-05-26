@@ -9,6 +9,8 @@ typedef struct TOKEN_STRUCT
         TOKEN_ID,
         TOKEN_LBRACE,
         TOKEN_RBRACE,
+        TOKEN_LBRACKET,
+        TOKEN_RBRACKET,
         TOKEN_EQUALS,
         TOKEN_SEMI,
         TOKEN_EOF,

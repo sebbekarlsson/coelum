@@ -42,6 +42,8 @@ token_T* lexer_get_next_token(lexer_T* lexer)
             case '"': return lexer_collect_string(lexer); break;
             case '{': return lexer_advance_with_token(lexer, TOKEN_LBRACE); break;
             case '}': return lexer_advance_with_token(lexer, TOKEN_RBRACE); break;
+            case '[': return lexer_advance_with_token(lexer, TOKEN_LBRACKET); break;
+            case ']': return lexer_advance_with_token(lexer, TOKEN_RBRACKET); break;
             case '=': return lexer_advance_with_token(lexer, TOKEN_EQUALS); break;
             case ';': return lexer_advance_with_token(lexer, TOKEN_SEMI); break;
             default: printf("unexpected %c\n", lexer->current_char); exit(1); break;

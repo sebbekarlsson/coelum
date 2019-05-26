@@ -22,25 +22,38 @@ void config_parser_eat(config_parser_T* parser, int token_type)
     }
 }
 
-AST_T* config_parser_parse(config_parser_T* parser)
+dynamic_list_T* config_parser_parse(config_parser_T* parser)
 {
-    if (parser->current_token->type == TOKEN_ID)
-        config_parser_parse_block(parser);
+    dynamic_list_T* ast_list = init_dynamic_list(sizeof(struct AST_STRUCT));
+
+    if (parser->current_token->type == TOKEN_ID || parser->current_token->type == TOKEN_LBRACE)
+        dynamic_list_append(ast_list, config_parser_parse_block(parser));
 
     while (parser->current_token->type == TOKEN_SEMI)
     {
         config_parser_eat(parser, TOKEN_SEMI);
 
-        if (parser->current_token->type == TOKEN_ID)
-            config_parser_parse_block(parser);
+        if (parser->current_token->type == TOKEN_ID || parser->current_token->type == TOKEN_LBRACE)
+            dynamic_list_append(ast_list, config_parser_parse_block(parser));
     }
+
+    return ast_list;
 }
 
 AST_T* config_parser_parse_block(config_parser_T* parser)
 {
-    char* name = parser->current_token->value;
+    char* name;
+    
+    if (parser->current_token->type == TOKEN_ID)
+    {
+        name = parser->current_token->value;
+        config_parser_eat(parser, TOKEN_ID);
+    }
+    else
+    {
+        name = (void*) 0;
+    }
 
-    config_parser_eat(parser, TOKEN_ID);
     config_parser_eat(parser, TOKEN_LBRACE);
 
     AST_T* block = init_ast("block");
@@ -62,7 +75,8 @@ AST_T* config_parser_parse_block(config_parser_T* parser)
     ast_set_key_value(block, "variable_definitions", definitions);
     config_parser_eat(parser, TOKEN_RBRACE);
 
-    dynamic_list_append(parser->blocks, block);
+    if (name)
+        dynamic_list_append(parser->blocks, block);
 
     return block;
 }
@@ -72,13 +86,26 @@ AST_T* config_parser_parse_variable_definition(config_parser_T* parser)
     char* key = parser->current_token->value;
     config_parser_eat(parser, TOKEN_ID);
     config_parser_eat(parser, TOKEN_EQUALS);
-    char* value = parser->current_token->value;
+    void* value;
 
     if (parser->current_token->type == TOKEN_NUMBER_VALUE)
+    {
+        value = parser->current_token->value;
         config_parser_eat(parser, TOKEN_NUMBER_VALUE);
+    }
     else
     if (parser->current_token->type == TOKEN_STRING_VALUE)
+    {
+        value = parser->current_token->value;
         config_parser_eat(parser, TOKEN_STRING_VALUE);
+    }
+    else
+    if (parser->current_token->type == TOKEN_LBRACKET)
+    {
+        config_parser_eat(parser, TOKEN_LBRACKET);
+        value = config_parser_parse(parser);
+        config_parser_eat(parser, TOKEN_RBRACKET);
+    }
 
     AST_T* variable_definition = init_ast("variable_definition");
     ast_set_key_value(variable_definition, "key", key);
