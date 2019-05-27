@@ -20,17 +20,13 @@ window_insert_T* init_window_insert(float x, float y, void (*on_close)(window_T*
 
     lexer_T* lexer = init_lexer(read_file("actors.txt"));
     config_parser_T* parser = init_config_parser(lexer);
-    config_parser_parse(parser);
+    AST_T* node = config_parser_parse(parser);
+    dynamic_list_T* actor_names = config_parser_get_keys(node);
 
-    for (int i = 0; i < parser->blocks->size; i++)
+    for (int i = 0; i < actor_names->size; i++)
     {
-        AST_T* ast = (AST_T*) parser->blocks->items[i];
-
-        if (strcmp(ast->type_name, "block") == 0)
-        {
-            select_list_item_T* item = init_select_list_item(ast_get_value_by_key(ast, "name"), "0");
-            dynamic_list_append(items, item);
-        }
+        select_list_item_T* item = init_select_list_item((char*) actor_names->items[i], "0");
+        dynamic_list_append(items, item);
     }
 
     lexer_free(lexer); // we dont need it any more

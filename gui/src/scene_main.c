@@ -46,15 +46,15 @@ scene_main_T* init_scene_main()
 void remove_window_callback(void* item)
 {
     window_T* window = (window_T*) item;
-    
+
     /*for (int i = 0; i < window->state->actors->size; i++)
-    {
-        text_field_T* text_field = (text_field_T*) window->state->actors->items[i];
+      {
+      text_field_T* text_field = (text_field_T*) window->state->actors->items[i];
 
-        if (text_field->value)
-            free(text_field->value);
+      if (text_field->value)
+      free(text_field->value);
 
-        //dynamic_list_remove(window->state->actors, window->state->actors->items[i], (void*)0);
+    //dynamic_list_remove(window->state->actors, window->state->actors->items[i], (void*)0);
     }*/
 
     state_free(window->state);
@@ -75,8 +75,10 @@ void window_insert_close_callback(window_T* window, scene_T* scene)
         if (strcmp(actor->type_name, "select_list") == 0)
             select_list = (select_list_T*) actor;
     }
-   
-    char* actor_type_name; 
+
+    char* actor_type_name;
+    float actor_width;
+    float actor_height;
     char* actor_texture_path;
     float actor_x = s_main->grid->cursor_x * 16;
     float actor_y = s_main->grid->cursor_y * 16;
@@ -90,27 +92,19 @@ void window_insert_close_callback(window_T* window, scene_T* scene)
 
         lexer_T* lexer = init_lexer(read_file("actors.txt"));
         config_parser_T* parser = init_config_parser(lexer);
-        config_parser_parse(parser);
+        AST_T* node = config_parser_parse(parser);
+        dynamic_list_T* actor_names = config_parser_get_keys(node);
 
-        for (int i = 0; i < parser->blocks->size; i++)
+        for (int i = 0; i < actor_names->size; i++)
         {
-            AST_T* ast = (AST_T*) parser->blocks->items[i];
+            char* actor_name = (char*) actor_names->items[i];
 
-            if (strcmp(ast->type_name, "block") == 0)
+            if (strcmp(item->key, actor_name) == 0)
             {
-                if (strcmp(item->key, (char*) ast_get_value_by_key(ast, "name")) == 0)
-                {
-                    dynamic_list_T* definitions = ast_get_value_by_key(ast, "definitions");
-
-                    for (int i = 0; i < definitions->size; i++)
-                    {
-                        AST_T* def = (AST_T*) definitions->items[i];
-                        char* def_key = (char*) ast_get_value_by_key(def, "key");
-
-                        if (strcmp(def_key, "texture") == 0)
-                            actor_texture_path = (char*) ast_get_value_by_key(def, "value");
-                    }
-                }
+                AST_T* actor_block = (AST_T*) config_parser_get_by_key(node, actor_name);
+                actor_texture_path = (char*) config_parser_get_by_key(actor_block, "texture");
+                actor_width = atof((char*) config_parser_get_by_key(actor_block, "width"));
+                actor_height = atof((char*) config_parser_get_by_key(actor_block, "height"));
             }
         }
 
@@ -123,8 +117,8 @@ void window_insert_close_callback(window_T* window, scene_T* scene)
         actor_constructor(ac, actor_x, actor_y, 0.0f, actor_tick, actor_draw, actor_type_name);
         texture_T* texture = get_texture(actor_texture_path, GL_RGBA);
         ac->texture = texture->renderable_texture;
-        ac->width = 32;
-        ac->height = 32;
+        ac->width = actor_width;
+        ac->height = actor_height;
 
         printf("%s\n", actor_texture_path);
 
@@ -158,7 +152,7 @@ void handle_inputs(state_T* self)
 
     if (KEYBOARD_STATE->keys[GLFW_KEY_D])
         grid_unselect(s_main->grid);
-    
+
     if (KEYBOARD_STATE->keys[GLFW_KEY_C] && KEYBOARD_STATE->key_locks[GLFW_KEY_C] == 0)
     {
         dynamic_list_append(
@@ -216,7 +210,7 @@ void scene_main_tick(state_T* self)
     window_manager_tick(s_main->window_manager);
 
     handle_inputs(self); 
-    
+
     grid_tick(s_main->grid); 
 }
 
@@ -227,6 +221,6 @@ void scene_main_draw(state_T* self)
 
     scene_draw(scene);
     grid_draw(s_main->grid); 
-    
+
     window_manager_draw(s_main->window_manager);
 }

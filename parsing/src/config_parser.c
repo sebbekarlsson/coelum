@@ -1,4 +1,5 @@
 #include "include/config_parser.h"
+#include <string.h>
 
 
 config_parser_T* init_config_parser(lexer_T* lexer)
@@ -116,4 +117,41 @@ AST_T* config_parser_parse_list(config_parser_T* parser)
     ast_set_key_value(ast_list, "items", list);
 
     return ast_list;
+}
+
+dynamic_list_T* config_parser_get_keys(AST_T* node)
+{
+    dynamic_list_T* keys = init_dynamic_list(sizeof(char*));
+
+    if (strcmp(node->type_name, "block") == 0)
+    {
+        dynamic_list_T* definitions = ast_get_value_by_key(node, "definitions");
+
+        for (int i = 0; i < definitions->size; i++)
+        {
+            AST_T* ast = (AST_T*) definitions->items[i];
+
+            dynamic_list_append(keys, ast_get_value_by_key(ast, "key"));
+        }
+    }
+
+    return keys;
+}
+
+void* config_parser_get_by_key(AST_T* node, char* key)
+{
+    if (strcmp(node->type_name, "block") == 0)
+    {
+        dynamic_list_T* definitions = ast_get_value_by_key(node, "definitions");
+
+        for (int i = 0; i < definitions->size; i++)
+        {
+            AST_T* ast = (AST_T*) definitions->items[i];
+
+            if (strcmp(ast_get_value_by_key(ast, "key"), key) == 0)
+                return ast_get_value_by_key(ast, "value");
+        }
+    }
+
+    return (void*) 0;
 }
