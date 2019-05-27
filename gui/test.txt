@@ -1,0 +1,4 @@
+void main(int argc, string[] argv)
+{
+    this.x += 1;
+};

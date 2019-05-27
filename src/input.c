@@ -22,6 +22,11 @@ keyboard_state_T* init_keyboard_state()
     return ks;
 }
 
+/**
+ * Completely reset the keyboard_state.
+ *
+ * @param keyboard_state_T* keyboard_state
+ */
 void keyboard_state_reset(keyboard_state_T* keyboard_state)
 {
     // fill with zeroes.
@@ -32,6 +37,16 @@ void keyboard_state_reset(keyboard_state_T* keyboard_state)
     keyboard_state->buffer[0] = '\0';
 }
 
+/**
+ * Callback for when user is pressing a key on the keyboard
+ * (should not be called by anyone except glfw).
+ *
+ * @param GLFWwindow* window
+ * @param int key
+ * @param int scancode
+ * @param int action
+ * @param int mods
+ */
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (KEYBOARD_STATE->key_locks[key] == 1)
@@ -50,6 +65,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         KEYBOARD_STATE->buffer[strlen(KEYBOARD_STATE->buffer) - 1] = '\0';
 }
 
+/**
+ * Used to "stream" user character input to a char* buffer.
+ *
+ * @param keyboard_state_T* keyboard_state
+ * @param char** s - pointer where you want the stream to go.
+ */
 void keyboard_state_inread(keyboard_state_T* keyboard_state, char **s)
 {
     if (*s)
@@ -59,6 +80,13 @@ void keyboard_state_inread(keyboard_state_T* keyboard_state, char **s)
     strcpy(*s, keyboard_state->buffer);
 }
 
+/**
+ * Callback for when user is typing characters
+ * (should not be called by anyone except glfw).
+ *
+ * @param GLFWwindow* window
+ * @param unsigned int codepoint
+ */
 void character_callback(GLFWwindow* window, unsigned int codepoint)
 {
     char c = (char) codepoint;
@@ -73,6 +101,11 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
     free(char_str);
 }
 
+/**
+ * Clear the keyboard_state buffer
+ *
+ * @param keyboard_state_T* keyboard_state
+ */
 void keyboard_state_clear_buffer(keyboard_state_T* keyboard_state)
 {
     free(keyboard_state->buffer);
@@ -80,6 +113,12 @@ void keyboard_state_clear_buffer(keyboard_state_T* keyboard_state)
     keyboard_state->buffer[0] = '\0';
 }
 
+/**
+ * Replace the keyboard_state buffer with another buffer.
+ *
+ * @param keyboard_state_T* keyboard_state
+ * @param char* buffer
+ */
 void keyboard_state_copy_buffer(keyboard_state_T* keyboard_state, char* buffer)
 {
     if (!buffer)

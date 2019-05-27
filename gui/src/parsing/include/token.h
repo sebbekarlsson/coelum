@@ -11,8 +11,17 @@ typedef struct TOKEN_STRUCT
         TOKEN_RBRACE,
         TOKEN_LBRACKET,
         TOKEN_RBRACKET,
+        TOKEN_LPAREN,
+        TOKEN_RPAREN,
         TOKEN_EQUALS,
         TOKEN_SEMI,
+        TOKEN_COMMA,
+        TOKEN_PLUS,
+        TOKEN_MINUS,
+        TOKEN_STAR,
+        TOKEN_DIV,
+        TOKEN_PERCENTAGE,
+        TOKEN_DOT,
         TOKEN_EOF,
     } type;
 

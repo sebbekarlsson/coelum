@@ -9,6 +9,9 @@
 #include <pthread.h>
 
 
+/**
+ * Initialize OpenAL
+ */
 void init_al()
 {
     ALCdevice *dev = NULL;
@@ -22,6 +25,9 @@ void init_al()
     alcMakeContextCurrent(ctx);
 }
 
+/**
+ * Cleanup OpenAL
+ */
 void exit_al()
 {
     ALCdevice *dev = NULL;
@@ -34,6 +40,12 @@ void exit_al()
     alcCloseDevice(dev);
 }
 
+/**
+ * Play a frequency in a new thread
+ *
+ * @param unsigned frequency
+ * @param float seconds
+ */
 void play_sound_threaded(unsigned frequency, float seconds)
 {
     sound_T* s = calloc(1, sizeof(struct SOUND_STRUCT));
@@ -44,6 +56,11 @@ void play_sound_threaded(unsigned frequency, float seconds)
     pthread_create(&thread_id, NULL, play_sound, s);
 }
 
+/**
+ * No body should call this function, it is used in `play_sound_threaded`.
+ *
+ * @parma void* s
+ */
 void* play_sound(void* s)
 {
     sound_T* snd = (sound_T*) s;

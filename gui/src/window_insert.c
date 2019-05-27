@@ -10,11 +10,11 @@
 
 extern keyboard_state_T* KEYBOARD_STATE;
 
-window_insert_T* init_window_insert(float x, float y)
+window_insert_T* init_window_insert(float x, float y, void (*on_close)(window_T* self, scene_T* scene))
 {
     window_insert_T* window_insert = calloc(1, sizeof(struct WINDOW_insert_STRUCT));
     window_T* window = (window_T*) window_insert;
-    window_constructor(window, x, y, 420, 430, "insert", window_insert_tick, window_insert_draw, "window_insert");
+    window_constructor(window, x, y, 420, 430, "insert", window_insert_tick, window_insert_draw, "window_insert", on_close);
 
     dynamic_list_T* items = init_dynamic_list(sizeof(struct SELECT_LIST_ITEM_STRUCT));
 

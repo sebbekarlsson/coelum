@@ -3,6 +3,14 @@
 #include <string.h>
 
 
+/**
+ * Create a new projection_view
+ *
+ * @param int width
+ * @param int height
+ *
+ * @return projection_view_T*
+ */
 projection_view_T* init_projection_view(int width, int height)
 {
     projection_view_T* pv = calloc(1, sizeof(struct PROJECTION_VIEW_STRUCT));
@@ -32,11 +40,24 @@ projection_view_T* init_projection_view(int width, int height)
     return pv;
 }
 
+/**
+ * Translate a projection_view on the 3rd dimension.
+ *
+ * @param projection_view_T* projection_view
+ * @param float x
+ * @param float y
+ * @param float z
+ */
 void projection_view_translate(projection_view_T* projection_view, float x, float y, float z)
 {
     glm_translate(projection_view->view, (vec3){x, y, z});
 }
 
+/**
+ * Deallocator for `projection_view` object.
+ *
+ * @param projection_view_T* projection_view
+ */
 void projection_view_free(projection_view_T* projection_view)
 {
     free(projection_view);

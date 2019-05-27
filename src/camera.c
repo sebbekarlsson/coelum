@@ -36,6 +36,11 @@ void camera_unbind(camera_T* camera)
     glm_translate(camera->projection_view->view, (vec3){camera->x, camera->y, camera->z});
 }
 
+/**
+ * Deallocator method for `camera` object.
+ *
+ * @param camera_T* camera
+ */
 void camera_free(camera_T* camera)
 {
     projection_view_free(camera->projection_view);

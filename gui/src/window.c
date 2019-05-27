@@ -18,7 +18,7 @@ window_T* init_window()
     return calloc(1, sizeof(struct WINDOW_STRUCT));
 }
 
-window_T* window_constructor(window_T* window, float x, float y, float width, float height, char* title, void (*tick)(actor_T* self), void (*draw)(actor_T* self), const char* type_name)
+window_T* window_constructor(window_T* window, float x, float y, float width, float height, char* title, void (*tick)(actor_T* self), void (*draw)(actor_T* self), const char* type_name, void (*on_close)(window_T* self, scene_T* scene))
 {
     window->title = title;
     window->width = width;
@@ -27,6 +27,7 @@ window_T* window_constructor(window_T* window, float x, float y, float width, fl
     window->state = init_state();
     state_constructor(window->state, (void*)0, (void*)0, width, height);
     window->focus_index = 0;
+    window->on_close = on_close;
 
     return window;
 }

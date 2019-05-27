@@ -11,6 +11,12 @@ extern unsigned int SHADER_COLORED;
 extern unsigned int SHADER_TEXTURED;
 extern texture_T* TEXTURE_DEFAULT_FONT;
 
+/**
+ * Update projection and view matrices in the current active shader.
+ *
+ * @param unsigned int shader_program
+ * @param projection_view_T* projection_view
+ */
 void send_projection_view_state(
     unsigned int shader_program,
     projection_view_T* projection_view
@@ -31,12 +37,29 @@ void send_projection_view_state(
     );
 }
 
+/**
+ * Update the model matrice in the current active shader.
+ *
+ * @param unsigned int shader_program
+ * @param mat4 model
+ */
 void send_model_state(unsigned int shader_program, mat4 model)
 {
-    unsigned uniform_mat4_model = glGetUniformLocation(SHADER_COLORED, "model");
+    unsigned uniform_mat4_model = glGetUniformLocation(shader_program, "model");
     glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 }
 
+/**
+ * Draw a 2D mesh (unpositioned, not translated)
+ *
+ * @param float width
+ * @param float height
+ * @param float r
+ * @param float g
+ * @param float b
+ * @param unsigned int VBO
+ * @param unsigned int EBO
+ */
 void draw_2D_mesh(
     float width,
     float height,
@@ -82,6 +105,18 @@ void draw_2D_mesh(
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
+/**
+ * Draw a positioned, translated 2D mesh.
+ *
+ * @param float x
+ * @param float y
+ * @param float width
+ * @param float height
+ * @param float r
+ * @param float g
+ * @param float b
+ * @param state_T* state
+ */
 void draw_2D_positioned_2D_mesh(
     float x,
     float y,
@@ -126,6 +161,20 @@ void draw_2D_positioned_2D_mesh(
     glBindVertexArray(0);
 }
 
+/**
+ * Draw a line
+ *
+ * @param float x
+ * @param float y
+ * @param float z
+ * @param float endx
+ * @param float endy
+ * @param float endz
+ * @param float r
+ * @param float g
+ * @param float b
+ * @param state_T* state
+ */
 void draw_line(
     float x,
     float y,

@@ -8,7 +8,7 @@ typedef struct WINDOW_insert_STRUCT
     window_T base;
 } window_insert_T;
 
-window_insert_T* init_window_insert(float x, float y);
+window_insert_T* init_window_insert(float x, float y, void (*on_close)(window_T* self, scene_T* scene));
 
 void window_insert_tick(actor_T* self);
 

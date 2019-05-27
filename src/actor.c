@@ -110,6 +110,13 @@ void actor_draw(actor_T* actor)
     draw_2D_mesh(actor->width, actor->height, 255.0f, 255.0f, 255.0f, actor->VBO, actor->EBO);
 }
 
+/**
+ * Push an actor in an angle
+ *
+ * @param actor_T* self
+ * @param float angle
+ * @param float acceleration
+ */
 void actor_push(actor_T* self, float angle, float acceleration)
 {
     float radians = angle * (GLM_PI / 180.0f);
@@ -118,6 +125,11 @@ void actor_push(actor_T* self, float angle, float acceleration)
     self->dy -= sin(radians) * acceleration;
 }
 
+/**
+ * Deallocate function for `actor` object.
+ *
+ * @param actor_T* actor
+ */
 void actor_free(actor_T* actor)
 {
     glDeleteBuffers(1, &actor->VBO);

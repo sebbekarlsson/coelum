@@ -30,4 +30,6 @@ token_T* lexer_collect_string(lexer_T* lexer);
 token_T* lexer_collect_number(lexer_T* lexer);
 
 token_T* lexer_collect_id(lexer_T* lexer);
+
+void lexer_dump(lexer_T* lexer);
 #endif

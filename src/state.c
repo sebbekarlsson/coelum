@@ -25,6 +25,12 @@ state_T* state_constructor(state_T* state, void (*tick)(state_T* self), void (*d
 }
 
 
+/**
+ * Default state tick method.
+ * Calls `tick` on every actor bound to the state.
+ *
+ * @param state_T* state
+ */
 void state_tick(state_T* state)
 {
     for (int i = 0; i < state->actors->size; i++)
@@ -45,6 +51,12 @@ void state_tick(state_T* state)
     }
 }
 
+/**
+ * Default state draw method.
+ * Draws all actors that are bound to the state.
+ *
+ * @param state_T* state
+ */
 void state_draw(state_T* state)
 {
     projection_view_T* pv = state->camera->projection_view;
@@ -83,6 +95,11 @@ void state_draw(state_T* state)
     glBindVertexArray(0);
 }
 
+/**
+ * Deallocation function for `state` object.
+ *
+ * @param state_T* state
+ */
 void state_free(state_T* state)
 {
     glDeleteBuffers(1, &state->VAO);

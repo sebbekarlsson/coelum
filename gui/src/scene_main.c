@@ -56,6 +56,11 @@ void remove_window_callback(void* item)
     actor_free((actor_T*) item);
 }
 
+void window_insert_close_callback(window_T* window, scene_T* scene)
+{
+    printf("Insert window closed!\n");
+}
+
 void handle_inputs(state_T* self)
 {
     scene_T* scene = (scene_T*) self;
@@ -83,7 +88,7 @@ void handle_inputs(state_T* self)
     {
         dynamic_list_append(
             s_main->window_manager->windows,
-            init_window_create(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+            init_window_create(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, (void*) 0)
         );
 
         KEYBOARD_STATE->key_locks[GLFW_KEY_C] = 1;
@@ -96,7 +101,7 @@ void handle_inputs(state_T* self)
     {
         dynamic_list_append(
             s_main->window_manager->windows,
-            init_window_insert(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
+            init_window_insert(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, window_insert_close_callback)
         );
 
         KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 1;
@@ -107,9 +112,14 @@ void handle_inputs(state_T* self)
 
     if (KEYBOARD_STATE->keys[GLFW_KEY_Q] && KEYBOARD_STATE->key_locks[GLFW_KEY_Q] == 0 && s_main->window_manager->windows->size)
     {
+        window_T* window_to_close = s_main->window_manager->windows->items[s_main->window_manager->windows->size - 1];
+
+        if (window_to_close->on_close)
+            window_to_close->on_close(window_to_close, scene);
+
         dynamic_list_remove(
             s_main->window_manager->windows,
-            s_main->window_manager->windows->items[s_main->window_manager->windows->size - 1],
+            window_to_close,
             remove_window_callback
         );
 

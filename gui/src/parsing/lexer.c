@@ -44,8 +44,17 @@ token_T* lexer_get_next_token(lexer_T* lexer)
             case '}': return lexer_advance_with_token(lexer, TOKEN_RBRACE); break;
             case '[': return lexer_advance_with_token(lexer, TOKEN_LBRACKET); break;
             case ']': return lexer_advance_with_token(lexer, TOKEN_RBRACKET); break;
+            case '(': return lexer_advance_with_token(lexer, TOKEN_RPAREN); break;
+            case ')': return lexer_advance_with_token(lexer, TOKEN_LPAREN); break;
             case '=': return lexer_advance_with_token(lexer, TOKEN_EQUALS); break;
             case ';': return lexer_advance_with_token(lexer, TOKEN_SEMI); break;
+            case ',': return lexer_advance_with_token(lexer, TOKEN_COMMA); break;
+            case '+': return lexer_advance_with_token(lexer, TOKEN_PLUS); break;
+            case '-': return lexer_advance_with_token(lexer, TOKEN_MINUS); break;
+            case '*': return lexer_advance_with_token(lexer, TOKEN_STAR); break;
+            case '/': return lexer_advance_with_token(lexer, TOKEN_DIV); break;
+            case '%': return lexer_advance_with_token(lexer, TOKEN_PERCENTAGE); break;
+            case '.': return lexer_advance_with_token(lexer, TOKEN_DOT); break;
             default: printf("unexpected %c\n", lexer->current_char); exit(1); break;
         }
     }
@@ -129,7 +138,7 @@ token_T* lexer_collect_id(lexer_T* lexer)
     char* buffer = calloc(1, sizeof(char));
     buffer[0] = '\0';
 
-    while (isalnum(lexer->current_char))
+    while (isalnum(lexer->current_char) || lexer->current_char == '_')
     {
         char* strchar = char_to_string(lexer->current_char);
         buffer = realloc(buffer, strlen(buffer) + 2);
@@ -140,4 +149,19 @@ token_T* lexer_collect_id(lexer_T* lexer)
     }
 
     return init_token(TOKEN_ID, buffer);
+}
+
+void lexer_dump(lexer_T* lexer)
+{
+    token_T* token;
+
+    while (1)
+    {
+        token = lexer_get_next_token(lexer);
+
+        printf("TOKEN(%d, %s)\n", token->type, token->value);
+
+        if (token->type == TOKEN_EOF)
+            break;
+    }
 }
