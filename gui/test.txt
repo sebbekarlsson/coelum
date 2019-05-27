@@ -1,4 +1,19 @@
-void main(int argc, string[] argv)
-{
-    this.x += 1;
+apple = {
+    width = 32;
+    height = 32;
+    texture = "res/img/apple.PNG";
+    tick = "asdfasdf.txt";
+
+    something = {
+        width = 32;     
+    };
+
+    list = [
+        x = {
+            name = "donald duck";    
+        },
+        y = {
+            name = "cajsa anka";
+        }
+    ];
 };

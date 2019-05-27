@@ -17,9 +17,11 @@ config_parser_T* init_config_parser(lexer_T* lexer);
 
 void config_parser_eat(config_parser_T* parser, int token_type);
 
-dynamic_list_T* config_parser_parse(config_parser_T* parser);
+AST_T* config_parser_parse(config_parser_T* parser);
 
 AST_T* config_parser_parse_block(config_parser_T* parser);
 
 AST_T* config_parser_parse_variable_definition(config_parser_T* parser);
+
+dynamic_list_T* config_parser_parse_list(config_parser_T* parser);
 #endif

@@ -1,20 +1,20 @@
-apple {
+apple = {
     width = 32;
     height = 32;
     texture = "res/img/apple.PNG";
     tick = "scripts/apple.zcs";
 
     wrong = [
-        {
+        wow = {
             x = 16;
-        };
-        {
+        },
+        lol = {
             y = 12;    
-        };
+        }
     ];
 };
 
-banana {
+banana = {
     width = 32;
     height = 32;
     texture = "res/img/banana.png";
