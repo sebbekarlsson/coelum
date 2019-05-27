@@ -1,4 +1,4 @@
-exec = coelumg.out
+exec = coeluml.out
 sources = $(wildcard src/*.c)
 objects = $(sources:.c=.o)
 flags = -g -lcoelum -I../GL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread
