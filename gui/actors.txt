@@ -1,22 +1,26 @@
-apple = {
-    width = 32;
-    height = 32;
-    texture = "res/img/apple.PNG";
-    tick = "scripts/apple.zcs";
+{
+    apple = {
+        width = 32;
+        height = 32;
+        texture = "res/img/apple.PNG";
+        tick = "scripts/apple.zcs";
+    };
 
-    wrong = [
-        wow = {
-            x = 16;
-        },
-        lol = {
-            y = 12;    
-        }
-    ];
-};
+    banana = {
+        width = 32;
+        height = 32;
+        texture = "res/img/banana.png";
+        tick = "scripts/banana.zcs";
 
-banana = {
-    width = 32;
-    height = 32;
-    texture = "res/img/banana.png";
-    tick = "scripts/banana.zcs";
-};
+        friends = [
+            {
+                name = "batman";
+                age = 33;    
+            },
+            {
+                name = "clark kent";
+                age = 27;    
+            }
+        ];
+    };
+}

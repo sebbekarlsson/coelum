@@ -165,3 +165,9 @@ void lexer_dump(lexer_T* lexer)
             break;
     }
 }
+
+void lexer_free(lexer_T* lexer)
+{
+    free(lexer->contents);
+    free(lexer);
+}

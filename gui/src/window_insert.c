@@ -33,6 +33,8 @@ window_insert_T* init_window_insert(float x, float y, void (*on_close)(window_T*
         }
     }
 
+    lexer_free(lexer); // we dont need it any more
+
     window_attach_actor(
         window,
         (actor_T*) init_select_list(

@@ -23,5 +23,5 @@ AST_T* config_parser_parse_block(config_parser_T* parser);
 
 AST_T* config_parser_parse_variable_definition(config_parser_T* parser);
 
-dynamic_list_T* config_parser_parse_list(config_parser_T* parser);
+AST_T* config_parser_parse_list(config_parser_T* parser);
 #endif

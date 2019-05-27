@@ -24,7 +24,11 @@ void config_parser_eat(config_parser_T* parser, int token_type)
 
 AST_T* config_parser_parse(config_parser_T* parser)
 {
-    return config_parser_parse_variable_definition(parser);
+    switch (parser->current_token->type)
+    {
+        case TOKEN_LBRACKET: return config_parser_parse_list(parser); break;
+        case TOKEN_LBRACE: return config_parser_parse_block(parser); break;
+    }
 }
 
 AST_T* config_parser_parse_block(config_parser_T* parser)
@@ -91,24 +95,25 @@ AST_T* config_parser_parse_variable_definition(config_parser_T* parser)
     return variable_definition;
 }
 
-dynamic_list_T* config_parser_parse_list(config_parser_T* parser)
+AST_T* config_parser_parse_list(config_parser_T* parser)
 {
     config_parser_eat(parser, TOKEN_LBRACKET);
 
+    AST_T* ast_list = init_ast("list");
+
     dynamic_list_T* list = init_dynamic_list(sizeof(struct AST_STRUCT));
 
-    if (parser->current_token->type == TOKEN_ID)
-        dynamic_list_append(list, config_parser_parse_variable_definition(parser));
+    dynamic_list_append(list, config_parser_parse(parser));
 
     while (parser->current_token->type == TOKEN_COMMA)
     {
         config_parser_eat(parser, TOKEN_COMMA);
-
-        if (parser->current_token->type == TOKEN_ID)
-            dynamic_list_append(list, config_parser_parse_variable_definition(parser));
+        dynamic_list_append(list, config_parser_parse(parser));
     }
 
     config_parser_eat(parser, TOKEN_RBRACKET);
 
-    return list;
+    ast_set_key_value(ast_list, "items", list);
+
+    return ast_list;
 }
