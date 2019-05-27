@@ -143,3 +143,8 @@ void select_list_draw(actor_T* self)
     }
     glDisable(GL_SCISSOR_TEST);
 }
+
+select_list_item_T* select_list_get_selected_item(select_list_T* select_list)
+{
+    return select_list->items->items[select_list->selected_index];
+}

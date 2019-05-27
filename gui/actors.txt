@@ -1,9 +1,9 @@
 {
-    apple = {
+    tomato = {
         width = 32;
         height = 32;
-        texture = "res/img/apple.PNG";
-        tick = "scripts/apple.zcs";
+        texture = "res/img/tomato.png";
+        tick = "scripts/tomato.zcs";
     };
 
     banana = {
@@ -11,16 +11,5 @@
         height = 32;
         texture = "res/img/banana.png";
         tick = "scripts/banana.zcs";
-
-        friends = [
-            {
-                name = "batman";
-                age = 33;    
-            },
-            {
-                name = "clark kent";
-                age = 27;    
-            }
-        ];
     };
 }

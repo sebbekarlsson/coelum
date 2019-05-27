@@ -30,4 +30,6 @@ select_list_T* init_select_list(float x, float y, float width, float height, dyn
 void select_list_tick(actor_T* self);
 
 void select_list_draw(actor_T* self);
+
+select_list_item_T* select_list_get_selected_item(select_list_T* select_list);
 #endif

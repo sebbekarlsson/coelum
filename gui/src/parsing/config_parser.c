@@ -50,7 +50,7 @@ AST_T* config_parser_parse_block(config_parser_T* parser)
             dynamic_list_append(definitions, config_parser_parse_variable_definition(parser));
     }
 
-    ast_set_key_value(block, "variable_definitions", definitions);
+    ast_set_key_value(block, "definitions", definitions);
     config_parser_eat(parser, TOKEN_RBRACE);
 
     return block;
