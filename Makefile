@@ -1,5 +1,5 @@
-# exec = pong.out
-sources := $(wildcard src/*.c)
+sources = $(wildcard src/*.c)
+sources += $(wildcard parsing/src/*.c)
 sources += $(wildcard GL/src/*.c)
 objects = $(sources:.c=.o)
 flags = -g -IGL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread
@@ -14,6 +14,8 @@ libcoelum.a: $(objects)
 %.o: %.c ../include/glad/%.h
 	gcc -c $(flags) $< -o $@ -fPIC
 
+%.o: %.c ../include/%.h
+	gcc -c $(flags) $< -o $@ -fPIC
 
 %.o: %.c include/%.h
 	gcc -c $(flags) $< -o $@
@@ -25,6 +27,8 @@ install:
 	-rm -rf /usr/local/include/coelum
 	mkdir /usr/local/include/coelum
 	cp -r ./src/include/* /usr/local/include/coelum
+	mkdir /usr/local/include/coelum/parsing
+	cp -r ./parsing/src/include/* /usr/local/include/coelum/parsing/.
 	-rm -rf /usr/local/share/coelum
 	mkdir -p /usr/local/share/coelum/res
 	cp -r ./res/* /usr/local/share/coelum/res
@@ -33,4 +37,5 @@ clean:
 	-rm *.out
 	-rm *.o
 	-rm *.a
-	-rm src/*.o
+	-rm parsing/*.o
+	-rm parsing/src/*.o
