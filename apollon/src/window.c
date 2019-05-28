@@ -52,13 +52,11 @@ void window_tick(actor_T* self)
 
         if (window->focus_index == i)
         {
-            if (window_component)
-                window_component->focused = 1;
+            window_component->focused = 1;
         }
         else
         {
-            if (window_component)
-                window_component->focused = 0;
+            window_component->focused = 0;
         }
     }
 

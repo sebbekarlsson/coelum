@@ -208,6 +208,9 @@ void handle_inputs(state_T* self)
             s_main->window_manager->windows,
             init_window_popup(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, "saved", (void*) 0)
         ); 
+        
+        KEYBOARD_STATE->key_locks[GLFW_KEY_LEFT_CONTROL] = 1;
+        KEYBOARD_STATE->key_locks[GLFW_KEY_S] = 1;
     }
 }
 
