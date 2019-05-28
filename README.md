@@ -1,5 +1,5 @@
 # Coelum
-> Game engine in pure C.
+> Glorious Game Engine written in pure C for divine intellects.
 
 ## How it works
 > The engine is built upon `5` different parts:
