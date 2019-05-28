@@ -1,5 +1,5 @@
-#ifndef COELUMG_CELL_H
-#define COELUMG_CELL_H
+#ifndef APOLLON_CELL_H
+#define APOLLON_CELL_H
 typedef struct CELL_STRUCT
 {
     int w;

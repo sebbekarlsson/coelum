@@ -1,5 +1,5 @@
-#ifndef COELUMG_TOKEN_H
-#define COELUMG_TOKEN_H
+#ifndef HERMES_TOKEN_H
+#define HERMES_TOKEN_H
 typedef struct TOKEN_STRUCT
 {
     enum

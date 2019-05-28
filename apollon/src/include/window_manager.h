@@ -1,5 +1,5 @@
-#ifndef COELUMG_WINDOW_MANAGER_H
-#define COELUMG_WINDOW_MANAGER_H
+#ifndef APOLLON_WINDOW_MANAGER_H
+#define APOLLON_WINDOW_MANAGER_H
 #include <coelum/dynamic_list.h>
 
 

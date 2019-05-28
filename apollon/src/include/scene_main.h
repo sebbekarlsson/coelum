@@ -1,5 +1,5 @@
-#ifndef COELUMG_SCENE_MAIN_H
-#define COELUMG_SCENE_MAIN_H
+#ifndef APOLLON_SCENE_MAIN_H
+#define APOLLON_SCENE_MAIN_H
 #include <coelum/scene.h>
 #include <coelum/constants.h>
 #include <coelum/dynamic_list.h>

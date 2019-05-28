@@ -54,15 +54,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         KEYBOARD_STATE->keys[key] = 0;
         KEYBOARD_STATE->key_locks[key] = 0;
         return;
-    }
-
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, 1);
+    } 
 
     KEYBOARD_STATE->keys[key] = (int) (glfwGetKey(window, key) == GLFW_PRESS);
 
     if (KEYBOARD_STATE->keys[GLFW_KEY_BACKSPACE])
         KEYBOARD_STATE->buffer[strlen(KEYBOARD_STATE->buffer) - 1] = '\0';
+
+    if(
+        KEYBOARD_STATE->keys[GLFW_KEY_LEFT_SHIFT] &&
+        KEYBOARD_STATE->keys[GLFW_KEY_ESCAPE]
+     )
+        glfwSetWindowShouldClose(window, 1);
 }
 
 /**

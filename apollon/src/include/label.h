@@ -1,5 +1,5 @@
-#ifndef COELUMG_LABEL_H
-#define COELUMG_LABEL_H
+#ifndef APOLLON_LABEL_H
+#define APOLLON_LABEL_H
 #include "window.h"
 #include "window_component.h"
 #include <glad/glad.h> 

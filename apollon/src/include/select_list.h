@@ -1,5 +1,5 @@
-#ifndef COELUMG_SELECT_LIST_H
-#define COELUMG_SELECT_LIST_H
+#ifndef APOLLON_SELECT_LIST_H
+#define APOLLON_SELECT_LIST_H
 #include "window.h"
 #include "window_component.h"
 #include <coelum/dynamic_list.h>

@@ -1,5 +1,5 @@
-#ifndef COELUMG_AST_H
-#define COELUMG_AST_H
+#ifndef HERMES_AST_H
+#define HERMES_AST_H
 #include <stdio.h>
 
 typedef struct AST_STRUCT

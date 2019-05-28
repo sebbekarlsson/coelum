@@ -1,5 +1,5 @@
-#ifndef COELUMG_TEXT_FIELD_H
-#define COELUMG_TEXT_FIELD_H
+#ifndef APOLLON_TEXT_FIELD_H
+#define APOLLON_TEXT_FIELD_H
 #include "window.h"
 #include "window_component.h"
 #include <glad/glad.h> 

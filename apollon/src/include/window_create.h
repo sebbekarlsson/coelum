@@ -1,5 +1,5 @@
-#ifndef COELUMG_WINDOW_CREATE_H
-#define COELUMG_WINDOW_CREATE_H
+#ifndef APOLLON_WINDOW_CREATE_H
+#define APOLLON_WINDOW_CREATE_H
 #include "window.h"
 
 

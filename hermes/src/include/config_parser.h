@@ -1,5 +1,5 @@
-#ifndef COELUMG_CONFIG_PARSER_H
-#define COELUMG_CONFIG_PARSER_H
+#ifndef HERMES_CONFIG_PARSER_H
+#define HERMES_CONFIG_PARSER_H
 #include "lexer.h"
 #include "AST.h"
 #include "token.h"

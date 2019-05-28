@@ -1,5 +1,5 @@
-#ifndef COELUMG_WINDOW_H
-#define COELUMG_WINDOW_H
+#ifndef APOLLON_WINDOW_H
+#define APOLLON_WINDOW_H
 #include <coelum/actor.h>
 #include <coelum/state.h>
 #include <coelum/scene.h>

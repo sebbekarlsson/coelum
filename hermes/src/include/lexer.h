@@ -1,5 +1,5 @@
-#ifndef COELUMG_LEXER_H
-#define COELUMG_LEXER_H
+#ifndef HERMES_LEXER_H
+#define HERMES_LEXER_H
 /**
  * This is a general purpose lexer.
  */

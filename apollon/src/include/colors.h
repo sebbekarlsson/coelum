@@ -1,5 +1,5 @@
-#ifndef COELUMG_COLORS_H
-#define COELUMG_COLORS_H
+#ifndef APOLLON_COLORS_H
+#define APOLLON_COLORS_H
 const float COLOR_BG_BRIGHT[3] =        {251.0f, 241.0f, 199.0f};
 const float COLOR_BG_DARK[3] =          {168, 153, 132};
 const float COLOR_BG_DARK_BRIGHT[3] =   {189, 174, 147};

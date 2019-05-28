@@ -1,5 +1,5 @@
-#ifndef COELUMG_GRID_H
-#define COELUMG_GRID_H
+#ifndef APOLLON_GRID_H
+#define APOLLON_GRID_H
 #include "cell.h"
 #include <coelum/constants.h>
 
