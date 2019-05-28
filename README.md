@@ -1,11 +1,13 @@
 # Coelum
 > Glorious Game Engine written in pure C for divine intellects.
 
-## How it works
-> The engine is built upon `5` different parts:
-
-## You (Zeus)
-> You are the god.
+## The important parts
+> There are `5` important parts that make up for this software, which is:  
+> *Zeus (you)*,  
+[Hermes (the parser)](./hermes),  
+[Coelum (the core)](./coelum),  
+[Apollon (the GUI)](./apollon),  
+[Leto (the launcher)](./leto)  
 
 ## The Parser (Hermes)
 > The parser is used for multiple things, for example the built in hermes
