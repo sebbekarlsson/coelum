@@ -7,15 +7,17 @@
 ### [You (Zeus)](/)
 > You are the god.
 
-### [The Core (Coelum)](./src)
+### [The Core (Coelum)](./coelum)
 > The foundation, game loop, input management, drivers, etc...
 
-### [The GUI (Apollon)](./gui)
+### [The GUI (Apollon)](./apollon)
 > The graphical user interface, use it to design actors, levels, etc...
 > This one actually uses the [The Core](./src) to power it self.
 
-### [The Launcher (Leto)](./launcher)
+### [The Launcher (Leto)](./leto)
 > The launcher is used to run your games.
+
+### [The Parser (Hermes)][./hermes]
 
 ## Using The Core
 > Here is the minimal required code to get a game up and running using only

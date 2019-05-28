@@ -11,8 +11,8 @@
 #include <coelum/input.h>
 #include <string.h>
 #include <coelum/io.h>
-#include <coelum/parsing/lexer.h>
-#include <coelum/parsing/config_parser.h>
+#include <coelum/hermes/lexer.h>
+#include <coelum/hermes/config_parser.h>
 
 
 extern keyboard_state_T* KEYBOARD_STATE;

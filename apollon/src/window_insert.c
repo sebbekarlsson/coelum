@@ -3,8 +3,8 @@
 #include <coelum/actor_text.h>
 #include <coelum/input.h>
 #include <coelum/io.h>
-#include <coelum/parsing/lexer.h>
-#include <coelum/parsing/config_parser.h>
+#include <coelum/hermes/lexer.h>
+#include <coelum/hermes/config_parser.h>
 #include <string.h>
 
 
