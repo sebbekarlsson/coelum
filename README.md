@@ -7,6 +7,10 @@
 ### [You (Zeus)](/)
 > You are the god.
 
+### [The Parser (Hermes)](./hermes)
+> The parser is used for multiple things, for example the built in hermes
+> language that you can use to define behavior of actors.
+
 ### [The Core (Coelum)](./coelum)
 > The foundation, game loop, input management, drivers, etc...
 
@@ -17,9 +21,23 @@
 ### [The Launcher (Leto)](./leto)
 > The launcher is used to run your games.
 
-### [The Parser (Hermes)](./hermes)
-> The parser is used for multiple things, for example the built in hermes
-> language that you can use to define behavior of actors.
+## Installing The Parser (Hermes)
+> To install Hermes, just run this:
+
+    cd hermes
+    make && sudo make install
+
+## Installing The Core (Coelum)
+> To install the core, just run this:
+
+    cd coelum
+    make && sudo make install
+
+## Installing The GUI (Apollon)
+> To get Apollon up and running, just run this:
+
+    cd apollon
+    make && ./apollon.out
 
 ## Using The Core
 > Here is the minimal required code to get a game up and running using only

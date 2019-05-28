@@ -8,4 +8,4 @@ sudo make clean; sudo make install &&
 cd ..
 cd apollon
 echo "APOLLON"
-sudo make clean; sudo make && ./coelumg.out
+sudo make clean; sudo make && ./apollon.out

@@ -1,4 +1,4 @@
-exec = coelumg.out
+exec = apollon.out
 sources = $(wildcard src/*.c)
 sources += $(wildcard ../GL/src/*.c)
 objects = $(sources:.c=.o)
