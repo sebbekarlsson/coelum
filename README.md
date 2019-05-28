@@ -4,40 +4,38 @@
 ## How it works
 > The engine is built upon `5` different parts:
 
-### [You (Zeus)](/)
+## [You (Zeus)](/)
 > You are the god.
 
-### [The Parser (Hermes)](./hermes)
+## The Parser (Hermes)
 > The parser is used for multiple things, for example the built in hermes
 > language that you can use to define behavior of actors.
-
-### [The Core (Coelum)](./coelum)
-> The foundation, game loop, input management, drivers, etc...
-
-### [The GUI (Apollon)](./apollon)
-> The graphical user interface, use it to design actors, levels, etc...
-> This one actually uses the [The Core](./src) to power it self.
-
-### [The Launcher (Leto)](./leto)
-> The launcher is used to run your games.
-
-## Installing The Parser (Hermes)
+### Installing Hermes
 > To install Hermes, just run this:
 
     cd hermes
     make && sudo make install
 
-## Installing The Core (Coelum)
+## The Core (Coelum)
+> The foundation, game loop, input management, drivers, etc...
+### Installing Coelum
 > To install the core, just run this:
 
     cd coelum
     make && sudo make install
 
-## Installing The GUI (Apollon)
+## The GUI (Apollon)
+> The graphical user interface, use it to design actors, levels, etc...
+> This one actually uses the [The Core](./src) to power it self.
+### Installing Apollon
 > To get Apollon up and running, just run this:
 
     cd apollon
     make && ./apollon.out
+
+## The Launcher (Leto)
+> Leto is used to launch your application.
+> _Currently not implemented_.
 
 ## Using The Core
 > Here is the minimal required code to get a game up and running using only
