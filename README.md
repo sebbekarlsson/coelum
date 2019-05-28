@@ -4,7 +4,7 @@
 ## How it works
 > The engine is built upon `5` different parts:
 
-## [You (Zeus)](/)
+## You (Zeus)
 > You are the god.
 
 ## The Parser (Hermes)
