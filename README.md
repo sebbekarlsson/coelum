@@ -2,7 +2,7 @@
 > Game engine in pure C.
 
 ## How it works
-> The engine is built upon `4` different parts:
+> The engine is built upon `5` different parts:
 
 ### [You (Zeus)](/)
 > You are the god.
