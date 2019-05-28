@@ -17,7 +17,9 @@
 ### [The Launcher (Leto)](./leto)
 > The launcher is used to run your games.
 
-### [The Parser (Hermes)][./hermes]
+### [The Parser (Hermes)](./hermes)
+> The parser is used for multiple things, for example the built in hermes
+> language that you can use to define behavior of actors.
 
 ## Using The Core
 > Here is the minimal required code to get a game up and running using only
