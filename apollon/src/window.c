@@ -47,6 +47,8 @@ void window_tick(actor_T* self)
          */
         if (strcmp(actor->type_name, "text_field") == 0 || strcmp(actor->type_name, "select_list") == 0)
             window_component = (window_component_T*) actor;
+        else
+            continue;
 
         if (window->focus_index == i)
         {
@@ -109,7 +111,7 @@ void window_draw(actor_T* self)
 
     draw_text(
         window->title,
-        self->x - (((text_size + text_spacing) * strlen(window->title)) / 2),
+        self->x - (strlen(window->title) * (text_size + text_spacing)) / 2,
         self->y - (window->height / 2) + (64 / 2),
         0.0f,
         COLOR_FG[0],

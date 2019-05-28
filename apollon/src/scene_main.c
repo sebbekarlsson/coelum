@@ -2,6 +2,7 @@
 #include "include/window_manager.h"
 #include "include/window_create.h"
 #include "include/window_insert.h"
+#include "include/window_popup.h"
 #include "include/text_field.h"
 #include "include/select_list.h"
 #include <coelum/constants.h>
@@ -196,6 +197,17 @@ void handle_inputs(state_T* self)
     } else if (!KEYBOARD_STATE->keys[GLFW_KEY_Q])
     {
         KEYBOARD_STATE->key_locks[GLFW_KEY_Q] == 0;
+    }
+
+    if (
+       KEYBOARD_STATE->keys[GLFW_KEY_LEFT_CONTROL] && KEYBOARD_STATE->key_locks[GLFW_KEY_LEFT_CONTROL] == 0 &&
+       KEYBOARD_STATE->keys[GLFW_KEY_S] && KEYBOARD_STATE->key_locks[GLFW_KEY_S] == 0
+    )
+    {
+        dynamic_list_append(
+            s_main->window_manager->windows,
+            init_window_popup(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, "saved", (void*) 0)
+        ); 
     }
 }
 
