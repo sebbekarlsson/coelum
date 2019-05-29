@@ -102,7 +102,7 @@ gcc main.c -lcoelum -lglfw -lm -ldl -lpthread -lopenal
 ## Requirements (Debian)
 > Install these:
 
-    apt-get install libglfw3-dev
+    apt-get install libglfw3-dev libaudio-dev
 
     pip install --upgrade git+https://github.com/dav1dde/glad.git#egg=glad
 

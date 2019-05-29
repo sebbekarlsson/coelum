@@ -3,6 +3,7 @@
 #include "scene_manager.h"
 #include "shader_manager.h"
 #include "texture_manager.h"
+#include "sound.h"
 
 
 typedef struct THEATRE_STRUCT
@@ -10,6 +11,7 @@ typedef struct THEATRE_STRUCT
     scene_manager_T* scene_manager;
     shader_manager_T* shader_manager;
     texture_manager_T* texture_manager;
+    AL_T* al;
 } theatre_T;
 
 theatre_T* init_theatre();
