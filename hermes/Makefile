@@ -20,3 +20,6 @@ clean:
 	-rm *.o
 	-rm *.a
 	-rm src/*.o
+
+lint:
+	clang-tidy src/*.c src/include/*.h

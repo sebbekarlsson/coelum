@@ -8,6 +8,8 @@ config_parser_T* init_config_parser(lexer_T* lexer)
     parser->lexer = lexer;
     parser->blocks = init_dynamic_list(sizeof(struct AST_STRUCT));
     parser->current_token = lexer_get_next_token(lexer);
+
+    return parser;
 }
 
 void config_parser_eat(config_parser_T* parser, int token_type)
@@ -62,7 +64,7 @@ AST_T* config_parser_parse_variable_definition(config_parser_T* parser)
     char* key = parser->current_token->value;
     config_parser_eat(parser, TOKEN_ID);
     config_parser_eat(parser, TOKEN_EQUALS);
-    void* value;
+    void* value = (void*) 0;
 
     if (parser->current_token->type == TOKEN_NUMBER_VALUE)
     {
@@ -90,6 +92,7 @@ AST_T* config_parser_parse_variable_definition(config_parser_T* parser)
     }
 
     AST_T* variable_definition = init_ast("variable_definition");
+
     ast_set_key_value(variable_definition, "key", key);
     ast_set_key_value(variable_definition, "value", value);
 

@@ -6,6 +6,7 @@
 #include "include/text_field.h"
 #include "include/select_list.h"
 #include <coelum/constants.h>
+#include <coelum/sound.h>
 #include <coelum/actor_text.h>
 #include <coelum/actor.h>
 #include <coelum/textures.h>
@@ -14,10 +15,12 @@
 #include <coelum/io.h>
 #include <coelum/hermes/lexer.h>
 #include <coelum/hermes/config_parser.h>
+#include <coelum/theatre.h>
 
 
 extern keyboard_state_T* KEYBOARD_STATE;
 extern window_manager_T* WINDOW_MANAGER;
+extern theatre_T* THEATRE;
 
 extern const float COLOR_BG_BRIGHT[3];
 
@@ -173,6 +176,9 @@ void handle_inputs(state_T* self)
             s_main->window_manager->windows,
             init_window_insert(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, window_insert_close_callback)
         );
+
+
+        play_sound_wav_threaded("res/sound/fret-noise.wav", THEATRE->al);
 
         KEYBOARD_STATE->key_locks[GLFW_KEY_I] = 1;
     } else if (!KEYBOARD_STATE->keys[GLFW_KEY_I])
