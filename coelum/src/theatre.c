@@ -8,6 +8,7 @@ theatre_T* init_theatre()
     theatre->scene_manager = init_scene_manager();
     theatre->shader_manager = init_shader_manager();
     theatre->texture_manager = init_texture_manager();
+    theatre->al = init_al();
 
     return theatre;
 }
