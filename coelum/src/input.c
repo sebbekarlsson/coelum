@@ -14,8 +14,8 @@ extern keyboard_state_T* KEYBOARD_STATE;
 keyboard_state_T* init_keyboard_state()
 {
     keyboard_state_T* ks = calloc(1, sizeof(struct KEYBOARD_STATE_STRUCT));
-    ks->keys = calloc(300, sizeof(int));
-    ks->key_locks = calloc(300, sizeof(int));
+    ks->keys = calloc(300, sizeof(unsigned int));
+    ks->key_locks = calloc(300, sizeof(unsigned int));
 
     keyboard_state_reset(ks);
 

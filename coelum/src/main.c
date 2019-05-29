@@ -22,8 +22,6 @@ void coelum_init()
 
     window = setup_graphical_window(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    init_al();
-
     THEATRE = init_theatre();
     register_shader_programs(THEATRE->shader_manager);
     register_textures(THEATRE->texture_manager);
@@ -58,7 +56,7 @@ int coelum_main(int argc, char* argv[])
 
     glfwTerminate();
 
-    exit_al(); 
+    al_free(THEATRE->al);
 
     return 0;
 }
