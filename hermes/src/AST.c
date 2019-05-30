@@ -8,6 +8,7 @@ AST_T* init_ast(char* type_name)
     AST_T* AST = calloc(1, sizeof(struct AST_STRUCT));
     AST->type_name = type_name;
     AST->size = 0;
+    AST->items = calloc(1, 1);
 
     return AST;
 }

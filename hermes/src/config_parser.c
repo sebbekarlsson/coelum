@@ -105,19 +105,17 @@ AST_T* config_parser_parse_list(config_parser_T* parser)
 
     AST_T* ast_list = init_ast("list");
 
-    dynamic_list_T* list = init_dynamic_list(sizeof(struct AST_STRUCT));
+    ast_list->rlist = init_dynamic_list(sizeof(struct AST_STRUCT));
 
-    dynamic_list_append(list, config_parser_parse(parser));
+    dynamic_list_append(ast_list->rlist, config_parser_parse(parser));
 
     while (parser->current_token->type == TOKEN_COMMA)
     {
         config_parser_eat(parser, TOKEN_COMMA);
-        dynamic_list_append(list, config_parser_parse(parser));
+        dynamic_list_append(ast_list->rlist, config_parser_parse(parser));
     }
 
     config_parser_eat(parser, TOKEN_RBRACKET);
-
-    ast_set_key_value(ast_list, "items", list);
 
     return ast_list;
 }

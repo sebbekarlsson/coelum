@@ -1,9 +1,11 @@
 #ifndef HERMES_AST_H
 #define HERMES_AST_H
 #include <stdio.h>
+#include <coelum/dynamic_list.h>
 
 typedef struct AST_STRUCT
 {
+    dynamic_list_T* rlist; // randomly accessible list.
     char* type_name;
     void** items;
     size_t size;

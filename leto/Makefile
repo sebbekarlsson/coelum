@@ -1,7 +1,7 @@
-exec = coeluml.out
+exec = leto.out
 sources = $(wildcard src/*.c)
 objects = $(sources:.c=.o)
-flags = -g -lcoelum -I../GL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread
+flags = -g -lcoelum -lhermes -I../GL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread -laudio
 
 
 $(exec): $(objects)
