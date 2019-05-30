@@ -17,7 +17,7 @@ extern unsigned int SHADER_DEFAULT;
  */
 scene_T* init_scene()
 {
-    scene_T* s = calloc(1, sizeof(struct SCENE_STRUCT)); 
+    scene_T* s = calloc(1, sizeof(struct SCENE_STRUCT));
 
     return s;
 }
