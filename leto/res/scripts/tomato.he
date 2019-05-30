@@ -1,0 +1,8 @@
+void tick()
+{
+    this.x = this.x + 1;
+}
+
+void draw()
+{
+}

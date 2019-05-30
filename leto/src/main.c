@@ -55,7 +55,8 @@ int main(int argc, char* argv[])
         scene_manager_register_scene(THEATRE->scene_manager, (scene_T*) scene);
 
         AST_T* actors_block = (AST_T*) config_parser_get_by_key(scene_block, "actors");
-        dynamic_list_T* actors = actors_block->rlist;
+
+        dynamic_list_T* actors = (dynamic_list_T*) ast_get_value_by_key(actors_block, "items");
 
         for (int ii = 0; ii < actors->size; ii++)
         {

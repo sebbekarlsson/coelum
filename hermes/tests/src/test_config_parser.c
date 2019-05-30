@@ -1,4 +1,4 @@
-#include "include/main.h"
+/*#include "include/main.h"
 #include "../../src/include/config_parser.h"
 #include <string.h>
 
@@ -54,4 +54,4 @@ void test_config_parser(void** state)
     }
     
     assert_true(parser != NULL);
-}
+}*/

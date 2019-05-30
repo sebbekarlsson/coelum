@@ -1,4 +1,4 @@
-#ifndef HERMES_CONFIG_PARSER_H
+/*#ifndef HERMES_CONFIG_PARSER_H
 #define HERMES_CONFIG_PARSER_H
 #include "lexer.h"
 #include "AST.h"
@@ -28,4 +28,4 @@ AST_T* config_parser_parse_list(config_parser_T* parser);
 dynamic_list_T* config_parser_get_keys(AST_T* node);
 
 void* config_parser_get_by_key(AST_T* node, char* key);
-#endif
+#endif*/
