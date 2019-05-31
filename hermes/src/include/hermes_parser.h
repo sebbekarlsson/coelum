@@ -43,6 +43,8 @@ AST_T* hermes_parser_parse_variable(hermes_parser_T* hermes_parser, hermes_scope
 
 AST_T* hermes_parser_parse_variable_assignment(hermes_parser_T* hermes_parser, hermes_scope_T* scope);
 
+AST_T* hermes_parser_parse_object(hermes_parser_T* hermes_parser, hermes_scope_T* scope);
+
 // math
 
 AST_T* hermes_parser_parse_factor(hermes_parser_T* hermes_parser, hermes_scope_T* scope);

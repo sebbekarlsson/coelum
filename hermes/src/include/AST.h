@@ -46,6 +46,7 @@ typedef struct AST_STRUCT
     dynamic_list_T* compound_value;
     dynamic_list_T* function_call_arguments;
     dynamic_list_T* function_definition_arguments;
+    dynamic_list_T* object_children;
     struct AST_STRUCT* function_definition_body;
     struct AST_STRUCT* function_definition_type;
     struct AST_STRUCT* if_expr;

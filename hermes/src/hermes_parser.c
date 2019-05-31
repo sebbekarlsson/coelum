@@ -7,6 +7,7 @@ const char* DATA_TYPE_STRING = "string";
 const char* DATA_TYPE_INT = "int";
 const char* DATA_TYPE_FLOAT = "float";
 const char* DATA_TYPE_BOOLEAN = "bool";
+const char* DATA_TYPE_OBJECT = "object";
 
 const char* STATEMENT_WHILE = "while";
 const char* STATEMENT_IF = "if";
@@ -72,7 +73,8 @@ AST_T* hermes_parser_parse_statement(hermes_parser_T* hermes_parser, hermes_scop
                 strcmp(token_value, DATA_TYPE_INT) == 0 ||
                 strcmp(token_value, DATA_TYPE_STRING) == 0 ||
                 strcmp(token_value, DATA_TYPE_FLOAT) == 0 ||
-                strcmp(token_value, DATA_TYPE_BOOLEAN) == 0
+                strcmp(token_value, DATA_TYPE_BOOLEAN) == 0 ||
+                strcmp(token_value, DATA_TYPE_OBJECT) == 0
             )
                 return hermes_parser_parse_function_definition(hermes_parser, scope);
 
@@ -190,11 +192,36 @@ AST_T* hermes_parser_parse_variable_assignment(hermes_parser_T* hermes_parser, h
     return ast_variable_assignment;
 }
 
+AST_T* hermes_parser_parse_object(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
+{
+    AST_T* ast_object = init_ast(AST_OBJECT);
+    ast_object->object_children = init_dynamic_list(sizeof(struct AST_STRUCT));
+
+    hermes_parser_eat(hermes_parser, TOKEN_LBRACE);
+
+    if (hermes_parser->current_token->type != TOKEN_RBRACE)
+    {
+        if (hermes_parser->current_token->type == TOKEN_ID)
+            dynamic_list_append(ast_object->object_children, hermes_parser_parse_function_definition(hermes_parser, scope));
+
+        while (hermes_parser->current_token->type == TOKEN_SEMI)
+        {
+            hermes_parser_eat(hermes_parser, TOKEN_SEMI);
+
+            if (hermes_parser->current_token->type == TOKEN_ID)
+                dynamic_list_append(ast_object->object_children, hermes_parser_parse_function_definition(hermes_parser, scope));
+        }
+    }
+    
+    hermes_parser_eat(hermes_parser, TOKEN_RBRACE);
+
+    return ast_object;
+}
+
 // math
 
 AST_T* hermes_parser_parse_factor(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
-{
-    
+{ 
     if (hermes_parser->current_token->type == TOKEN_ID)
     {
         hermes_parser_eat(hermes_parser, TOKEN_ID);
@@ -205,11 +232,14 @@ AST_T* hermes_parser_parse_factor(hermes_parser_T* hermes_parser, hermes_scope_T
             default: return hermes_parser_parse_variable(hermes_parser, scope); break;
         }
     }
-
+    
     switch (hermes_parser->current_token->type)
     {
         case TOKEN_NUMBER_VALUE: return hermes_parser_parse_integer(hermes_parser, scope); break;
+        case TOKEN_INTEGER_VALUE: return hermes_parser_parse_integer(hermes_parser, scope); break;
+        case TOKEN_FLOAT_VALUE: return hermes_parser_parse_integer(hermes_parser, scope); break;
         case TOKEN_STRING_VALUE: return hermes_parser_parse_string(hermes_parser, scope); break;
+        case TOKEN_LBRACE: return hermes_parser_parse_object(hermes_parser, scope); break;
         default: return hermes_parser_parse_expr(hermes_parser, scope); break;
     }
 }
@@ -217,13 +247,14 @@ AST_T* hermes_parser_parse_factor(hermes_parser_T* hermes_parser, hermes_scope_T
 AST_T* hermes_parser_parse_term(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     char* token_value = hermes_parser->current_token->value;
-    
+
     if (
         strcmp(token_value, DATA_TYPE_VOID) == 0 ||
         strcmp(token_value, DATA_TYPE_INT) == 0 ||
         strcmp(token_value, DATA_TYPE_STRING) == 0 ||
         strcmp(token_value, DATA_TYPE_FLOAT) == 0 ||
-        strcmp(token_value, DATA_TYPE_BOOLEAN) == 0
+        strcmp(token_value, DATA_TYPE_BOOLEAN) == 0 ||
+        strcmp(token_value, DATA_TYPE_OBJECT) == 0
     ) // this is to be able to have variable definitions inside of function definition parantheses.
         return hermes_parser_parse_function_definition(hermes_parser, scope);
 
