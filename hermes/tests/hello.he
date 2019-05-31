@@ -6,3 +6,12 @@ object person = {
         string name = "dog";    
     };
 };
+
+
+bool loop = true;
+
+while (loop)
+{
+    print(person);
+    loop = false;
+}

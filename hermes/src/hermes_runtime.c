@@ -131,6 +131,7 @@ AST_T* runtime_visit_function_call(runtime_T* runtime, AST_T* node)
                 case AST_INTEGER: printf("%d\n", visited->int_value); break;
                 case AST_FLOAT: printf("%0.6f\n", visited->float_value); break;
                 case AST_BOOLEAN: printf("%d\n", visited->boolean_value); break;
+                case AST_OBJECT: printf("{ object }\n"); break;
             }
         }
 
