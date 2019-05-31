@@ -1,28 +1,5 @@
-{
-    main = {
-        r = 100;
-        g = 255;
-        b = 255;
-
-        actors = [
-            {
-                type_name = "tomato";
-                x = 120;
-                y = 120;
-                z = 0;
-            },
-            {
-                type_name = "tomato";
-                x = 200;
-                y = 200;
-                z = 0;
-            },
-            {
-                type_name = "tomato";
-                x = 300;
-                y = 300;
-                z = 0;
-            }
-        ];  
-    };    
-}
+object main = {
+    int r = 12;
+    int g = 100;
+    int b = 190;
+};

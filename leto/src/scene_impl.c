@@ -4,7 +4,8 @@
 #include <coelum/actor.h>
 #include <coelum/io.h>
 #include <coelum/hermes/lexer.h>
-#include <coelum/hermes/config_parser.h>
+#include <coelum/hermes/hermes_parser.h>
+#include <coelum/hermes/hermes_runtime.h>
 #include <string.h>
 
 
@@ -26,17 +27,25 @@ void scene_impl_load(scene_T* scene)
 
     // lets lookup actor definitions
     lexer_T* lexer = init_lexer(read_file("actors.txt"));
-    config_parser_T* parser = init_config_parser(lexer);
-    AST_T* actors_node = config_parser_parse(parser);
-    dynamic_list_T* actor_names = config_parser_get_keys(actors_node);
+    hermes_parser_T* parser = init_hermes_parser(lexer);
+    AST_T* actors_node = hermes_parser_parse(parser, (void*) 0);
+    runtime_T* runtime = init_runtime();
+    runtime_visit(runtime, actors_node);
+    hermes_scope_T* runtime_scope = get_scope(runtime, actors_node);
+
+    //dynamic_list_T* actor_names = hermes_parser_get_keys(actors_node);
 
     for (int x = 0; x < scene_impl->on_load_actors->size; x++)
     {
         actor_abstract_T* actor_abstract = (actor_abstract_T*) scene_impl->on_load_actors->items[x];
 
-        for (int i = 0; i < actor_names->size; i++)
+        for (int i = 0; i < runtime_scope->variable_definitions->size; i++)
         {
-            char* actor_name = (char*) actor_names->items[i];
+            AST_T* ast_vardef = (AST_T*) runtime_scope->variable_definitions->items[i];
+
+            hermes_scope_T* object_scope = get_scope(runtime, ast_vardef->variable_value);
+
+            char* actor_name = (char*) ast_vardef->variable_name;
 
             if (!(strcmp(actor_name, actor_abstract->type_name) == 0))
                 continue;
@@ -47,10 +56,17 @@ void scene_impl_load(scene_T* scene)
             float actor_width;
             float actor_height;
 
-            AST_T* actor_block = (AST_T*) config_parser_get_by_key(actors_node, actor_name);
-            actor_texture_path = (char*) config_parser_get_by_key(actor_block, "texture");
-            actor_width = atof((char*) config_parser_get_by_key(actor_block, "width"));
-            actor_height = atof((char*) config_parser_get_by_key(actor_block, "height"));
+            for (int j = 0; j < object_scope->variable_definitions->size; j++)
+            {
+                AST_T* ast_obj_var = (AST_T*) object_scope->variable_definitions->items[j];
+
+                if (strcmp(ast_obj_var->variable_name, "texture"))
+                    actor_texture_path = ast_obj_var->variable_value->string_value;
+                if (strcmp(ast_obj_var->variable_name, "width"))
+                    actor_width = ast_obj_var->variable_value->int_value;
+                if (strcmp(ast_obj_var->variable_name, "height"))
+                    actor_height = ast_obj_var->variable_value->int_value;
+            } 
 
             actor_T* actor = init_actor(0.0f, 0.0f, 0.0f);
             actor_constructor(actor, actor_abstract->x, actor_abstract->y, actor_abstract->z, actor_tick, actor_draw, actor_abstract->type_name);
