@@ -1,7 +1,7 @@
 object person = {
-    object food = {
-        string name = "cake";    
+    void say(int x) {
+        print(x);
     };
 };
 
-print(person.food.name);
+print(person.say(100));

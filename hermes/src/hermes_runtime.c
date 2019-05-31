@@ -254,7 +254,7 @@ AST_T* runtime_visit_binop(runtime_T* runtime, AST_T* node)
         {
             for (int i = 0; i < left->object_children->size; i++)
             {
-                AST_T* child = (AST_T*) left->object_children->items[i];
+                AST_T* child = runtime_visit(runtime, (AST_T*) left->object_children->items[i]);
 
 
                 if (child->type == AST_VARIABLE_DEFINITION)
@@ -263,10 +263,31 @@ AST_T* runtime_visit_binop(runtime_T* runtime, AST_T* node)
                         return runtime_visit(runtime, child->variable_value);
                 }
                 else
-                if (child->type == AST_FUNCTION_CALL)
+                if (child->type == AST_FUNCTION_DEFINITION)
                 {
                     if (strcmp(child->function_name, access_name) == 0)
-                        return runtime_visit(runtime, child);
+                    {
+                        for (int x = 0; x < right->function_call_arguments->size; x++)
+                        {
+                            AST_T* ast_arg = (AST_T*) right->function_call_arguments->items[x];
+
+                            if (x > child->function_definition_arguments->size - 1)
+                            {
+                                printf("Too many arguments\n");
+                                break;
+                            }
+
+                            AST_T* ast_fdef_arg = (AST_T*) child->function_definition_arguments->items[x];
+                            char* arg_name = ast_fdef_arg->variable_name;
+
+                            AST_T* new_variable_def = init_ast(AST_VARIABLE_DEFINITION);
+                            new_variable_def->variable_value = runtime_visit(runtime, ast_arg);
+                            new_variable_def->variable_name = arg_name;
+
+                            dynamic_list_append(get_scope(runtime, child->function_definition_body)->variable_definitions, new_variable_def);
+                        }
+                        return runtime_visit(runtime, child->function_definition_body);
+                    }
                 }
             }
         }
