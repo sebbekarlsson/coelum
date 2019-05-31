@@ -1,7 +1,11 @@
+exec = hermes.out
 sources = $(wildcard src/*.c)
 objects = $(sources:.c=.o)
 flags = -g -lm -lcoelum
 
+
+$(exec): $(objects)
+	gcc $(objects) $(flags) -o $(exec)
 
 libhermes.a: $(objects)
 	ar rcs $@ $^
