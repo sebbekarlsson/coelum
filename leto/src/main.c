@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
             float az;
             char* type_name;
 
-            AST_T* ast_actor_object = ast_actors_list->list_children->items[i];
+            AST_T* ast_actor_object = ast_actors_list->list_children->items[ii];
 
             for (int ij = 0; ij < ast_actor_object->object_children->size; ij++)
             {
@@ -94,9 +94,9 @@ int main(int argc, char* argv[])
                 if (strcmp(ast_actor_vardef->variable_name, "z") == 0)
                     az = ast_actor_vardef->variable_value->int_value;
             
-                printf("%s (%0.6f, %0.6f, %0.6f)\n", type_name, ax, ay, az);
             }
 
+            printf("%s (%0.6f, %0.6f, %0.6f)\n", type_name, ax, ay, az);
             actor_abstract_T* actor_abstract = init_actor_abstract(type_name, ax, ay, az);
             dynamic_list_append(scene_impl->on_load_actors, actor_abstract);
         }

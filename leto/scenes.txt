@@ -9,6 +9,12 @@ object main = {
             int x = 120;
             int y = 120;
             int z = 0;
+        },
+        {
+            string type_name = "tomato";
+            int x = 220;
+            int y = 220;
+            int z = 0;
         }
     ];
 };
