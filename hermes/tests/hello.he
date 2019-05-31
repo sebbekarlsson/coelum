@@ -1,17 +1,5 @@
-object person = {
-    int width = 32;
-    int height = 32;
-
-    object animal = {
-        string name = "dog";    
-    };
+object tomato = {
+    int width = 16;
+    int height = 16;
+    string texture = "res/img/tomato.png"
 };
-
-
-bool loop = true;
-
-while (loop)
-{
-    print(person);
-    loop = false;
-}

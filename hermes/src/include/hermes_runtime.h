@@ -48,4 +48,6 @@ AST_T* runtime_visit_return(runtime_T* runtime, AST_T* node);
 AST_T* runtime_visit_if(runtime_T* runtime, AST_T* node);
 
 AST_T* runtime_visit_while(runtime_T* runtime, AST_T* node);
+
+hermes_scope_T* get_scope(runtime_T* runtime, AST_T* node);
 #endif

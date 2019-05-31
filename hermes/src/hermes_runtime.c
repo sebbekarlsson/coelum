@@ -40,14 +40,6 @@ AST_T* runtime_visit(runtime_T* runtime, AST_T* node)
 
 /* ==== helpers ==== */
 
-hermes_scope_T* _get_scope(runtime_T* runtime, AST_T* node)
-{
-    if (!node->scope)
-        return runtime->scope;
-
-    return (hermes_scope_T*) node->scope;
-}
-
 unsigned int _boolean_evaluation(AST_T* node)
 {
     switch (node->type)
@@ -64,7 +56,7 @@ unsigned int _boolean_evaluation(AST_T* node)
 
 AST_T* runtime_visit_variable(runtime_T* runtime, AST_T* node)
 {
-    hermes_scope_T* scope = _get_scope(runtime, node);
+    hermes_scope_T* scope = get_scope(runtime, node);
 
     for (int i = 0; i < scope->variable_definitions->size; i++)
     {
@@ -81,14 +73,16 @@ AST_T* runtime_visit_variable(runtime_T* runtime, AST_T* node)
 
 AST_T* runtime_visit_variable_definition(runtime_T* runtime, AST_T* node)
 {
-    dynamic_list_append(_get_scope(runtime, node)->variable_definitions, node);
+    node->variable_value = runtime_visit(runtime, node->variable_value);
+
+    dynamic_list_append(get_scope(runtime, node)->variable_definitions, node);
 
     return node;
 }
 
 AST_T* runtime_visit_variable_assignment(runtime_T* runtime, AST_T* node)
 {
-    hermes_scope_T* scope = _get_scope(runtime, node);
+    hermes_scope_T* scope = get_scope(runtime, node);
     AST_T* value = (void*) 0;
 
     for (int i = 0; i < scope->variable_definitions->size; i++)
@@ -107,14 +101,14 @@ AST_T* runtime_visit_variable_assignment(runtime_T* runtime, AST_T* node)
 
 AST_T* runtime_visit_function_definition(runtime_T* runtime, AST_T* node)
 {
-    dynamic_list_append(_get_scope(runtime, node)->function_definitions, node);
+    dynamic_list_append(get_scope(runtime, node)->function_definitions, node);
 
     return node;
 }
 
 AST_T* runtime_visit_function_call(runtime_T* runtime, AST_T* node)
 {
-    hermes_scope_T* scope = _get_scope(runtime, node);
+    hermes_scope_T* scope = get_scope(runtime, node);
 
     // TODO: remove this `if` and make a more beautiful implementation of
     // built-in methods.
@@ -142,7 +136,7 @@ AST_T* runtime_visit_function_call(runtime_T* runtime, AST_T* node)
     {
         AST_T* function_definition = (AST_T*) scope->function_definitions->items[i];
 
-        hermes_scope_T* function_definition_body_scope = _get_scope(runtime, function_definition->function_definition_body);
+        hermes_scope_T* function_definition_body_scope = get_scope(runtime, function_definition->function_definition_body);
 
         if (strcmp(function_definition->function_name, node->function_call_name) == 0)
         {
@@ -185,6 +179,12 @@ AST_T* runtime_visit_float(runtime_T* runtime, AST_T* node)
 
 AST_T* runtime_visit_object(runtime_T* runtime, AST_T* node)
 {
+    for (int i = 0; i < node->object_children->size; i++)
+    {
+        AST_T* child = (AST_T*) node->object_children->items[i];
+        node->object_children->items[i] = runtime_visit(runtime, child);
+    }
+
     return node;
 }
 
@@ -311,4 +311,12 @@ AST_T* runtime_visit_while(runtime_T* runtime, AST_T* node)
     }
 
     return node;
+}
+
+hermes_scope_T* get_scope(runtime_T* runtime, AST_T* node)
+{
+    if (!node->scope)
+        return runtime->scope;
+
+    return (hermes_scope_T*) node->scope;
 }

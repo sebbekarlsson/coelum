@@ -14,7 +14,8 @@
 #include <string.h>
 #include <coelum/io.h>
 #include <coelum/hermes/lexer.h>
-#include <coelum/hermes/config_parser.h>
+#include <coelum/hermes/hermes_parser.h>
+#include <coelum/hermes/hermes_runtime.h>
 #include <coelum/theatre.h>
 
 
@@ -90,25 +91,44 @@ void window_insert_close_callback(window_T* window, scene_T* scene)
     if (select_list)
     {
         select_list_item_T* item = select_list_get_selected_item(select_list);
-        printf("%s = %s\n", item->key, item->value);
 
         actor_type_name = item->key;
 
         lexer_T* lexer = init_lexer(read_file("actors.txt"));
-        config_parser_T* parser = init_config_parser(lexer);
-        AST_T* node = config_parser_parse(parser);
-        dynamic_list_T* actor_names = config_parser_get_keys(node);
-
-        for (int i = 0; i < actor_names->size; i++)
+        hermes_parser_T* parser = init_hermes_parser(lexer);
+        AST_T* node = hermes_parser_parse(parser, (void*) 0);
+        runtime_T* runtime = init_runtime();
+        runtime_visit(runtime, node);
+        
+        for (int i = 0; i < runtime->scope->variable_definitions->size; i++)
         {
-            char* actor_name = (char*) actor_names->items[i];
+            AST_T* ast = (AST_T*) runtime->scope->variable_definitions->items[i];
+
+            if (ast->type != AST_VARIABLE_DEFINITION)
+                continue;
+
+            char* actor_name = ast->variable_name;
+
+            printf("!!!%s\n", actor_name);
 
             if (strcmp(item->key, actor_name) == 0)
             {
-                AST_T* actor_block = (AST_T*) config_parser_get_by_key(node, actor_name);
-                actor_texture_path = (char*) config_parser_get_by_key(actor_block, "texture");
-                actor_width = atof((char*) config_parser_get_by_key(actor_block, "width"));
-                actor_height = atof((char*) config_parser_get_by_key(actor_block, "height"));
+                AST_T* actor_object = (AST_T*) ast->variable_value;
+                hermes_scope_T* actor_object_scope = get_scope(runtime, actor_object);
+
+                for (int j = 0; j < actor_object_scope->variable_definitions->size; j++)
+                {
+                    AST_T* ast_obj_var = (AST_T*) actor_object_scope->variable_definitions->items[j];
+
+                    if (strcmp(ast_obj_var->variable_name, "texture") == 0)
+                        actor_texture_path = ast_obj_var->variable_value->string_value;
+                    
+                    if (strcmp(ast_obj_var->variable_name, "width") == 0)
+                        actor_width = ast_obj_var->variable_value->int_value;
+
+                    if (strcmp(ast_obj_var->variable_name, "height") == 0)
+                        actor_height = ast_obj_var->variable_value->int_value;
+                }
             }
         }
 
@@ -124,11 +144,7 @@ void window_insert_close_callback(window_T* window, scene_T* scene)
         ac->width = actor_width;
         ac->height = actor_height;
 
-        printf("%s\n", actor_texture_path);
-
         dynamic_list_append(state->actors, ac);
-
-        printf("%0.6f, %0.6f\n", actor_x, actor_y);
     }
 
     printf("Insert window closed!\n");

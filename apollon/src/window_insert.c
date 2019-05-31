@@ -4,7 +4,8 @@
 #include <coelum/input.h>
 #include <coelum/io.h>
 #include <coelum/hermes/lexer.h>
-#include <coelum/hermes/config_parser.h>
+#include <coelum/hermes/hermes_parser.h>
+#include <coelum/hermes/hermes_runtime.h>
 #include <string.h>
 
 
@@ -19,13 +20,21 @@ window_insert_T* init_window_insert(float x, float y, void (*on_close)(window_T*
     dynamic_list_T* items = init_dynamic_list(sizeof(struct SELECT_LIST_ITEM_STRUCT));
 
     lexer_T* lexer = init_lexer(read_file("actors.txt"));
-    config_parser_T* parser = init_config_parser(lexer);
-    AST_T* node = config_parser_parse(parser);
-    dynamic_list_T* actor_names = config_parser_get_keys(node);
+    hermes_parser_T* parser = init_hermes_parser(lexer);
+    AST_T* node = hermes_parser_parse(parser, (void*) 0);
+    runtime_T* runtime = init_runtime();
+    runtime_visit(runtime, node);
 
-    for (int i = 0; i < actor_names->size; i++)
+    dynamic_list_T* actor_names = init_dynamic_list(sizeof(char*));
+
+    for (int i = 0; i < runtime->scope->variable_definitions->size; i++)
     {
-        select_list_item_T* item = init_select_list_item((char*) actor_names->items[i], "0");
+        AST_T* ast = (AST_T*) runtime->scope->variable_definitions->items[i];
+
+        if (ast->type != AST_VARIABLE_DEFINITION)
+            continue;
+
+        select_list_item_T* item = init_select_list_item(ast->variable_name, "0");
         dynamic_list_append(items, item);
     }
 
