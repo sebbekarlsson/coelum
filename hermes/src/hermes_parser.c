@@ -95,6 +95,7 @@ AST_T* hermes_parser_parse_statement(hermes_parser_T* hermes_parser, hermes_scop
 AST_T* hermes_parser_parse_statements(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* compound = init_ast(AST_COMPOUND);
+    compound->scope = (struct hermes_scope_T*) scope;
 
     compound->compound_value = init_dynamic_list(sizeof(struct AST_STRUCT));
 
@@ -113,6 +114,7 @@ AST_T* hermes_parser_parse_statements(hermes_parser_T* hermes_parser, hermes_sco
 AST_T* hermes_parser_parse_type(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* ast_type = init_ast(AST_TYPE);
+    ast_type->scope = (struct hermes_scope_T*) scope;
     ast_type->type_value = hermes_parser->current_token->value;
 
     hermes_parser_eat(hermes_parser, TOKEN_ID);
@@ -125,6 +127,7 @@ AST_T* hermes_parser_parse_type(hermes_parser_T* hermes_parser, hermes_scope_T* 
 AST_T* hermes_parser_parse_float(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* ast_float = init_ast(AST_FLOAT);
+    ast_float->scope = (struct hermes_scope_T*) scope;
     ast_float->float_value = (float) atof(hermes_parser->current_token->value);
 
     hermes_parser_eat(hermes_parser, TOKEN_NUMBER_VALUE);
@@ -135,6 +138,7 @@ AST_T* hermes_parser_parse_float(hermes_parser_T* hermes_parser, hermes_scope_T*
 AST_T* hermes_parser_parse_string(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* ast_string = init_ast(AST_STRING);
+    ast_string->scope = (struct hermes_scope_T*) scope;
     ast_string->string_value = hermes_parser->current_token->value;
 
     hermes_parser_eat(hermes_parser, TOKEN_STRING_VALUE);
@@ -145,6 +149,7 @@ AST_T* hermes_parser_parse_string(hermes_parser_T* hermes_parser, hermes_scope_T
 AST_T* hermes_parser_parse_integer(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* ast_integer = init_ast(AST_INTEGER);
+    ast_integer->scope = (struct hermes_scope_T*) scope;
     ast_integer->int_value = atoi(hermes_parser->current_token->value);
 
     hermes_parser_eat(hermes_parser, TOKEN_NUMBER_VALUE);
@@ -159,6 +164,7 @@ AST_T* hermes_parser_parse_array(hermes_parser_T* hermes_parser, hermes_scope_T*
 AST_T* hermes_parser_parse_boolean(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* ast_boolean = init_ast(AST_BOOLEAN);
+    ast_boolean->scope = (struct hermes_scope_T*) scope;
     
     if (strcmp(hermes_parser->current_token->value, "false") == 0)
         ast_boolean->boolean_value = 0; 
@@ -175,6 +181,7 @@ AST_T* hermes_parser_parse_boolean(hermes_parser_T* hermes_parser, hermes_scope_
 AST_T* hermes_parser_parse_variable(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
 {
     AST_T* ast_variable = init_ast(AST_VARIABLE);
+    ast_variable->scope = (struct hermes_scope_T*) scope;
     ast_variable->variable_name = hermes_parser->prev_token->value;
 
     return ast_variable;
@@ -186,6 +193,7 @@ AST_T* hermes_parser_parse_variable_assignment(hermes_parser_T* hermes_parser, h
     char* variable_name = hermes_parser->prev_token->value;
     hermes_parser_eat(hermes_parser, TOKEN_EQUALS);
     AST_T* ast_variable_assignment = init_ast(AST_VARIABLE_ASSIGNMENT);
+    ast_variable_assignment->scope = (struct hermes_scope_T*) scope;
     ast_variable_assignment->variable_name = variable_name;
     ast_variable_assignment->variable_value = hermes_parser_parse_expr(hermes_parser, scope);
 
@@ -196,20 +204,23 @@ AST_T* hermes_parser_parse_object(hermes_parser_T* hermes_parser, hermes_scope_T
 {
     AST_T* ast_object = init_ast(AST_OBJECT);
     ast_object->object_children = init_dynamic_list(sizeof(struct AST_STRUCT));
+    hermes_scope_T* new_scope = init_hermes_scope();
+    new_scope->owner = ast_object;
+    ast_object->scope = (struct hermes_scope_T*) new_scope;
 
     hermes_parser_eat(hermes_parser, TOKEN_LBRACE);
 
     if (hermes_parser->current_token->type != TOKEN_RBRACE)
     {
         if (hermes_parser->current_token->type == TOKEN_ID)
-            dynamic_list_append(ast_object->object_children, hermes_parser_parse_function_definition(hermes_parser, scope));
+            dynamic_list_append(ast_object->object_children, hermes_parser_parse_function_definition(hermes_parser, new_scope));
 
         while (hermes_parser->current_token->type == TOKEN_SEMI)
         {
             hermes_parser_eat(hermes_parser, TOKEN_SEMI);
 
             if (hermes_parser->current_token->type == TOKEN_ID)
-                dynamic_list_append(ast_object->object_children, hermes_parser_parse_function_definition(hermes_parser, scope));
+                dynamic_list_append(ast_object->object_children, hermes_parser_parse_function_definition(hermes_parser, new_scope));
         }
     }
     
@@ -299,6 +310,7 @@ AST_T* hermes_parser_parse_expr(hermes_parser_T* hermes_parser, hermes_scope_T* 
         hermes_parser_eat(hermes_parser, hermes_parser->current_token->type);
 
         ast_binop = init_ast(AST_BINOP);
+        ast_binop->scope = (struct hermes_scope_T*) scope;
 
         ast_binop->binop_left = node;
         ast_binop->binop_operator = binop_operator;
@@ -321,6 +333,7 @@ AST_T* hermes_parser_parse_return(hermes_parser_T* hermes_parser, hermes_scope_T
 {
     hermes_parser_eat(hermes_parser, TOKEN_ID);
     AST_T* ast_return = init_ast(AST_RETURN);
+    ast_return->scope = (struct hermes_scope_T*) scope;
 
     if (hermes_parser->current_token->type != TOKEN_SEMI)
         ast_return->return_value = hermes_parser_parse_expr(hermes_parser, scope);
@@ -345,12 +358,14 @@ AST_T* hermes_parser_parse_if(hermes_parser_T* hermes_parser, hermes_scope_T* sc
 
     hermes_parser_eat(hermes_parser, TOKEN_LBRACE);
     ast_if->if_body = hermes_parser_parse_statements(hermes_parser, scope);
+    ast_if->scope = (struct hermes_scope_T*) scope;
     hermes_parser_eat(hermes_parser, TOKEN_RBRACE);
 
     if (strcmp(hermes_parser->current_token->value, STATEMENT_ELSE) == 0)
     {
         hermes_parser_eat(hermes_parser, TOKEN_ID);
         ast_if->if_otherwise = hermes_parser_parse_if(hermes_parser, scope);
+        ast_if->if_otherwise->scope = (struct hermes_scope_T*) scope;
     }
 
     return ast_if;
@@ -368,6 +383,7 @@ AST_T* hermes_parser_parse_while(hermes_parser_T* hermes_parser, hermes_scope_T*
     hermes_parser_eat(hermes_parser, TOKEN_LBRACE);
     ast_while->while_body = hermes_parser_parse_statements(hermes_parser, scope);
     hermes_parser_eat(hermes_parser, TOKEN_RBRACE);
+    ast_while->scope = (struct hermes_scope_T*) scope;
 
     return ast_while;
 }
@@ -380,6 +396,7 @@ AST_T* hermes_parser_parse_function_call(hermes_parser_T* hermes_parser, hermes_
     ast_function_call->function_call_name = hermes_parser->prev_token->value;
     hermes_parser_eat(hermes_parser, TOKEN_LPAREN);
     ast_function_call->function_call_arguments = init_dynamic_list(sizeof(struct AST_STRUCT));
+    ast_function_call->scope = (struct hermes_scope_T*) scope;
 
     if (hermes_parser->current_token->type != TOKEN_RPAREN)
     {
@@ -408,6 +425,10 @@ AST_T* hermes_parser_parse_function_definition(hermes_parser_T* hermes_parser, h
         // alright, it sure is a function definition!
         
         AST_T* ast_function_definition = init_ast(AST_FUNCTION_DEFINITION);
+        hermes_scope_T* new_scope = init_hermes_scope();
+        new_scope->owner = ast_function_definition;
+        ast_function_definition->scope = (struct hermes_scope_T*) new_scope;
+
         ast_function_definition->function_name = function_name;
         ast_function_definition->function_definition_type = ast_type;
         ast_function_definition->function_definition_arguments = init_dynamic_list(sizeof(struct AST_STRUCT));
@@ -416,12 +437,12 @@ AST_T* hermes_parser_parse_function_definition(hermes_parser_T* hermes_parser, h
 
         if (hermes_parser->current_token->type != TOKEN_RPAREN)
         {
-            dynamic_list_append(ast_function_definition->function_definition_arguments, hermes_parser_parse_expr(hermes_parser, scope));
+            dynamic_list_append(ast_function_definition->function_definition_arguments, hermes_parser_parse_expr(hermes_parser, new_scope));
 
             while (hermes_parser->current_token->type == TOKEN_COMMA)
             {
                 hermes_parser_eat(hermes_parser, TOKEN_COMMA);
-                dynamic_list_append(ast_function_definition->function_definition_arguments, hermes_parser_parse_expr(hermes_parser, scope));
+                dynamic_list_append(ast_function_definition->function_definition_arguments, hermes_parser_parse_expr(hermes_parser, new_scope));
             }
         }
 
@@ -437,6 +458,7 @@ AST_T* hermes_parser_parse_function_definition(hermes_parser_T* hermes_parser, h
     {
         // alright, it is a variable definition.
         AST_T* ast_variable_definition = init_ast(AST_VARIABLE_DEFINITION);
+        ast_variable_definition->scope = (struct hermes_scope_T*) scope;
         ast_variable_definition->variable_name = function_name;
         ast_variable_definition->variable_type = ast_type;
         
