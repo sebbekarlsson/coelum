@@ -42,8 +42,7 @@ void scene_impl_load(scene_T* scene)
         for (int i = 0; i < runtime_scope->variable_definitions->size; i++)
         {
             AST_T* ast_vardef = (AST_T*) runtime_scope->variable_definitions->items[i];
-
-            hermes_scope_T* object_scope = get_scope(runtime, ast_vardef->variable_value);
+            AST_T* ast_obj = ast_vardef->variable_value;
 
             char* actor_name = (char*) ast_vardef->variable_name;
 
@@ -56,15 +55,15 @@ void scene_impl_load(scene_T* scene)
             float actor_width;
             float actor_height;
 
-            for (int j = 0; j < object_scope->variable_definitions->size; j++)
+            for (int j = 0; j < ast_obj->object_children->size; j++)
             {
-                AST_T* ast_obj_var = (AST_T*) object_scope->variable_definitions->items[j];
+                AST_T* ast_obj_var = (AST_T*) ast_obj->object_children->items[j]; 
 
-                if (strcmp(ast_obj_var->variable_name, "texture"))
+                if (strcmp(ast_obj_var->variable_name, "texture") == 0)
                     actor_texture_path = ast_obj_var->variable_value->string_value;
-                if (strcmp(ast_obj_var->variable_name, "width"))
+                if (strcmp(ast_obj_var->variable_name, "width") == 0)
                     actor_width = ast_obj_var->variable_value->int_value;
-                if (strcmp(ast_obj_var->variable_name, "height"))
+                if (strcmp(ast_obj_var->variable_name, "height") == 0)
                     actor_height = ast_obj_var->variable_value->int_value;
             } 
 

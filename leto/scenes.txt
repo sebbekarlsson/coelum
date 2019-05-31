@@ -2,4 +2,13 @@ object main = {
     int r = 12;
     int g = 100;
     int b = 190;
+
+    list actors = [
+        {
+            string type_name = "tomato";
+            int x = 120;
+            int y = 120;
+            int z = 0;
+        }
+    ];
 };
