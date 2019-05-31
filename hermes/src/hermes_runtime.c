@@ -238,7 +238,41 @@ AST_T* runtime_visit_binop(runtime_T* runtime, AST_T* node)
 {
     AST_T* return_value = (void*) 0;
     AST_T* left = runtime_visit(runtime, node->binop_left);
-    AST_T* right = runtime_visit(runtime, node->binop_right);
+    AST_T* right = node->binop_right;
+
+    if (node->binop_operator == TOKEN_DOT)
+    {
+        char* access_name = (void*) 0;
+
+        switch (right->type)
+        {
+            case AST_VARIABLE: access_name = right->variable_name; break;
+            case AST_FUNCTION_CALL: access_name = right->function_call_name; break;
+        }
+
+        if (left->type == AST_OBJECT)
+        {
+            for (int i = 0; i < left->object_children->size; i++)
+            {
+                AST_T* child = (AST_T*) left->object_children->items[i];
+
+
+                if (child->type == AST_VARIABLE_DEFINITION)
+                {
+                    if (strcmp(child->variable_name, access_name) == 0)
+                        return runtime_visit(runtime, child->variable_value);
+                }
+                else
+                if (child->type == AST_FUNCTION_CALL)
+                {
+                    if (strcmp(child->function_name, access_name) == 0)
+                        return runtime_visit(runtime, child);
+                }
+            }
+        }
+    }
+
+    right = runtime_visit(runtime, right);
 
     switch (node->binop_operator)
     {

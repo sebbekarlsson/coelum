@@ -300,7 +300,8 @@ AST_T* hermes_parser_parse_term(hermes_parser_T* hermes_parser, hermes_scope_T* 
 
     while (
         hermes_parser->current_token->type == TOKEN_DIV ||        
-        hermes_parser->current_token->type == TOKEN_STAR 
+        hermes_parser->current_token->type == TOKEN_STAR  ||
+        hermes_parser->current_token->type == TOKEN_DOT
     )
     {
         int binop_operator = hermes_parser->current_token->type;

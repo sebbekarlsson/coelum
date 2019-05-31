@@ -1,6 +1,7 @@
-list items = [
-    "hello",
-    "world",
-    12,
-    22
-];
+object person = {
+    object food = {
+        string name = "cake";    
+    };
+};
+
+print(person.food.name);
