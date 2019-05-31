@@ -243,12 +243,11 @@ AST_T* hermes_parser_parse_term(hermes_parser_T* hermes_parser, hermes_scope_T* 
         ast_binop->binop_left = node;
         ast_binop->binop_operator = binop_operator;
         ast_binop->binop_right = hermes_parser_parse_factor(hermes_parser, scope);
-    }
 
-    if (ast_binop)
-        return ast_binop;
-    else
-        return node;
+        node = ast_binop;
+    }
+    
+    return node;
 }
 
 AST_T* hermes_parser_parse_expr(hermes_parser_T* hermes_parser, hermes_scope_T* scope)
@@ -270,12 +269,11 @@ AST_T* hermes_parser_parse_expr(hermes_parser_T* hermes_parser, hermes_scope_T* 
         ast_binop->binop_left = node;
         ast_binop->binop_operator = binop_operator;
         ast_binop->binop_right = hermes_parser_parse_term(hermes_parser, scope);
+
+        node = ast_binop;
     }
 
-    if (ast_binop)
-        return ast_binop;
-    else
-        return node;
+    return node;
 }
 
 // statements
