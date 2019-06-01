@@ -1,7 +1,7 @@
 #include "include/scene_impl.h"
+#include "include/actor_impl.h"
 #include <coelum/theatre.h>
 #include <coelum/textures.h>
-#include <coelum/actor.h>
 #include <coelum/io.h>
 #include <coelum/hermes/lexer.h>
 #include <coelum/hermes/hermes_parser.h>
@@ -52,6 +52,7 @@ void scene_impl_load(scene_T* scene)
             printf("Loading actor `%s`\n", actor_name);
 
             char* actor_texture_path;
+            char* actor_source_code = (void*) 0;
             float actor_width;
             float actor_height;
 
@@ -65,10 +66,19 @@ void scene_impl_load(scene_T* scene)
                     actor_width = ast_obj_var->variable_value->int_value;
                 if (strcmp(ast_obj_var->variable_name, "height") == 0)
                     actor_height = ast_obj_var->variable_value->int_value;
+                if (strcmp(ast_obj_var->variable_name, "source_code") == 0)
+                    actor_source_code = read_file(ast_obj_var->variable_value->string_value);
             } 
 
-            actor_T* actor = init_actor(0.0f, 0.0f, 0.0f);
-            actor_constructor(actor, actor_abstract->x, actor_abstract->y, actor_abstract->z, actor_tick, actor_draw, actor_abstract->type_name);
+            actor_impl_T* actor_impl = init_actor_impl(
+                actor_abstract->x,
+                actor_abstract->y,
+                actor_abstract->z,
+                actor_source_code,
+                actor_name        
+            );
+            actor_T* actor = (actor_T*) actor_impl;
+
             actor->width = actor_width;
             actor->height = actor_height;
             texture_T* texture = get_texture(actor_texture_path, GL_RGBA);

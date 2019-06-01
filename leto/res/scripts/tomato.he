@@ -1,8 +1,4 @@
-void tick()
-{
-    this.x = this.x + 1;
-}
+ref actor;
 
-void draw()
-{
-}
+
+print(actor.x);

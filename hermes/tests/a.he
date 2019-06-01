@@ -1,0 +1,7 @@
+object hello = {
+    int x = 3;    
+};
+
+hello.x = 2 + hello.x;
+
+print(hello.x);

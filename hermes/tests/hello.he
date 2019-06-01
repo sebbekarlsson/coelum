@@ -1,7 +1,1 @@
-object person = {
-    void say(int x) {
-        print(x);
-    };
-};
-
-print(person.say(100));
+print(1);

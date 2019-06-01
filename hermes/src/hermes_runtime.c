@@ -7,12 +7,45 @@ runtime_T* init_runtime()
 {
     runtime_T* runtime = calloc(1, sizeof(struct RUNTIME_STRUCT));
     runtime->scope = init_hermes_scope();
+    runtime->references = init_dynamic_list(sizeof(struct RUNTIME_REFERENCE_STRUCT));
 
     return runtime;
 }
 
+runtime_reference_T* init_runtime_reference()
+{
+    runtime_reference_T* runtime_reference = calloc(1, sizeof(struct RUNTIME_REFERENCE_STRUCT));
+    runtime_reference->object = init_ast(AST_OBJECT);
+    runtime_reference->object->object_children = init_dynamic_list(sizeof(struct AST_STRUCT));
+
+    return runtime_reference;
+}
+
+runtime_reference_T* runtime_get_reference(runtime_T* runtime, char* variable_name)
+{
+    for (int i = 0; i < runtime->references->size; i++)
+    {
+        runtime_reference_T* reference = (runtime_reference_T*) runtime->references->items[i];
+
+        if (strcmp(reference->object->variable_name, variable_name) == 0)
+            return reference;
+    }
+
+    return (void*) 0;
+}
+
+runtime_reference_T* runtime_register_reference(runtime_T* runtime, runtime_reference_T* runtime_reference)
+{
+    dynamic_list_append(runtime->references, runtime_reference);
+
+    return runtime_reference;
+}
+
 AST_T* runtime_visit(runtime_T* runtime, AST_T* node)
 {
+    if (!node)
+        return (void*) 0;
+
     switch (node->type)
     {
         case AST_OBJECT: return runtime_visit_object(runtime, node); break;
@@ -28,6 +61,7 @@ AST_T* runtime_visit(runtime_T* runtime, AST_T* node)
         case AST_INTEGER: return runtime_visit_integer(runtime, node); break;
         case AST_COMPOUND: return runtime_visit_compound(runtime, node); break;
         case AST_TYPE: return runtime_visit_type(runtime, node); break;
+        case AST_ATTRIBUTE_ACCESS: return runtime_visit_attribute_access(runtime, node); break;
         case AST_BINOP: return runtime_visit_binop(runtime, node); break;
         case AST_NOOP: return runtime_visit_noop(runtime, node); break;
         case AST_BREAK: return runtime_visit_break(runtime, node); break;
@@ -64,6 +98,9 @@ AST_T* runtime_visit_variable(runtime_T* runtime, AST_T* node)
 
         if (strcmp(variable_definition->variable_name, node->variable_name) == 0)
         {
+            if (!variable_definition->variable_value)
+                return variable_definition;
+
             return runtime_visit(runtime, variable_definition->variable_value);
         }
     }
@@ -73,7 +110,8 @@ AST_T* runtime_visit_variable(runtime_T* runtime, AST_T* node)
 
 AST_T* runtime_visit_variable_definition(runtime_T* runtime, AST_T* node)
 {
-    node->variable_value = runtime_visit(runtime, node->variable_value);
+    if (node->variable_value)
+        node->variable_value = runtime_visit(runtime, node->variable_value);
 
     dynamic_list_append(get_scope(runtime, node)->variable_definitions, node);
 
@@ -85,18 +123,22 @@ AST_T* runtime_visit_variable_assignment(runtime_T* runtime, AST_T* node)
     hermes_scope_T* scope = get_scope(runtime, node);
     AST_T* value = (void*) 0;
 
-    for (int i = 0; i < scope->variable_definitions->size; i++)
-    {
-        AST_T* ast_variable_definition = (AST_T*) scope->variable_definitions->items[i];
+    AST_T* left = node->variable_assignment_left;
+    hermes_scope_T* variable_scope = get_scope(runtime, node);
 
-        if (strcmp(ast_variable_definition->variable_name, node->variable_name) == 0)
+    for (int i = 0; i < variable_scope->variable_definitions->size; i++)
+    {
+        AST_T* ast_variable_definition = (AST_T*) variable_scope->variable_definitions->items[i];
+
+        if (strcmp(ast_variable_definition->variable_name, left->variable_name) == 0)
         {
             value = runtime_visit(runtime, node->variable_value);
             ast_variable_definition->variable_value = value;
+            return value;
         }
     }
 
-    return value;
+    printf("Cant set undefined variable `%s`\n", node->variable_name); exit(1);
 }
 
 AST_T* runtime_visit_function_definition(runtime_T* runtime, AST_T* node)
@@ -208,6 +250,10 @@ AST_T* runtime_visit_compound(runtime_T* runtime, AST_T* node)
     for (int i = 0; i < node->compound_value->size; i++)
     {
         AST_T* child = (AST_T*) node->compound_value->items[i];
+
+        if (!child)
+            continue;
+
         AST_T* visited = runtime_visit(runtime, child);
 
         if (visited)
@@ -234,6 +280,16 @@ AST_T* runtime_visit_type(runtime_T* runtime, AST_T* node)
     return node;
 }
 
+AST_T* runtime_visit_attribute_access(runtime_T* runtime, AST_T* node)
+{
+    AST_T* left = runtime_visit(runtime, node->binop_left);
+
+    node->scope = (struct hermes_scope_T*) get_scope(runtime, left);
+    node->binop_right->scope = node->scope;
+
+    return runtime_visit(runtime, node->binop_right);
+}
+
 AST_T* runtime_visit_binop(runtime_T* runtime, AST_T* node)
 {
     AST_T* return_value = (void*) 0;
@@ -250,17 +306,52 @@ AST_T* runtime_visit_binop(runtime_T* runtime, AST_T* node)
             case AST_FUNCTION_CALL: access_name = right->function_call_name; break;
         }
 
+        if (left->type == AST_VARIABLE_DEFINITION)
+        {
+            if (strcmp(left->variable_type->type_value, "ref") == 0)
+            {
+                runtime_reference_T* reference = runtime_get_reference(runtime, left->variable_name);
+
+                if (!reference)
+                {
+                    printf("The reference `%s` is not registered in the current runtime.\n", left->variable_name);
+                    exit(1);
+                }
+                else
+                {
+                    left = reference->object;
+                }
+            }
+        }
+
+        if (right->type == AST_BINOP)
+            right = runtime_visit(runtime, right);
+        
         if (left->type == AST_OBJECT)
         {
             for (int i = 0; i < left->object_children->size; i++)
             {
                 AST_T* child = runtime_visit(runtime, (AST_T*) left->object_children->items[i]);
 
+                if (child->type == AST_VARIABLE_DEFINITION && right->type == AST_VARIABLE_ASSIGNMENT)
+                {
+                    child->variable_value = runtime_visit(runtime, right->variable_value);
+                    return child->variable_value;
+                }
 
                 if (child->type == AST_VARIABLE_DEFINITION)
                 {
                     if (strcmp(child->variable_name, access_name) == 0)
-                        return runtime_visit(runtime, child->variable_value);
+                    {
+                        if (child->variable_value)
+                        {
+                            return runtime_visit(runtime, child->variable_value);
+                        }
+                        else
+                        {
+                            return child;
+                        }
+                    }
                 }
                 else
                 if (child->type == AST_FUNCTION_DEFINITION)

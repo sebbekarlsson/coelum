@@ -7,6 +7,7 @@ typedef struct AST_STRUCT
 {
     enum {
         AST_OBJECT,
+        AST_REFERENCE,
         AST_VARIABLE,
         AST_VARIABLE_DEFINITION,
         AST_VARIABLE_ASSIGNMENT,
@@ -25,7 +26,8 @@ typedef struct AST_STRUCT
         AST_RETURN,
         AST_IF,
         AST_ELSE,
-        AST_WHILE
+        AST_WHILE,
+        AST_ATTRIBUTE_ACCESS
     } type;
     
     char* function_call_name;
@@ -38,6 +40,7 @@ typedef struct AST_STRUCT
     char* variable_name;
     struct AST_STRUCT* variable_value;
     struct AST_STRUCT* variable_type;
+    struct AST_STRUCT* variable_assignment_left;
     char* function_name;
     struct AST_STRUCT* binop_left;
     struct AST_STRUCT* binop_right;
