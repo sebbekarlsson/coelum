@@ -1,7 +1,4 @@
 #include "include/actor_impl.h"
-#include <coelum/hermes/lexer.h>
-#include <coelum/hermes/hermes_parser.h>
-#include <coelum/hermes/hermes_runtime.h>
 
 
 /**
@@ -23,6 +20,39 @@ actor_impl_T* init_actor_impl(float x, float y, float z, char* source_code, char
     actor_constructor(a, x, y, z, actor_impl_tick, actor_impl_draw, type_name);
 
     impl->source_code = source_code;
+    impl->lexer = init_lexer(impl->source_code);
+    impl->hermes_parser = init_hermes_parser(impl->lexer);
+    impl->ast_tree = hermes_parser_parse(impl->hermes_parser, (void*) 0);
+    impl->runtime = init_runtime();
+    impl->runtime_reference = init_runtime_reference();
+
+    impl->runtime_reference->object->variable_name = "actor";
+    hermes_scope_T* scope = init_hermes_scope();
+    scope->owner = impl->runtime_reference->object;
+    
+    // x
+    impl->x_var = init_ast(AST_VARIABLE_DEFINITION);
+    impl->x_var->variable_name = "x";
+    impl->x_var->variable_value = init_ast(AST_INTEGER);
+    impl->x_var->variable_type = init_ast(AST_TYPE);
+    impl->x_var->variable_type->type_value = "int";
+    impl->x_var->variable_value->int_value = a->x;
+    dynamic_list_append(scope->variable_definitions, impl->x_var);
+    dynamic_list_append(impl->runtime_reference->object->object_children, impl->x_var);
+
+    // y
+    impl->y_var = init_ast(AST_VARIABLE_DEFINITION);
+    impl->y_var->variable_name = "y";
+    impl->y_var->variable_value = init_ast(AST_INTEGER);
+    impl->y_var->variable_type = init_ast(AST_TYPE);
+    impl->y_var->variable_type->type_value = "int";
+    impl->y_var->variable_value->int_value = a->y;
+    dynamic_list_append(scope->variable_definitions, impl->y_var);
+    dynamic_list_append(impl->runtime_reference->object->object_children, impl->y_var);
+
+
+    impl->runtime_reference->object->scope = (struct hermes_scope_T*) scope;
+    runtime_register_reference(impl->runtime, impl->runtime_reference);
 
     return impl;
 }
@@ -34,42 +64,10 @@ void actor_impl_tick(actor_T* self)
 
    if (actor_impl->source_code)
    {
-       lexer_T* lexer = init_lexer(actor_impl->source_code);
-       hermes_parser_T* parser = init_hermes_parser(lexer);
-       AST_T* node = hermes_parser_parse(parser, (void*) 0);
-       runtime_T* runtime = init_runtime();
+       runtime_visit(actor_impl->runtime, actor_impl->ast_tree);
 
-       runtime_reference_T* runtime_reference = init_runtime_reference();
-       runtime_reference->object->variable_name = "actor";
-       hermes_scope_T* scope = init_hermes_scope();
-       scope->owner = runtime_reference->object;
-       runtime_reference->object->scope = (struct hermes_scope_T*) scope;
-
-       AST_T* xdef = init_ast(AST_VARIABLE_DEFINITION);
-       xdef->variable_name = "x";
-       xdef->variable_value = init_ast(AST_INTEGER);
-       xdef->variable_value->int_value = self->x;
-       dynamic_list_append(runtime_reference->object->object_children, xdef);
-       dynamic_list_append(scope->variable_definitions, xdef);
-       runtime_register_reference(runtime, runtime_reference);
-
-
-       runtime_visit(runtime, node);
-
-       free(lexer);
-
-       if (parser->prev_token)
-       {
-           free(parser->prev_token);
-       }
-
-
-       if (parser->current_token)
-       {
-           free(parser->current_token);
-       }
-
-       free(node);
+       self->x = actor_impl->x_var->variable_value->int_value;
+       self->y = actor_impl->y_var->variable_value->int_value;
    }
 }
 

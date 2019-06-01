@@ -284,6 +284,24 @@ AST_T* runtime_visit_attribute_access(runtime_T* runtime, AST_T* node)
 {
     AST_T* left = runtime_visit(runtime, node->binop_left);
 
+    if (left->type == AST_VARIABLE_DEFINITION)
+    {
+        if (strcmp(left->variable_type->type_value, "ref") == 0)
+        {
+            runtime_reference_T* reference = runtime_get_reference(runtime, left->variable_name);
+
+            if (!reference)
+            {
+                printf("The reference `%s` is not registered in the current runtime.\n", left->variable_name);
+                exit(1);
+            }
+            else
+            {
+                left = reference->object;
+            }
+        }
+    }
+
     node->scope = (struct hermes_scope_T*) get_scope(runtime, left);
     node->binop_right->scope = node->scope;
 
