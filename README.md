@@ -2,11 +2,12 @@
 > Glorious Game Engine written in pure C for divine intellects.
 
 ## The important parts
-> There are `4` important parts that make up for this software, which is:  
+> There are `5` important parts that make up for this software, which is:  
 > *Zeus (you)*,  
 [Coelum (the core)](./coelum),  
 [Apollon (the GUI)](./apollon),  
-[Leto (the launcher)](./leto)  
+[Leto (the launcher)](./leto)
+[Hermes (the language)](https://github.com/sebbekarlsson/hermes)
 
 ## The Core (Coelum)
 > The foundation, game loop, input management, drivers, etc...
