@@ -5,7 +5,7 @@
 > There are `5` important parts that make up for this software, which is:  
 > *Zeus (you)*,  
 [Coelum (the core)](./coelum),  
-[Apollon (the GUI)](./apollon),  
+[Apollon (the GUI)](https://github.com/sebbekarlsson/apollon),  
 [Leto (the launcher)](./leto),  
 [Hermes (the language)](https://github.com/sebbekarlsson/hermes)
 
@@ -16,19 +16,6 @@
 
     cd coelum
     make && sudo make install
-
-## The GUI (Apollon)
-> The graphical user interface, use it to design actors, levels, etc...
-> This one actually uses the [The Core](./src) to power it self.
-### Installing Apollon
-> To get Apollon up and running, just run this:
-
-    cd apollon
-    make && ./apollon.out
-
-## The Launcher (Leto)
-> Leto is used to launch your application.
-> _Currently not implemented_.
 
 ## Using The Core
 > Here is the minimal required code to get a game up and running using only

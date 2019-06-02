@@ -1,7 +1,3 @@
 cd coelum
 echo "COELUM"
-sudo make clean; sudo make install &&
-cd ..
-cd apollon
-echo "APOLLON"
-sudo make clean; sudo make && ./apollon.out
+sudo make clean; sudo make install
