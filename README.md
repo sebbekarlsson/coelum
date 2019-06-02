@@ -6,7 +6,7 @@
 > *Zeus (you)*,  
 [Coelum (the core)](./coelum),  
 [Apollon (the GUI)](./apollon),  
-[Leto (the launcher)](./leto)
+[Leto (the launcher)](./leto),  
 [Hermes (the language)](https://github.com/sebbekarlsson/hermes)
 
 ## The Core (Coelum)
