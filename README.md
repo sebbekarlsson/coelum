@@ -2,21 +2,11 @@
 > Glorious Game Engine written in pure C for divine intellects.
 
 ## The important parts
-> There are `5` important parts that make up for this software, which is:  
+> There are `4` important parts that make up for this software, which is:  
 > *Zeus (you)*,  
-[Hermes (the parser)](./hermes),  
 [Coelum (the core)](./coelum),  
 [Apollon (the GUI)](./apollon),  
 [Leto (the launcher)](./leto)  
-
-## The Parser (Hermes)
-> The parser is used for multiple things, for example the built in hermes
-> language that you can use to define behavior of actors.
-### Installing Hermes
-> To install Hermes, just run this:
-
-    cd hermes
-    make && sudo make install
 
 ## The Core (Coelum)
 > The foundation, game loop, input management, drivers, etc...
