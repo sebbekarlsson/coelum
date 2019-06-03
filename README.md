@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 ```
 > Paste the code into a `main.c` file, and compile it like this:
 ```bash
-gcc main.c -lcoelum -lglfw -lm -ldl -lpthread -lopenal
+gcc main.c -lcoelum -lglfw -lm -ldl -lpthread -lopenal -laudio
 ```
 
 ## Story
