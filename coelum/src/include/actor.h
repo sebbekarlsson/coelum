@@ -13,6 +13,9 @@ typedef struct ACTOR_STRUCT
     float dx;
     float dy;
     float dz;
+    float rx; // rotation
+    float ry; // rotation
+    float rz; // rotation
     float friction;
     int width;
     int height;
@@ -28,7 +31,7 @@ typedef struct ACTOR_STRUCT
     void (*load)(void* self);
 } actor_T;
 
-actor_T* init_actor(float x, float y, float z);
+actor_T* init_actor();
 
 actor_T* actor_constructor(
     actor_T* a,

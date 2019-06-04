@@ -50,7 +50,10 @@ void scene_manager_tick(scene_manager_T* scene_manager)
 {
     scene_T* s = scene_manager_get_current_scene(scene_manager);
     state_T* state = (state_T*) s;
-    state->tick(state);
+    state_tick(state);
+
+    if (s->tick)
+        s->tick(s);
 }
 
 /**
@@ -62,7 +65,10 @@ void scene_manager_draw(scene_manager_T* scene_manager)
 {
     scene_T* s = scene_manager_get_current_scene(scene_manager);
     state_T* state = (state_T*) s;
-    state->draw(state);
+    state_draw(state);
+
+    if (s->draw)
+        s->draw(s);
 }
 
 /**

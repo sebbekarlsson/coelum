@@ -9,9 +9,12 @@ typedef struct CAMERA_STRUCT
     float x;
     float y;
     float z;
+    float rx;
+    float ry;
+    float rz;
 } camera_T;
 
-camera_T* init_camera();
+camera_T* init_camera(int projection_view_width, int projection_view_height, unsigned int dimensions);
 
 void camera_bind(camera_T* camera);
 

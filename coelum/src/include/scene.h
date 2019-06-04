@@ -13,13 +13,15 @@ typedef struct SCENE_STRUCT
     float bg_r;
     float bg_g;
     float bg_b;
+    void (*tick)(void* self);
+    void (*draw)(void* self);
     void (*load)(void* self);
     void (*unload)(void* self);
 } scene_T;
 
 scene_T* init_scene();
 
-scene_T* scene_constructor(scene_T* scene, void (*tick)(state_T* self), void (*draw)(state_T* self));
+scene_T* scene_constructor(scene_T* scene, void (*tick)(scene_T* self), void (*draw)(scene_T* self), unsigned int dimensions);
 
 void scene_tick(scene_T* scene);
 

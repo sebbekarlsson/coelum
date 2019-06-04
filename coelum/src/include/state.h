@@ -14,13 +14,11 @@ typedef struct STATE_STRUCT
     dynamic_list_T* actors;
     unsigned int VAO;
     camera_T* camera;
-    void (*tick)(void* self);
-    void (*draw)(void* self);
 } state_T;
 
 state_T* init_state();
 
-state_T* state_constructor(state_T* state, void (*tick)(state_T* self), void (*draw)(state_T* self), int projection_view_width, int projection_view_height);
+state_T* state_constructor(state_T* state, int projection_view_width, int projection_view_height, unsigned int dimensions);
 
 void state_tick(state_T* state);
 
