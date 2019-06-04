@@ -110,6 +110,7 @@ void draw_2D_mesh(
  *
  * @param float x
  * @param float y
+ * @param float z
  * @param float width
  * @param float height
  * @param float r
@@ -117,9 +118,10 @@ void draw_2D_mesh(
  * @param float b
  * @param state_T* state
  */
-void draw_2D_positioned_2D_mesh(
+void draw_positioned_2D_mesh(
     float x,
     float y,
+    float z,
     float width,
     float height,
     float r,
@@ -149,14 +151,14 @@ void draw_2D_positioned_2D_mesh(
         0, 0, 0, 1
     };
 
-    glm_translate(model, (vec3){x, y, 0.0f});
+    glm_translate(model, (vec3){x, y, z});
     send_model_state(SHADER_COLORED, model); 
 
     draw_2D_mesh(width, height, r, g, b, VBO, EBO);
 
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glm_translate(model, (vec3){-x, -y, -0.0f});
+    glm_translate(model, (vec3){-x, -y, -z});
     
     glBindVertexArray(0);
 }

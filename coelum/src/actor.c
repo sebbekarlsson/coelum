@@ -23,7 +23,7 @@ extern unsigned int SHADER_TEXTURED;
  *
  * @return actor_T*
  */
-actor_T* init_actor(float x, float y, float z)
+actor_T* init_actor()
 {
     return (actor_T*) calloc(1, sizeof(struct ACTOR_STRUCT));
 }
@@ -53,6 +53,9 @@ actor_T* actor_constructor(
     actor->dx = 0.0f;
     actor->dy = 0.0f;
     actor->dz = 0.0f;
+    actor->rx = 0.0f;
+    actor->ry = 0.0f;
+    actor->rz = 0.0f;
     actor->friction = 0.0f;
     actor->width = 1;
     actor->height = 1;
@@ -99,15 +102,7 @@ void actor_tick(actor_T* actor)
  */
 void actor_draw(actor_T* actor)
 {
-    state_T* state = (state_T*) scene_manager_get_current_scene(THEATRE->scene_manager);
-    if (actor->texture)
-    {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, actor->texture);
-        glBindVertexArray(state->VAO);
-    }
-
-    draw_2D_mesh(actor->width, actor->height, 255.0f, 255.0f, 255.0f, actor->VBO, actor->EBO);
+    // silence
 }
 
 /**

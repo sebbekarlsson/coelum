@@ -29,6 +29,9 @@ GLFWwindow* setup_graphical_window(int width, int height)
     }
 
     glfwMakeContextCurrent(window);
+    
+    // lock cursor, for fps games
+    // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialize GLAD\n");
@@ -38,6 +41,7 @@ GLFWwindow* setup_graphical_window(int width, int height)
     glViewport(0, 0, width, height);
 
     glEnable(GL_BLEND);
+    glDepthFunc(GL_LESS);    
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 

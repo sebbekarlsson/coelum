@@ -17,9 +17,7 @@ extern unsigned int SHADER_DEFAULT;
  */
 scene_T* init_scene()
 {
-    scene_T* s = calloc(1, sizeof(struct SCENE_STRUCT));
-
-    return s;
+    return (scene_T*) calloc(1, sizeof(struct SCENE_STRUCT));
 }
 
 /**
@@ -30,9 +28,12 @@ scene_T* init_scene()
  *
  * @return scene_T*
  */
-scene_T* scene_constructor(scene_T* scene,  void (*tick)(state_T* self), void (*draw)(state_T* self))
+scene_T* scene_constructor(scene_T* scene,  void (*tick)(scene_T* self), void (*draw)(scene_T* self), unsigned int dimensions)
 {
-    state_constructor((state_T*) scene, tick, draw, WINDOW_WIDTH, WINDOW_HEIGHT);
+    state_constructor((state_T*) scene, WINDOW_WIDTH, WINDOW_HEIGHT, dimensions);
+
+    scene->tick = tick;
+    scene->draw = draw;
 
     scene->bg_r = 255.0f;
     scene->bg_g = 255.0f;
@@ -41,24 +42,18 @@ scene_T* scene_constructor(scene_T* scene,  void (*tick)(state_T* self), void (*
 
 /**
  * Default scene tick method.
- * This method calls tick on all child actors.
  *
  * @param scene_T* s
  */
 void scene_tick(scene_T* scene)
 {
-    state_T* state = (state_T*) scene;
-    state_tick(state); 
 }
 
 /**
  * Default scene draw method.
- * This method draws all child actors.
  *
  * @param scene_T* scene
  */
 void scene_draw(scene_T* scene)
 {
-    state_T* state = (state_T*) scene;
-    state_draw(state); 
 }

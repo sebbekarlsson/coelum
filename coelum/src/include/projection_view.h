@@ -8,9 +8,10 @@ typedef struct PROJECTION_VIEW_STRUCT
 {
     mat4 projection;
     mat4 view;
+    unsigned int dimensions;
 } projection_view_T;
 
-projection_view_T* init_projection_view(int width, int height);
+projection_view_T* init_projection_view(int width, int height, unsigned int dimensions);
 
 void projection_view_translate(projection_view_T* projection_view, float x, float y, float z);
 

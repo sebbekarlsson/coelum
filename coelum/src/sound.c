@@ -1,5 +1,5 @@
 #include "include/sound.h"
-#include "include/theatre.h"
+#include <cglm/types.h>
 #include <AL/al.h>
 #include <AL/alut.h>
 #include <stdio.h>
@@ -109,7 +109,7 @@ void* play_sound(void* s)
     short *samples = calloc(buf_size, sizeof(short));
 
     for(int i=0; i<buf_size; ++i)
-        samples[i] = 32760 * sin((2.f * M_PI * frequency) / sample_rate * i);
+        samples[i] = 32760 * sin((2.f * GLM_PI * frequency) / sample_rate * i);
 
     alBufferData(buf, AL_FORMAT_MONO16, samples, buf_size, sample_rate);
 

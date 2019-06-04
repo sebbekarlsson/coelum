@@ -21,9 +21,10 @@ void draw_2D_mesh(
     unsigned int EBO
 );
 
-void draw_2D_positioned_2D_mesh(
+void draw_positioned_2D_mesh(
     float x,
     float y,
+    float z,
     float width,
     float height,
     float r,

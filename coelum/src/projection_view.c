@@ -1,5 +1,6 @@
 #include "include/projection_view.h"
 #include "include/constants.h"
+#include "include/utils.h"
 #include <string.h>
 
 
@@ -11,9 +12,10 @@
  *
  * @return projection_view_T*
  */
-projection_view_T* init_projection_view(int width, int height)
+projection_view_T* init_projection_view(int width, int height, unsigned int dimensions)
 {
     projection_view_T* pv = calloc(1, sizeof(struct PROJECTION_VIEW_STRUCT));
+    pv->dimensions = dimensions;
 
     mat4 view =
     {
@@ -35,8 +37,21 @@ projection_view_T* init_projection_view(int width, int height)
     memcpy(pv->projection, projection, sizeof(projection));
 
     projection_view_translate(pv, 0.0f, 0.0f, 0.0f);
-    glm_ortho(0.0f, width, height, 0.0f, 0.0f, 1.5f, pv->projection);
 
+    if (pv->dimensions == 2)
+    { // we are doing 2D
+        glm_ortho(0.0f, width, height, 0.0f, 0.0f, 1.5f, pv->projection);
+    }
+    else
+    { // we are doing 3D
+        glm_perspective(to_radians(45.0f), (float) width / (float)height, 0.1f, 1000.0f, pv->projection);
+        /*glm_lookat(
+            (vec3){0, 0, 0},
+            (vec3){0, 0, 0},
+            (vec3){0, 1, 0},
+            pv->view
+        );*/
+    } 
     return pv;
 }
 

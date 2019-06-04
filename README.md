@@ -1,5 +1,6 @@
 # Coelum
-> Glorious Game Engine written in pure C for divine intellects.
+> Glorious Game Engine for divine intellects, written in pure C.
+![screenshot](fps.png)
 
 ## The important parts
 > There are `5` important parts that make up for this software, which is:  
@@ -26,36 +27,41 @@
 #include <coelum/theatre.h>
 #include <coelum/constants.h>
 #include <coelum/scene.h>
+#include <coelum/actor.h>
 
 
 extern theatre_T* THEATRE;
 
-void scene_main_tick(state_T* self)
+#ifndef GL_RGBA
+#define GL_RGBA 0x1908
+#endif
+
+scene_T* init_scene_main()
 {
-    scene_tick((scene_T*) self);
-}
+    // creating a scene                          tick        draw     (2 dimensions)
+    scene_T* s = scene_constructor(init_scene(), (void*) 0, (void*) 0, 2);
+    s->bg_r = 154;
+    s->bg_g = 55;
+    s->bg_g = 200;
 
-void scene_main_draw(state_T* self)
-{
-    scene_draw((scene_T*) self);
-}
+    // creating an actor
+    actor_T* a = actor_constructor(
+        init_actor(),
+        (640 / 2) - 32,
+        (480 / 2) - 32,
+        0.0f,
+        (void*) 0, // tick method
+        (void*) 0, // draw method
+        "cherry"
+    );
+    a->width = 64;
+    a->height = 64;
+    a->texture = get_texture("cherry.png", GL_RGBA)->renderable_texture; 
+   
+    // adding the actor to the scene 
+    dynamic_list_append(((state_T*)s)->actors, a);
 
-typedef struct SCENE_MAIN_STRUCT {
-    scene_T base;
-} scene_main_T;
-
-scene_main_T* init_scene_main()
-{
-    scene_main_T* s_main = calloc(1, sizeof(struct SCENE_MAIN_STRUCT));
-    scene_T* s = (scene_T*) s_main;
-
-    scene_constructor(s, scene_main_tick, scene_main_draw);
-
-    s->bg_r = 48.0f;
-    s->bg_g = 48.0f;
-    s->bg_b = 48.0f;
-
-    return s_main;
+    return s;
 } 
 
 int main(int argc, char* argv[])
@@ -71,6 +77,13 @@ int main(int argc, char* argv[])
 ```bash
 gcc main.c -lcoelum -lglfw -lm -ldl -lpthread -lopenal -laudio
 ```
+> (Note, make sure you have a `cherry.png` file where you run the code).  
+> Then run it:
+```bash
+./a.out
+```
+> You should now see something like this:
+![screenshot](image.png)
 
 ## Story
 > This game engine was originally a pong game, the engine was later separated

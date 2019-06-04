@@ -4,8 +4,17 @@
 
 
 extern keyboard_state_T* KEYBOARD_STATE;
+extern mouse_state_T* MOUSE_STATE;
 
 
+mouse_state_T* init_mouse_state()
+{
+    mouse_state_T* mouse_state = calloc(1, sizeof(struct MOUSE_STATE_STRUCT));
+    mouse_state->x = 0;
+    mouse_state->y = 0;
+    mouse_state->dx = 0;
+    mouse_state->dy = 0;
+}
 /**
  * Creates a new keyboard_state
  *
@@ -102,6 +111,14 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
     strcat(KEYBOARD_STATE->buffer, char_str);
 
     free(char_str);
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    MOUSE_STATE->dx = MOUSE_STATE->x - xpos;
+    MOUSE_STATE->x = xpos;
+    MOUSE_STATE->dy = MOUSE_STATE->y - ypos;
+    MOUSE_STATE->y = ypos;
 }
 
 /**

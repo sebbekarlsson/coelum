@@ -12,6 +12,7 @@
 
 
 keyboard_state_T* KEYBOARD_STATE;
+mouse_state_T* MOUSE_STATE;
 theatre_T* THEATRE;
 
 GLFWwindow* window = (void*) 0;
@@ -31,6 +32,9 @@ void coelum_init()
     glfwSetKeyCallback(window, key_callback);
     glfwSetCharCallback(window, character_callback);
 
+    MOUSE_STATE = init_mouse_state();
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+
     printf("Coelum was initialized.\n");
 }
 
@@ -42,11 +46,25 @@ int coelum_main(int argc, char* argv[])
             scene_manager_next(THEATRE->scene_manager);
 
         scene_T* scene = scene_manager_get_current_scene(THEATRE->scene_manager);
+        state_T* state = (state_T*) scene;
+
+        MOUSE_STATE->dx = 0.0f;
+        MOUSE_STATE->dy = 0.0f;
 
         glfwPollEvents();
 
         glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+
+        if (state->camera->projection_view->dimensions == 2)
+        { // we are doing 2D
+            glDisable(GL_DEPTH_TEST);
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
+        else
+        { // we are doing 3D
+            glEnable(GL_DEPTH_TEST);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
 
         theatre_tick(THEATRE);
         theatre_draw(THEATRE);

@@ -1,14 +1,17 @@
 #include "include/camera.h"
 
 
-camera_T* init_camera(int projection_view_width, int projection_view_height)
+camera_T* init_camera(int projection_view_width, int projection_view_height, unsigned int dimensions)
 {
     camera_T* c = calloc(1, sizeof(struct CAMERA_STRUCT));
-    c->projection_view = init_projection_view(projection_view_width, projection_view_height);
+    c->projection_view = init_projection_view(projection_view_width, projection_view_height, dimensions);
 
     c->x = 0.0f;
     c->y = 0.0f;
     c->z = 0.0f;
+    c->rx = 0.0f;
+    c->ry = 0.0f;
+    c->rz = 0.0f;
 
     return c;
 }
