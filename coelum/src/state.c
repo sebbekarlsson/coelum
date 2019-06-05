@@ -70,37 +70,26 @@ void state_draw(state_T* state)
     }
     else
     { // we are doing 3D
-        mat4 rot = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        };
+        //glm_translate(pv->view, (vec3){state->camera->x, state->camera->y, state->camera->z});
+        vec4 qx, qy, qz;
+        mat4 mx, my, mz;
+        glm_quat(qx, -to_radians(state->camera->rx), 1.0f, 0.0f, 0.0f);
+        glm_quat(qy, -to_radians(state->camera->ry), 0.0f, 1.0f, 0.0f);
+        glm_quat(qz, -to_radians(state->camera->rz), 0.0f, 0.0f, 1.0f);
 
-        mat4 pos = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        };
+        glm_quat_mat4(qx, mx);
+        glm_quat_mat4(qy, my);
+        glm_quat_mat4(qz, mz);
 
-        mat4 final = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        };
+        mat4 final;
 
-        // rotation
-        glm_rotate(rot, -to_radians(state->camera->rx), (vec3){ 1.0f, 0.0f, 0.0f });
-        glm_rotate(rot, -to_radians(state->camera->ry), (vec3){ 0.0f, 1.0f, 0.0f });
-        glm_rotate(rot, -to_radians(state->camera->rz), (vec3){ 0.0f, 0.0f, 1.0f });
+        glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, final);
 
-        // position
-        glm_translate(pos, (vec3){state->camera->x, state->camera->y, state->camera->z});
+        glm_translate(final, (vec3){ state->camera->x, state->camera->y, state->camera->z });
 
-        glm_mat4_mul(rot, pos, final);
-        glm_mat4_copy(final, state->camera->projection_view->view);
+        glm_mat4_copy(final, pv->view);
+
+        //camera_bind(state->camera);
     }
 
     for (int i = 0; i < state->actors->size; i++)

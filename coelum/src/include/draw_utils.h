@@ -46,6 +46,8 @@ void draw_line(
     state_T* state
 );
 
+void draw_3D_axis(float x, float y, float z, float width, float height, float depth, state_T* state);
+
 void draw_text(
     const char* text,
     float x,

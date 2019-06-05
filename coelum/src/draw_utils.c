@@ -231,7 +231,34 @@ void draw_line(
 
     glDeleteBuffers(1, &VBO);
 
-    glBindVertexArray(0);
+    //glBindVertexArray(0);
+}
+
+void draw_3D_axis(float x, float y, float z, float width, float height, float depth, state_T* state)
+{
+    // x
+    draw_line(
+        x, y, z,
+        x + width, y, z,
+        255, 0, 0,
+        state
+    );
+
+    // y
+    draw_line(
+        x, y, z,
+        x, y + height, z,
+        0, 255, 0,
+        state
+    );
+
+    // z
+    draw_line(
+        x, y, z,
+        x, y, z + depth,
+        0, 0, 255,
+        state
+    );
 }
 
 /**
