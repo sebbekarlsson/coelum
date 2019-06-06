@@ -100,37 +100,39 @@ void state_draw(state_T* state)
 
         send_projection_view_state(a->shader_program, pv);
 
-        mat4 arot = {
+        vec4 qx, qy, qz;
+        mat4 mx, my, mz;
+
+        glm_quat(qx, to_radians(a->rx), 1.0f, 0.0f, 0.0f);
+        glm_quat(qy, to_radians(a->ry), 0.0f, 1.0f, 0.0f);
+        glm_quat(qz, to_radians(a->rz), 0.0f, 0.0f, 1.0f);
+
+        glm_quat_mat4(qx, mx);
+        glm_quat_mat4(qy, my);
+        glm_quat_mat4(qz, mz);
+
+        mat4 trans = {
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1 
+        };
+
+        mat4 rot = {
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1
         };
 
-        mat4 apos = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        }; 
+        mat4 final;
 
-        mat4 afinal = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        }; 
+        glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, rot);
+        glm_translate(trans, (vec3){ a->x, a->y, a->z });
 
-        // rotation
-        glm_rotate(arot, -to_radians(a->rx), (vec3){ 1.0f, 0.0f, 0.0f });
-        glm_rotate(arot, to_radians(a->ry), (vec3){ 0.0f, 1.0f, 0.0f });
-        glm_rotate(arot, to_radians(a->rz), (vec3){ 0.0f, 0.0f, 1.0f });
-        
-        // position
-        glm_translate(apos, (vec3){a->x, a->y, a->z});
-        
-        glm_mat4_mul(apos, arot, afinal);
-        glm_mat4_copy(afinal, a->model);
+        glm_mat4_mul(trans, rot, final);
+
+        glm_mat4_copy(final, a->model);
         send_model_state(a->shader_program, a->model);
 
         if (a->texture)
