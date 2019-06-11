@@ -2,6 +2,7 @@
 #define COELUM_DRAW_UTILS_H
 #include "projection_view.h"
 #include "state.h"
+#include <objload/obj.h>
 
 
 void send_projection_view_state(
@@ -58,6 +59,18 @@ void draw_text(
     float b,
     float size,
     float spacing,
+    state_T* state
+);
+
+void draw_3D_model(
+    obj_T* obj,
+    unsigned int texture,
+    float x,
+    float y,
+    float z,
+    float r,
+    float g,
+    float b,
     state_T* state
 );
 #endif

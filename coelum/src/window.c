@@ -43,6 +43,9 @@ GLFWwindow* setup_graphical_window(int width, int height)
     glEnable(GL_BLEND);
     glDepthFunc(GL_LESS);    
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
+    glShadeModel(GL_SMOOTH);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
 
