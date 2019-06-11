@@ -364,5 +364,152 @@ void draw_text(
     }
 
     glDeleteBuffers(1, &VBO);
+    glBindVertexArray(0); 
+}
+
+/**
+ * Draw a 3D model at a position.
+ *
+ * @param obj_T* obj
+ * @param unsigned int texture
+ * @param float x
+ * @param float y
+ * @param float z
+ * @param float r
+ * @param float g
+ * @param float b
+ * @param state_T* state
+ */
+void draw_3D_model(
+    obj_T* obj,
+    unsigned int texture,
+    float x,
+    float y,
+    float z,
+    float r,
+    float g,
+    float b,
+    state_T* state
+)
+{
+    float d_r = r / 255.0f;
+    float d_g = g / 255.0f;
+    float d_b = b / 255.0f;
+
+    glBindVertexArray(state->VAO);
+    glUseProgram(SHADER_TEXTURED);
+
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    float* vecs = calloc(1, sizeof(float));
+    vecs[0] = 0;
+    size_t vec_size = 0;
+    
+    for (int j = 0; j < obj->polygon_groups_size; j++)
+    {
+        for (int k = 0; k < obj->polygon_groups[j]->faces_size; k++)
+        {
+            obj_face_T* face = obj->polygon_groups[j]->faces[k];
+
+            for (int l = 0; l < face->vertex_pointers_size; l++)
+            {
+                obj_vec_T* facevec = obj->vertice_vectors[face->vertex_pointers[l] - 1];
+                obj_vec_T* texvec;
+
+                if (obj->texcoord_vectors_size && face->texcoord_pointers_size)
+                    texvec = obj->texcoord_vectors[face->texcoord_pointers[l] - 1];
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = facevec->x;
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = facevec->y;
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = facevec->z; 
+
+                // colors
+                
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = d_r;
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = d_g;
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = d_b;
+
+                if (texvec)
+                {
+                    vec_size++;
+                    vecs = realloc(vecs, vec_size * sizeof(float));
+                    vecs[vec_size - 1] = texvec->x;
+
+                    vec_size++;
+                    vecs = realloc(vecs, vec_size * sizeof(float));
+                    vecs[vec_size - 1] = -texvec->y;
+                }
+                else
+                {
+                    vec_size++;
+                    vecs = realloc(vecs, vec_size * sizeof(float));
+                    vecs[vec_size - 1] = 0.0f;
+
+                    vec_size++;
+                    vecs = realloc(vecs, vec_size * sizeof(float));
+                    vecs[vec_size - 1] = 0.0f;
+                }
+                
+                /*vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = texvec->z;*/
+            }
+        }
+    }
+
+    mat4 model =
+    {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+    
+    glm_translate(model, (vec3){x, y, z});
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vec_size * sizeof(float), &vecs[0], GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);
+    
+    // texcoord
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0);
+    
+    glBindVertexArray(state->VAO);
+    
+    unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
+    glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
+
+    glDrawArrays(GL_TRIANGLES, 0, vec_size);
+
+    glDeleteBuffers(1, &VBO);
     glBindVertexArray(0);
 }

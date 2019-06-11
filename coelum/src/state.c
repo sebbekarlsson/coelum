@@ -147,8 +147,6 @@ void state_draw(state_T* state)
 
         if (a->draw)
             a->draw(a);
-
-        send_model_state(a->shader_program, a->model);
     }
 
     camera_unbind(state->camera); 

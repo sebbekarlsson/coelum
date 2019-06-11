@@ -44,7 +44,7 @@ projection_view_T* init_projection_view(int width, int height, unsigned int dime
     }
     else
     { // we are doing 3D
-        glm_perspective(to_radians(45.0f), (float) width / (float)height, 0.1f, 1000.0f, pv->projection);
+        glm_perspective(to_radians(45.0f), (float) width / (float)height, 0.01f, 1000.0f, pv->projection);
         /*glm_lookat(
             (vec3){0, 0, 0},
             (vec3){0, 0, 0},
