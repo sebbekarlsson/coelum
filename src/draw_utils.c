@@ -416,7 +416,7 @@ void draw_3D_model(
             for (int l = 0; l < face->vertex_pointers_size; l++)
             {
                 obj_vec_T* facevec = obj->vertice_vectors[face->vertex_pointers[l] - 1];
-                obj_vec_T* texvec;
+                obj_vec_T* texvec = (void*) 0;
 
                 if (obj->texcoord_vectors_size && face->texcoord_pointers_size)
                     texvec = obj->texcoord_vectors[face->texcoord_pointers[l] - 1];

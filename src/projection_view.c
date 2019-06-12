@@ -1,6 +1,8 @@
 #include "include/projection_view.h"
 #include "include/constants.h"
 #include "include/utils.h"
+#include <cglm/cglm.h>
+#include <cglm/call.h>
 #include <string.h>
 
 
@@ -44,7 +46,7 @@ projection_view_T* init_projection_view(int width, int height, unsigned int dime
     }
     else
     { // we are doing 3D
-        glm_perspective(to_radians(45.0f), (float) width / (float)height, 0.01f, 1000.0f, pv->projection);
+        glm_perspective(glm_rad(45.0f), (float) width / (float)height, 0.01f, 1000.0f, pv->projection);
         /*glm_lookat(
             (vec3){0, 0, 0},
             (vec3){0, 0, 0},

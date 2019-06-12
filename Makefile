@@ -1,7 +1,7 @@
 sources = $(wildcard src/*.c)
-sources += $(wildcard ../GL/src/*.c)
+sources += $(wildcard GL/src/*.c)
 objects = $(sources:.c=.o)
-flags = -g -I../GL/include -lglfw -ldl -lcglm -lm -lopenal -lpthread -laudio -std=c99
+flags = -g -IGL/include -rdynamic -lglfw -ldl -lcglm -lm -lopenal -lpthread -laudio -std=c99
 
 
 libcoelum.a: $(objects)
@@ -31,4 +31,4 @@ clean:
 	-rm src/*.o
 
 lint:
-	clang-tidy src/*.c src/include/*.h  -- -I../GL/include
+	clang-tidy src/*.c src/include/*.h  -- -IGL/include

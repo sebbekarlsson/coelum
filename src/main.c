@@ -66,6 +66,8 @@ int coelum_main(int argc, char* argv[])
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
+        glfwSetInputMode(window, GLFW_CURSOR, MOUSE_STATE->input_mode);
+
         theatre_tick(THEATRE);
         theatre_draw(THEATRE);
 
