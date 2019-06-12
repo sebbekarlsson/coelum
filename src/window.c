@@ -28,10 +28,7 @@ GLFWwindow* setup_graphical_window(int width, int height)
         return NULL;
     }
 
-    glfwMakeContextCurrent(window);
-    
-    // lock cursor, for fps games
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwMakeContextCurrent(window); 
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialize GLAD\n");

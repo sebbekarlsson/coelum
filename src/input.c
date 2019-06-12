@@ -14,6 +14,7 @@ mouse_state_T* init_mouse_state()
     mouse_state->y = 0;
     mouse_state->dx = 0;
     mouse_state->dy = 0;
+    mouse_state->input_mode = GLFW_CURSOR_NORMAL;
 }
 /**
  * Creates a new keyboard_state
