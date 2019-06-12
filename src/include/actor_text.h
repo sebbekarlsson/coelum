@@ -14,7 +14,6 @@ typedef struct ACTOR_TEXT_STRUCT
     float spacing;
 } actor_text_T;
 
-
 actor_text_T* init_actor_text(float x, float y, float z, char* text, float r, float g, float b, float size, float spacing);
 
 void actor_text_tick(actor_T* self);

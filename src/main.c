@@ -4,7 +4,6 @@
 #include "include/window.h"
 #include "include/input.h"
 #include "include/theatre.h"
-#include "include/scene_registry.h"
 #include "include/shader_registry.h"
 #include "include/texture_manager.h"
 #include "include/texture_registry.h"
@@ -26,7 +25,6 @@ void coelum_init()
     THEATRE = init_theatre();
     register_shader_programs(THEATRE->shader_manager);
     register_textures(THEATRE->texture_manager);
-    register_scenes(THEATRE->scene_manager);
 
     KEYBOARD_STATE = init_keyboard_state();
     glfwSetKeyCallback(window, key_callback);
