@@ -22,8 +22,3 @@ int random_int(int min_value, int max_value)
 {
    return min_value + rand() % (max_value+1 - min_value);
 }
-
-float to_radians(float angle)
-{
-    return angle * (GLM_PI / 180.0f);
-}

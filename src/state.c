@@ -73,9 +73,9 @@ void state_draw(state_T* state)
         //glm_translate(pv->view, (vec3){state->camera->x, state->camera->y, state->camera->z});
         vec4 qx, qy, qz;
         mat4 mx, my, mz;
-        glm_quat(qx, -to_radians(state->camera->rx), 1.0f, 0.0f, 0.0f);
-        glm_quat(qy, -to_radians(state->camera->ry), 0.0f, 1.0f, 0.0f);
-        glm_quat(qz, -to_radians(state->camera->rz), 0.0f, 0.0f, 1.0f);
+        glm_quat(qx, -glm_rad(state->camera->rx), 1.0f, 0.0f, 0.0f);
+        glm_quat(qy, -glm_rad(state->camera->ry), 0.0f, 1.0f, 0.0f);
+        glm_quat(qz, -glm_rad(state->camera->rz), 0.0f, 0.0f, 1.0f);
 
         glm_quat_mat4(qx, mx);
         glm_quat_mat4(qy, my);
@@ -103,9 +103,9 @@ void state_draw(state_T* state)
         vec4 qx, qy, qz;
         mat4 mx, my, mz;
 
-        glm_quat(qx, to_radians(a->rx), 1.0f, 0.0f, 0.0f);
-        glm_quat(qy, to_radians(a->ry), 0.0f, 1.0f, 0.0f);
-        glm_quat(qz, to_radians(a->rz), 0.0f, 0.0f, 1.0f);
+        glm_quat(qx, glm_rad(a->rx), 1.0f, 0.0f, 0.0f);
+        glm_quat(qy, glm_rad(a->ry), 0.0f, 1.0f, 0.0f);
+        glm_quat(qz, glm_rad(a->rz), 0.0f, 0.0f, 1.0f);
 
         glm_quat_mat4(qx, mx);
         glm_quat_mat4(qy, my);
