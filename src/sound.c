@@ -159,10 +159,16 @@ void* play_sound_wav(void* s)
     sound_T* sound = (sound_T*) s;
 
     if (!sound->fname)
+    {
         printf("No fname in sound\n");
+        exit(1);
+    }
 
     if (!alcMakeContextCurrent(sound->al->context))
+    {
         printf("Could not make sound context\n");
+        exit(1);
+    }
 
     ALuint source;
 
@@ -222,4 +228,6 @@ void* play_sound_wav(void* s)
     alDeleteBuffers(1, &buffer);
 
     free(sound);
+
+    return (void*) 0;
 }

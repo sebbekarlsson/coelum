@@ -70,7 +70,6 @@ void state_draw(state_T* state)
     }
     else
     { // we are doing 3D
-        //glm_translate(pv->view, (vec3){state->camera->x, state->camera->y, state->camera->z});
         vec4 qx, qy, qz;
         mat4 mx, my, mz;
         glm_quat(qx, -glm_rad(state->camera->rx), 1.0f, 0.0f, 0.0f);
@@ -88,8 +87,6 @@ void state_draw(state_T* state)
         glm_translate(final, (vec3){ state->camera->x, state->camera->y, state->camera->z });
 
         glm_mat4_copy(final, pv->view);
-
-        //camera_bind(state->camera);
     }
 
     for (int i = 0; i < state->actors->size; i++)

@@ -98,3 +98,11 @@ gcc main.c -lcoelum -lglfw -lm -ldl -lpthread -lopenal -laudio
     pip install --upgrade git+https://github.com/dav1dde/glad.git#egg=glad
 
     glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=GL
+
+## Contributing
+### Linting
+> To check for warnings in the coelum source code, you can run:
+
+    make lint
+
+> Make sure you have installed `clang` and `clang-tidy` before you do this.

@@ -31,4 +31,4 @@ clean:
 	-rm src/*.o
 
 lint:
-	clang-tidy src/*.c src/include/*.h  -- -I/GL/include
+	clang-tidy src/*.c src/include/*.h  -- -IGL/include
