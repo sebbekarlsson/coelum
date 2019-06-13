@@ -393,6 +393,8 @@ void draw_3D_model(
     state_T* state
 )
 {
+    float lightpos[] = { 6.0f, 0.0f, -12.0f };
+
     float d_r = r / 255.0f;
     float d_g = g / 255.0f;
     float d_b = b / 255.0f;
@@ -531,6 +533,9 @@ void draw_3D_model(
     
     unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED_SHADED, "model");
     glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
+
+    unsigned uniform_vec3_lightpos = glGetUniformLocation(SHADER_TEXTURED_SHADED, "lightpos");
+    glUniform3fv(uniform_vec3_lightpos, 1, lightpos);
 
     glDrawArrays(GL_TRIANGLES, 0, vec_size);
 
