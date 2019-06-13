@@ -9,6 +9,7 @@
 
 extern unsigned int SHADER_COLORED;
 extern unsigned int SHADER_TEXTURED;
+extern unsigned int SHADER_TEXTURED_SHADED;
 extern texture_T* TEXTURE_DEFAULT_FONT;
 
 /**
@@ -397,7 +398,8 @@ void draw_3D_model(
     float d_b = b / 255.0f;
 
     glBindVertexArray(state->VAO);
-    glUseProgram(SHADER_TEXTURED);
+    glUseProgram(SHADER_TEXTURED_SHADED);
+    send_projection_view_state(SHADER_TEXTURED_SHADED, state->camera->projection_view);
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -417,9 +419,13 @@ void draw_3D_model(
             {
                 obj_vec_T* facevec = obj->vertice_vectors[face->vertex_pointers[l] - 1];
                 obj_vec_T* texvec = (void*) 0;
+                obj_vec_T* normalvec = (void*) 0;
 
                 if (obj->texcoord_vectors_size && face->texcoord_pointers_size)
                     texvec = obj->texcoord_vectors[face->texcoord_pointers[l] - 1];
+
+                if (obj->normal_vectors_size && face->normal_pointers_size)
+                    normalvec = obj->normal_vectors[face->normal_pointers[l] - 1];
 
                 vec_size++;
                 vecs = realloc(vecs, vec_size * sizeof(float));
@@ -467,6 +473,20 @@ void draw_3D_model(
                     vecs = realloc(vecs, vec_size * sizeof(float));
                     vecs[vec_size - 1] = 0.0f;
                 }
+
+                // normals
+                
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = normalvec->x;
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = normalvec->y;
+
+                vec_size++;
+                vecs = realloc(vecs, vec_size * sizeof(float));
+                vecs[vec_size - 1] = normalvec->z;
                 
                 /*vec_size++;
                 vecs = realloc(vecs, vec_size * sizeof(float));
@@ -489,23 +509,27 @@ void draw_3D_model(
     glBufferData(GL_ARRAY_BUFFER, vec_size * sizeof(float), &vecs[0], GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3* sizeof(float)));
     glEnableVertexAttribArray(1);
     
     // texcoord
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    // normal
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+    glEnableVertexAttribArray(3);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
-    glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0);
+    glUniform1i(glGetUniformLocation(SHADER_TEXTURED_SHADED, "ourTexture"), 0);
     
     glBindVertexArray(state->VAO);
     
-    unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
+    unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED_SHADED, "model");
     glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
     glDrawArrays(GL_TRIANGLES, 0, vec_size);

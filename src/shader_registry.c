@@ -2,6 +2,7 @@
 
 
 unsigned int SHADER_TEXTURED;
+unsigned int SHADER_TEXTURED_SHADED;
 unsigned int SHADER_COLORED;
 
 /**
@@ -15,6 +16,13 @@ void register_shader_programs(shader_manager_T* shader_manager)
         shader_manager,
         "textured",
         "fragment_textured.fs.glsl",
+        "vertex.vs.glsl"
+    );
+
+    SHADER_TEXTURED_SHADED = shader_manager_register_program(
+        shader_manager,
+        "textured",
+        "fragment_textured_shaded.fs.glsl",
         "vertex.vs.glsl"
     );
 
