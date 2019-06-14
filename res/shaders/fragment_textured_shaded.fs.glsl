@@ -14,8 +14,8 @@ uniform vec3 lightpos;
 
 void main()
 {
-    vec3 nn = normalize(normal);
-    float angle = acos(dot(normalize(lightpos),normalize(normal)));
+    vec3 lightVector = vec3(normal-lightpos);
+    float angle = acos(dot(normalize(lightVector),normalize(normal)));
     float brightnessMod = 1.0 - (smoothstep(0.0, PI / 2.0, angle) * 1.6f);
 
 
