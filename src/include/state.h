@@ -13,6 +13,7 @@ typedef struct STATE_STRUCT
 {
     dynamic_list_T* actors;
     unsigned int VAO;
+    unsigned int lighting_enabled;
     camera_T* camera;
 } state_T;
 
