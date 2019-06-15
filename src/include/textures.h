@@ -10,9 +10,11 @@ typedef struct TEXTURE_STRUCT
     int height;
 } texture_T;
 
-texture_T* get_texture(char* filepath, int mode);
+texture_T* get_texture(const char* filepath, int mode);
 
-unsigned int get_subtexture(texture_T* texture, int x, int y, int h, int w);
+unsigned int get_subtexture_raw(texture_T* texture, int x, int y, int w, int h);
+
+texture_T* get_subtexture(texture_T* texture, int x, int y, int w, int h);
 
 unsigned int get_char_texture_from_texture(
     char c,

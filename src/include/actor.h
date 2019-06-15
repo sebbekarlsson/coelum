@@ -2,6 +2,7 @@
 #define COELUM_ACTOR_H
 #include <cglm/cglm.h>
 #include <cglm/call.h>
+#include "sprite.h"
 
 
 typedef struct ACTOR_STRUCT
@@ -23,9 +24,9 @@ typedef struct ACTOR_STRUCT
     unsigned int VBO;
     unsigned int EBO;
     unsigned int shader_program;
-    unsigned int texture;
     int loaded;
     mat4 model;
+    sprite_T* sprite;
     void (*tick)(void* self);
     void (*draw)(void* self);
     void (*load)(void* self);
