@@ -136,18 +136,17 @@ void state_draw(state_T* state)
         glm_mat4_copy(final, a->model);
         send_model_state(a->shader_program, a->model);
 
-        if (a->texture)
+        if (a->sprite)
         {
-            glUniform1i(glGetUniformLocation(a->shader_program, "ourTexture"), 0); 
-
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, a->texture);
+            sprite_draw(a->sprite, state);
+        }
+        else
+        {
+            draw_2D_mesh(a->width, a->height, 255.0f, 255.0f, 255.0f, a->VBO, a->EBO);
         }
 
         if (state->lighting_enabled && a->shader_program == SHADER_TEXTURED_SHADED)
-            glUniform3fv(glGetUniformLocation(a->shader_program, "world_pos"), 1, (float[]){ a->x, a->y, a->z });
-
-        draw_2D_mesh(a->width, a->height, 255.0f, 255.0f, 255.0f, a->VBO, a->EBO);
+            glUniform3fv(glGetUniformLocation(a->shader_program, "world_pos"), 1, (float[]){ a->x, a->y, a->z }); 
 
         if (a->draw)
             a->draw(a);

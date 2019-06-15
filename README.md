@@ -56,7 +56,7 @@ scene_T* init_scene_main()
     );
     a->width = 64;
     a->height = 64;
-    a->texture = get_texture("cherry.png", GL_RGBA)->renderable_texture; 
+    a->sprite = init_sprite_from_file("cherry.png", GL_RGBA, 1.0f, a->width, a->height); 
    
     // adding the actor to the scene 
     dynamic_list_append(((state_T*)s)->actors, a);

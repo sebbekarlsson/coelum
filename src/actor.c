@@ -80,6 +80,7 @@ actor_T* actor_constructor(
     actor->tick = tick;
     actor->draw = draw;
     actor->type_name = type_name;
+    actor->sprite = (void*) 0;
 
     return actor;
 }
@@ -96,7 +97,6 @@ void actor_tick(actor_T* actor)
 
 /**
  * Default actor draw method.
- * Currently draws the actor->texture if it exists.
  *
  * @param actor_T* actor
  */
@@ -129,4 +129,5 @@ void actor_free(actor_T* actor)
 {
     glDeleteBuffers(1, &actor->VBO);
     glDeleteBuffers(1, &actor->EBO);
+    sprite_free(actor->sprite);
 }

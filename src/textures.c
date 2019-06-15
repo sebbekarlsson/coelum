@@ -13,7 +13,7 @@
  *
  * @return texture_T*
  */
-texture_T* get_texture(char* filepath, int mode)
+texture_T* get_texture(const char* filepath, int mode)
 {
     texture_T* tex = calloc(1, sizeof(struct TEXTURE_STRUCT));
 
@@ -52,12 +52,12 @@ texture_T* get_texture(char* filepath, int mode)
  * @param texture_T* texture
  * @param int x
  * @param int y
- * @param int h
  * @param int w
+ * @param int h
  *
  * @return unsigned int
  */
-unsigned int get_subtexture(texture_T* texture, int x, int y, int h, int w)
+unsigned int get_subtexture_raw(texture_T* texture, int x, int y, int w, int h)
 {
     unsigned int cut_texture;
     glGenTextures(1, &cut_texture);
@@ -81,6 +81,27 @@ unsigned int get_subtexture(texture_T* texture, int x, int y, int h, int w)
 
 
     return cut_texture;
+}
+
+/**
+ * "Cut" out a piece of a texture
+ *
+ * @param texture_T* texture
+ * @param int x
+ * @param int y
+ * @param int w
+ * @param int h
+ *
+ * @return texture_T*
+ */
+texture_T* get_subtexture(texture_T* texture, int x, int y, int w, int h)
+{
+    texture_T* sub = calloc(1, sizeof(struct TEXTURE_STRUCT));
+    sub->width = w;
+    sub->height = h;
+    sub->renderable_texture = get_subtexture_raw(texture, x, y, w, h);
+
+    return sub;
 }
 
 /**
@@ -145,7 +166,7 @@ unsigned int get_char_texture_from_texture(
         }
     }
 
-    unsigned int texture = get_subtexture(
+    unsigned int texture = get_subtexture_raw(
         font_texture,
         (char_w + 1) * x,
         (char_h + 1) * y,
