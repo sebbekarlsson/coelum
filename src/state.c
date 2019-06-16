@@ -9,12 +9,27 @@
 
 extern unsigned int SHADER_TEXTURED_SHADED;
 
+/**
+ * Initialize a new state_T*
+ *
+ * @return state_T*
+ */
 state_T* init_state()
 {
     state_T* state = calloc(1, sizeof(struct STATE_STRUCT));
     return state;
 }
 
+/**
+ * state_T* constructor.
+ *
+ * @param state_T* state
+ * @param int projection_view_width
+ * @param int projection_view_height
+ * @param unsigned int dimensions
+ *
+ * @return state_T*
+ */
 state_T* state_constructor(state_T* state, int projection_view_width, int projection_view_height, unsigned int dimensions)
 {
     state->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
@@ -67,7 +82,6 @@ void state_draw(state_T* state)
 
     glBindVertexArray(state->VAO); 
 
-
     if (pv->dimensions == 2)
     { // we are doing 2D
         camera_bind(state->camera);
@@ -95,6 +109,11 @@ void state_draw(state_T* state)
 
     for (int i = 0; i < state->actors->size; i++)
     {
+        /***
+         * Iterating through each actor in the current state,
+         * rotating them, translating them and drawing them.
+         */
+
         actor_T* a = ((actor_T*)state->actors->items[i]);
 
         glUseProgram(a->shader_program);
@@ -156,6 +175,12 @@ void state_draw(state_T* state)
 
     if (state->lighting_enabled)
     {
+        /**
+         * If lighting is enabled for the current state,
+         * then we fetch all the "light" actors from the current state and
+         * push their positions to the shader.
+         */
+
         float* light_positions = calloc(1, sizeof(float));
         unsigned int light_positions_size = 0;
 

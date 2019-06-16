@@ -6,18 +6,27 @@
 
 extern unsigned int SHADER_TEXTURED;
 
-sprite_T* init_sprite(dynamic_list_T* textures, unsigned int speed, float width, float height)
+/**
+ * Initialize a new sprite from a list of textures.
+ *
+ * @param dynamic_list_T* textures
+ * @param float frame_deplay
+ * @param float width
+ * @param float height
+ *
+ * @return sprite_T*
+ */
+sprite_T* init_sprite(dynamic_list_T* textures, float frame_delay, float width, float height)
 {
     sprite_T* sprite = calloc(1, sizeof(struct SPRITE_STRUCT));
     sprite->textures = textures;
-    sprite->speed = speed;
     sprite->index = 0;
     sprite->width = width;
     sprite->height = height;
     sprite->r = 255;
     sprite->g = 255;
     sprite->b = 255;
-    sprite->frame_delay = 1.0f;
+    sprite->frame_delay = frame_delay;
     gettimeofday(&sprite->timer, 0);
 
     glGenBuffers(1, &sprite->VBO);
@@ -26,20 +35,30 @@ sprite_T* init_sprite(dynamic_list_T* textures, unsigned int speed, float width,
     return sprite;
 }
 
-sprite_T* init_sprite_from_file(const char* filename, int mode, unsigned int speed, float width, float height)
+/**
+ * Initialize a new sprite from a filename.
+ *
+ * @param const char* filename
+ * @param int mode
+ * @param float frame_delay
+ * @param float width
+ * @param float height
+ *
+ * @return sprite_T*
+ */
+sprite_T* init_sprite_from_file(const char* filename, int mode, float frame_delay, float width, float height)
 {
     sprite_T* sprite = calloc(1, sizeof(struct SPRITE_STRUCT));
     sprite->textures = init_dynamic_list(sizeof(struct TEXTURE_STRUCT));
     dynamic_list_append(sprite->textures, get_texture(filename, mode));
 
-    sprite->speed = speed;
     sprite->index = 0;
     sprite->width = width;
     sprite->height = height;
     sprite->r = 255;
     sprite->g = 255;
     sprite->b = 255;
-    sprite->frame_delay = 1.0f;
+    sprite->frame_delay = frame_delay;
     gettimeofday(&sprite->timer, 0);
 
 
@@ -49,6 +68,12 @@ sprite_T* init_sprite_from_file(const char* filename, int mode, unsigned int spe
     return sprite;
 }
 
+/**
+ * Draw a sprite within a state.
+ *
+ * @param sprite_T* sprite
+ * @param state_T* state
+ */
 void sprite_draw(sprite_T* sprite, state_T* state)
 {
     glBindVertexArray(state->VAO);
@@ -94,6 +119,9 @@ void sprite_draw(sprite_T* sprite, state_T* state)
     glBindVertexArray(0);
 }
 
+/**
+ * Deallocation method for sprite_T
+ */
 void sprite_free(sprite_T* sprite)
 {
     for (int i = 0; i < sprite->textures->size; i++)
