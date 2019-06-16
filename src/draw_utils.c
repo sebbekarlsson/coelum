@@ -353,7 +353,7 @@ void draw_text(
 
         glActiveTexture(GL_TEXTURE0);
         //unsigned int tex = get_char_texture_from_texture(c, 7, 7, 8, 12, TEXTURE_DEFAULT_FONT);
-        unsigned int tex = get_char_texture_from_texture(c, 7, 7, 16, 16, TEXTURE_LN_EGA8x8_FONT);
+        unsigned int tex = get_char_texture_from_texture(c, 8, 8, 16, 16, TEXTURE_LN_EGA8x8_FONT);
         glBindTexture(GL_TEXTURE_2D, tex);
         glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0); 
         glBindVertexArray(state->VAO);

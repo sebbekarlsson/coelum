@@ -133,8 +133,8 @@ unsigned int get_char_texture_from_texture(
 
     unsigned int texture = get_subtexture_raw(
         font_texture,
-        (char_w + 1) * x,
-        (char_h + 1) * y,
+        char_w * x,
+        char_h * y,
         char_w,
         char_h
     );
