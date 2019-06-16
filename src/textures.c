@@ -1,9 +1,13 @@
 #include "include/textures.h"
+#include "include/font.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "include/stb_image.h"
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 #include <ctype.h>
+
+
+extern texture_T* TEXTURE_LN_EGA8x8_FONT;
 
 
 /**
@@ -70,7 +74,7 @@ unsigned int get_subtexture_raw(texture_T* texture, int x, int y, int w, int h)
 
     glPixelStorei(GL_UNPACK_ROW_LENGTH, texture->width);
     glPixelStorei(GL_UNPACK_SKIP_PIXELS, x);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, y);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, y); 
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data);
     glGenerateMipmap(GL_TEXTURE_2D);
@@ -78,7 +82,6 @@ unsigned int get_subtexture_raw(texture_T* texture, int x, int y, int w, int h)
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
     glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-
 
     return cut_texture;
 }
@@ -124,52 +127,14 @@ unsigned int get_char_texture_from_texture(
     texture_T* font_texture
 )
 {
-    int x = 0;
-    int y = 0;
-    int ptr = 0;
+    int x, y = 0;
 
-    if (isdigit(c))
-    {
-        ptr = (((int) c) - 48) + 16;
-    }
-    else
-    {
-        /*
-         * The `a` character begins at position `33` in
-         * `res/font/null_terminator.png`
-         */
-        ptr = -97 + (int) c + 33;
-    }
-
-    for (int i = 0; i < n_rows_x * n_rows_y; i++)
-    {
-        if (i <= ptr)
-        {
-            if (i % n_rows_x == 0 && i != 0)
-            {
-                // we reached the end of the row, lets move down, and also
-                // back to the left.
-                
-                y += 1;
-                x = 0;
-            }
-            else
-            {
-                // we are still just moving right.
-                
-                x += 1;
-            }
-        }
-        else
-        {
-            break;
-        }
-    }
+    get_font_coords(c, TEXTURE_LN_EGA8x8_FONT, &x, &y);
 
     unsigned int texture = get_subtexture_raw(
         font_texture,
-        (char_w + 1) * x,
-        (char_h + 1) * y,
+        char_w * x,
+        char_h * y,
         char_w,
         char_h
     );

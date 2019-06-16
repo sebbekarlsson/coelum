@@ -129,5 +129,7 @@ void actor_free(actor_T* actor)
 {
     glDeleteBuffers(1, &actor->VBO);
     glDeleteBuffers(1, &actor->EBO);
-    sprite_free(actor->sprite);
+    
+    if (actor->sprite)
+        sprite_free(actor->sprite);
 }

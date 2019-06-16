@@ -124,9 +124,13 @@ void sprite_draw(sprite_T* sprite, state_T* state)
  */
 void sprite_free(sprite_T* sprite)
 {
-    for (int i = 0; i < sprite->textures->size; i++)
-        free(sprite->textures->items[i]);
+    if (sprite->textures)
+    {
+        for (int i = 0; i < sprite->textures->size; i++)
+            free(sprite->textures->items[i]);
+        
+        free(sprite->textures);
+    }
 
-    free(sprite->textures);
     free(sprite);
 }
