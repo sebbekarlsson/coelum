@@ -28,6 +28,7 @@ sprite_T* init_sprite(dynamic_list_T* textures, float frame_delay, float width, 
     sprite->b = 255;
     sprite->frame_delay = frame_delay;
     gettimeofday(&sprite->timer, 0);
+    sprite->animate = 1;
 
     glGenBuffers(1, &sprite->VBO);
     glGenBuffers(1, &sprite->EBO);
@@ -60,6 +61,7 @@ sprite_T* init_sprite_from_file(const char* filename, int mode, float frame_dela
     sprite->b = 255;
     sprite->frame_delay = frame_delay;
     gettimeofday(&sprite->timer, 0);
+    sprite->animate = 1;
 
 
     glGenBuffers(1, &sprite->VBO);
@@ -102,18 +104,21 @@ void sprite_draw(sprite_T* sprite, state_T* state)
 
     float time_spent = (double)(end.tv_usec - sprite->timer.tv_usec) / 1000000 + (double)(end.tv_sec - sprite->timer.tv_sec);
 
-    if (time_spent >= sprite->frame_delay)
+    if (sprite->animate)
     {
-        if (sprite->index < sprite->textures->size - 1)
+        if (time_spent >= sprite->frame_delay)
         {
-            sprite->index += 1;
+            if (sprite->index < sprite->textures->size - 1)
+            {
+                sprite->index += 1;
+            }
+            else
+            {
+                sprite->index = 0;
+            }
+            
+            gettimeofday(&sprite->timer, 0);
         }
-        else
-        {
-            sprite->index = 0;
-        }
-        
-        gettimeofday(&sprite->timer, 0);
     }
 
     glBindVertexArray(0);

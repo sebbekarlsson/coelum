@@ -18,6 +18,7 @@ typedef struct SPRITE_STRUCT
     unsigned int index;
     unsigned int VBO;
     unsigned int EBO;
+    unsigned int animate;
 } sprite_T;
 
 sprite_T* init_sprite(dynamic_list_T* textures, float frame_delay, float width, float height);
