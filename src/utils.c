@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <cglm/types.h>
+#include <math.h>
 
 
 /**
@@ -21,4 +22,34 @@ void init_random()
 int random_int(int min_value, int max_value)
 {
    return min_value + rand() % (max_value+1 - min_value);
+}
+
+/**
+ * Calculate the distance between 2 2D vectors
+ *
+ * @param float x1
+ * @param float y1
+ * @param float x2
+ * @param float y2
+ *
+ * @return float
+ */
+float vec2_distance(float x1, float y1, float x2, float y2)
+{
+    return hypot(x2 - x1, y2 - y1);
+}
+
+/**
+ * Calculate the angle between 2 2D vectors
+ *
+ * @param float x1
+ * @param float y1
+ * @param float x2
+ * @param float y2
+ *
+ * @return float
+ */
+float vec2_angle(float x1, float y1, float x2, float y2)
+{
+    return atan2(y2 - y1, x2 - x1) * (180.0 / GLM_PI);
 }
