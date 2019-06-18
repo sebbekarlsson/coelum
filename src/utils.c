@@ -54,7 +54,14 @@ float vec2_angle(float x1, float y1, float x2, float y2)
     return atan2(y2 - y1, x2 - x1) * (180.0 / GLM_PI);
 }
 
+/**
+ * Normalize an angle to be in the range of 0 - 360.
+ *
+ * @param float angle
+ *
+ * @return float
+ */
 float normalize_angle(float angle)
 {
-    return (angle > 0 ? angle : (2 * GLM_PI + angle)) * 360 / (2*GLM_PI);
+    return (angle > 0 ? angle : (2 * GLM_PI + angle)) * 360 / (2 * GLM_PI);
 }
