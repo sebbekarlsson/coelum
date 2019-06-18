@@ -63,5 +63,8 @@ float vec2_angle(float x1, float y1, float x2, float y2)
  */
 float normalize_angle(float angle)
 {
-    return (angle > 0 ? angle : (2 * GLM_PI + angle)) * 360 / (2 * GLM_PI);
+    if (angle < 0)
+        angle += 360.0f;
+
+    return angle;
 }
