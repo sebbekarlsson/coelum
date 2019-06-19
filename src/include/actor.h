@@ -7,16 +7,16 @@
 
 typedef struct ACTOR_STRUCT
 {
-    const char* type_name; // used to separate actors from one and other.
+    const char* type_name;  // used to separate actors from one and other.
     float x;
     float y;
     float z;
-    float dx;
-    float dy;
-    float dz;
-    float rx; // rotation
-    float ry; // rotation
-    float rz; // rotation
+    float dx;  // delta x
+    float dy;  // delta y
+    float dz;  // delta z
+    float rx;  // rotation
+    float ry;  // rotation
+    float rz;  // rotation
     float friction;
     int width;
     int height;
@@ -47,8 +47,6 @@ actor_T* actor_constructor(
 void actor_tick(actor_T* a);
 
 void actor_draw(actor_T* a);
-
-void actor_push(actor_T* self, float angle, float acceleration);
 
 void actor_free(actor_T* actor);
 #endif

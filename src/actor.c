@@ -1,6 +1,7 @@
 #include "include/actor.h"
 #include "include/theatre.h"
 #include "include/draw_utils.h"
+#include "include/physics.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -103,21 +104,6 @@ void actor_tick(actor_T* actor)
 void actor_draw(actor_T* actor)
 {
     // silence
-}
-
-/**
- * Push an actor in an angle
- *
- * @param actor_T* self
- * @param float angle
- * @param float acceleration
- */
-void actor_push(actor_T* self, float angle, float acceleration)
-{
-    float radians = angle * (GLM_PI / 180.0f);
-
-    self->dx += cos(radians) * acceleration;
-    self->dy -= sin(radians) * acceleration;
 }
 
 /**
