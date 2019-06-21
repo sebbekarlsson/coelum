@@ -1,4 +1,5 @@
 #include "include/scene_manager.h"
+#include <string.h>
 
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
@@ -94,4 +95,26 @@ void scene_manager_next(scene_manager_T* scene_manager)
 
     if (n_scene->load)
         n_scene->load(n_scene);
+}
+
+/**
+ * Move to a scene by type_name
+ *
+ * @param scene_manager_T* scene_manager
+ * @param const char* type_name
+ */
+void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name)
+{
+    for (int i = 0; i < scene_manager->scenes->size; i++)
+    {
+        scene_T* scene = (scene_T*) scene_manager->scenes->items[i];
+
+        if (strcmp(scene->type_name, type_name) == 0)
+        {
+            scene_manager->scene_index = i;
+            return;
+        }
+    }
+
+    printf("Could not find any scene with name %s\n", type_name);
 }

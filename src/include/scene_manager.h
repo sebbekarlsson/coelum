@@ -21,4 +21,6 @@ void scene_manager_draw(scene_manager_T* scene_manager);
 void scene_manager_tick(scene_manager_T* scene_manager);
 
 void scene_manager_next(scene_manager_T* scene_manager);
+
+void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name);
 #endif

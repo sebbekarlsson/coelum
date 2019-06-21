@@ -17,6 +17,7 @@ typedef struct SCENE_STRUCT
     void (*draw)(void* self);
     void (*load)(void* self);
     void (*unload)(void* self);
+    const char* type_name;
 } scene_T;
 
 scene_T* init_scene();
