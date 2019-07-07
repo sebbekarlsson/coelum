@@ -25,28 +25,18 @@ mouse_state_T* init_mouse_state()
  */
 keyboard_state_T* init_keyboard_state()
 {
-    keyboard_state_T* ks = calloc(1, sizeof(struct KEYBOARD_STATE_STRUCT));
-    ks->keys = calloc(300, sizeof(unsigned int));
-    ks->key_locks = calloc(300, sizeof(unsigned int));
+    keyboard_state_T* keyboard_state = calloc(1, sizeof(struct KEYBOARD_STATE_STRUCT));
+    keyboard_state->keys = calloc(300, sizeof(unsigned int));
+    keyboard_state->key_locks = calloc(300, sizeof(unsigned int));
 
-    keyboard_state_reset(ks);
-
-    return ks;
-}
-
-/**
- * Completely reset the keyboard_state.
- *
- * @param keyboard_state_T* keyboard_state
- */
-void keyboard_state_reset(keyboard_state_T* keyboard_state)
-{
-    // fill with zeroes.
     memset(&*keyboard_state->keys, 0, 300 * sizeof(int));
     memset(&*keyboard_state->key_locks, 0, 300 * sizeof(int));
     free(keyboard_state->buffer);
     keyboard_state->buffer = calloc(1, sizeof(char));
     keyboard_state->buffer[0] = '\0';
+    keyboard_state->character = 0;
+
+    return keyboard_state;
 }
 
 /**
@@ -112,6 +102,8 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
     
     KEYBOARD_STATE->buffer = realloc(KEYBOARD_STATE->buffer, (strlen(KEYBOARD_STATE->buffer) + 2) * sizeof(char));
     strcat(KEYBOARD_STATE->buffer, char_str);
+
+    KEYBOARD_STATE->character = c;
 
     free(char_str);
 }

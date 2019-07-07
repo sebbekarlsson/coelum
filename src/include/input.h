@@ -9,6 +9,7 @@ typedef struct KEYBOARD_STATE_STRUCT
     unsigned int* keys; // all possible keys, on / off
     char* buffer; // randomly accessible keyboard input buffer
     unsigned int* key_locks;
+    char character;
 } keyboard_state_T;
 
 typedef struct MOUSE_STATE_STRUCT
@@ -23,8 +24,6 @@ typedef struct MOUSE_STATE_STRUCT
 mouse_state_T* init_mouse_state();
 
 keyboard_state_T* init_keyboard_state();
-
-void keyboard_state_reset(keyboard_state_T* keyboard_state);
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 

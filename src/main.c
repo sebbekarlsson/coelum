@@ -70,6 +70,9 @@ int coelum_main(int argc, char* argv[])
         theatre_draw(THEATRE);
 
         glfwSwapBuffers(window);
+
+        // reset character
+        KEYBOARD_STATE->character = 0;
     }
 
     glfwTerminate();
