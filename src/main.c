@@ -48,6 +48,9 @@ void coelum_terminate()
 
     printf("Freeing THEATRE...\n");
     theatre_free(THEATRE);
+
+    printf("Destroying window...\n");
+    glfwDestroyWindow(window);
 }
 
 int coelum_main(int argc, char* argv[])

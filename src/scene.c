@@ -64,6 +64,16 @@ void scene_draw(scene_T* scene)
 
 void scene_free(scene_T* scene)
 {
+    state_T* state = (state_T*) scene;
+
+    glDeleteBuffers(1, &state->VAO);
+    
+    for (int i = 0; i < state->actors->size; i++)
+        actor_free((actor_T*) state->actors->items[i]);
+
+    free(state->actors);
+    camera_free(state->camera);
+
     if (scene->free)
         scene->free(scene);
 }

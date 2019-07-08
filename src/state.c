@@ -240,6 +240,6 @@ void state_free(state_T* state)
 
     free(state->actors);
     camera_free(state->camera);
-
+    
     free(state);
 }

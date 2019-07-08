@@ -121,11 +121,12 @@ void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name)
 
 void scene_manager_free(scene_manager_T* scene_manager)
 {
-    for (int i = 0; i < scene_manager->scenes->size; i++)
-    {
-        scene_T* scene = (scene_T*) scene_manager->scenes->items[i];
-        scene_free(scene);
-    }
+    /* This causes segmentation fault for some reason...*/
+    //for (int i = 0; i < scene_manager->scenes->size; i++)
+    //{
+    //    scene_T* scene = (scene_T*) scene_manager->scenes->items[i];
+    //    scene_free(scene);
+    //}
 
     free(scene_manager->scenes);
 
