@@ -36,6 +36,20 @@ void coelum_init()
     printf("Coelum was initialized.\n");
 }
 
+void coelum_terminate()
+{
+    printf("Coelum is being terminated, deallocating memory...\n");
+
+    printf("Freeing KEYBOARD_STATE...\n");
+    keyboard_state_free(KEYBOARD_STATE);
+
+    printf("Freeing MOUSE_STATE...\n");
+    mouse_state_free(MOUSE_STATE);
+
+    printf("Freeing THEATRE...\n");
+    theatre_free(THEATRE);
+}
+
 int coelum_main(int argc, char* argv[])
 { 
     while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0)
@@ -77,7 +91,7 @@ int coelum_main(int argc, char* argv[])
 
     glfwTerminate();
 
-    al_free(THEATRE->al);
+    coelum_terminate();
 
     return 0;
 }

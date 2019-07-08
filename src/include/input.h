@@ -29,4 +29,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void character_callback(GLFWwindow* window, unsigned int codepoint);
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+
+void keyboard_state_free(keyboard_state_T* keyboard_state);
+
+void mouse_state_free(mouse_state_T* mouse_state);
 #endif

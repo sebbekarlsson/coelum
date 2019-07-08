@@ -17,6 +17,18 @@ texture_manager_T* init_texture_manager()
     return sm;
 }
 
+void texture_manager_free(texture_manager_T* texture_manager)
+{
+    for (int i = 0; i < texture_manager->textures->size; i++)
+    {
+        texture_manager_texture_T* texture_manager_texture = (texture_manager_texture_T*) texture_manager->textures->items[i];
+        texture_manager_texture_free(texture_manager_texture);
+    }
+
+    free(texture_manager->textures);
+    free(texture_manager);
+}
+
 /**
  * Creates a new texture_manager_texture
  *
@@ -75,4 +87,10 @@ texture_T* texture_manager_get_texture(texture_manager_T* texture_manager, char*
     }
 
     return (void*) 0;
+}
+
+void texture_manager_texture_free(texture_manager_texture_T* texture_manager_texture)
+{
+    texture_free(texture_manager_texture->texture);
+    free(texture_manager_texture);
 }

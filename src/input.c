@@ -83,3 +83,15 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
     MOUSE_STATE->dy = MOUSE_STATE->y - ypos;
     MOUSE_STATE->y = ypos;
 }
+
+void keyboard_state_free(keyboard_state_T* keyboard_state)
+{
+    free(keyboard_state->keys);
+    free(keyboard_state->key_locks);
+    free(keyboard_state);
+}
+
+void mouse_state_free(mouse_state_T* mouse_state)
+{
+    free(mouse_state);
+}

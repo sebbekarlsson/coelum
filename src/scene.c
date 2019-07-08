@@ -61,3 +61,9 @@ void scene_tick(scene_T* scene)
 void scene_draw(scene_T* scene)
 {
 }
+
+void scene_free(scene_T* scene)
+{
+    if (scene->free)
+        scene->free(scene);
+}

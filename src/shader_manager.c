@@ -17,6 +17,19 @@ shader_manager_T* init_shader_manager()
     return shader_manager;
 }
 
+void shader_manager_free(shader_manager_T* shader_manager)
+{
+    for (int i = 0; i < shader_manager->programs->size; i++)
+    {
+        //printf("Freeing shader number %d\n", i);
+        //shader_manager_program_T* shader_manager_program = (shader_manager_program_T*) shader_manager->programs->items[i];
+        //shader_manager_program_free(shader_manager_program);
+    }
+
+    free(shader_manager->programs);
+    free(shader_manager);
+}
+
 /**
  * Creates a new shader_manager_program
  *
@@ -32,6 +45,14 @@ shader_manager_program_T* init_shader_manager_program(char* name, unsigned int p
     shader_managerp->program = program;
 
     return shader_managerp;
+}
+
+void shader_manager_program_free(shader_manager_program_T* shader_manager_program)
+{
+    printf("Deallocating shader_manager_program...\n");
+
+    glDeleteProgram(shader_manager_program->program);
+    free(shader_manager_program);
 }
 
 /**
@@ -52,14 +73,16 @@ unsigned int shader_manager_register_program(
 ) {
     char* f = calloc(256, sizeof(char));
     sprintf(f, "/usr/local/share/coelum/res/shaders/%s", fragment_src_filename);
-    const char* fragment_src = read_file(f);
+    char* fragment_src = read_file(f);
+    const char* fragment_src_ptr = (const char*) fragment_src;
     free(f);
 
     unsigned int fragment_shader;
     fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    glShaderSource(fragment_shader, 1, &fragment_src, NULL);
+    glShaderSource(fragment_shader, 1, &fragment_src_ptr, NULL);
     glCompileShader(fragment_shader);
+    free(fragment_src);
 
     int  success;
     char info_log[512];
@@ -74,14 +97,16 @@ unsigned int shader_manager_register_program(
 
     char* v = calloc(256, sizeof(char));
     sprintf(v, "/usr/local/share/coelum/res/shaders/%s", vertex_src_filename);
-    const char* vertex_src = read_file(v);
+    char* vertex_src = read_file(v);
+    const char* vertex_src_ptr = (const char*) vertex_src;
     free(v);
 
     unsigned int vertex_shader;
     vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 
-    glShaderSource(vertex_shader, 1, &vertex_src, NULL);
+    glShaderSource(vertex_shader, 1, &vertex_src_ptr, NULL);
     glCompileShader(vertex_shader);
+    free(vertex_src);
 
     glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
 

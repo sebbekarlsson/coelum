@@ -19,4 +19,6 @@ theatre_T* init_theatre();
 void theatre_tick(theatre_T* theatre);
 
 void theatre_draw(theatre_T* theatre);
+
+void theatre_free(theatre_T* theatre);
 #endif
