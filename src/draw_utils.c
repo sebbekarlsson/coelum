@@ -362,7 +362,7 @@ void draw_text(
         glm_translate(model, (vec3){(i * (size + spacing)), 0, 0});
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) 0);
         glDeleteBuffers(1, &EBO);
         glDeleteTextures(1, &tex);
     }

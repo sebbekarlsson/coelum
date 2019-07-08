@@ -31,7 +31,7 @@ dynamic_list_T* init_dynamic_list(size_t item_size)
 void* dynamic_list_append(dynamic_list_T* dynamic_list, void* item)
 {
     dynamic_list->size++;
-    dynamic_list->items = realloc(dynamic_list->items, (dynamic_list->size + 1) * dynamic_list->item_size);
+    dynamic_list->items = realloc(dynamic_list->items, dynamic_list->size * dynamic_list->item_size);
     dynamic_list->items[dynamic_list->size - 1] = item;
 
     return item;
