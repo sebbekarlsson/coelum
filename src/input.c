@@ -31,9 +31,6 @@ keyboard_state_T* init_keyboard_state()
 
     memset(&*keyboard_state->keys, 0, 300 * sizeof(int));
     memset(&*keyboard_state->key_locks, 0, 300 * sizeof(int));
-    free(keyboard_state->buffer);
-    keyboard_state->buffer = calloc(1, sizeof(char));
-    keyboard_state->buffer[0] = '\0';
     keyboard_state->character = 0;
 
     return keyboard_state;
@@ -60,29 +57,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     KEYBOARD_STATE->keys[key] = (int) (glfwGetKey(window, key) == GLFW_PRESS);
 
-    if (KEYBOARD_STATE->keys[GLFW_KEY_BACKSPACE])
-        KEYBOARD_STATE->buffer[strlen(KEYBOARD_STATE->buffer) - 1] = '\0';
-
     if(
         KEYBOARD_STATE->keys[GLFW_KEY_LEFT_SHIFT] &&
         KEYBOARD_STATE->keys[GLFW_KEY_ESCAPE]
      )
         glfwSetWindowShouldClose(window, 1);
-}
-
-/**
- * Used to "stream" user character input to a char* buffer.
- *
- * @param keyboard_state_T* keyboard_state
- * @param char** s - pointer where you want the stream to go.
- */
-void keyboard_state_inread(keyboard_state_T* keyboard_state, char **s)
-{
-    if (*s)
-        free(*s);
-
-    *s = calloc(strlen(keyboard_state->buffer) + 1, sizeof(char));
-    strcpy(*s, keyboard_state->buffer);
 }
 
 /**
@@ -94,18 +73,7 @@ void keyboard_state_inread(keyboard_state_T* keyboard_state, char **s)
  */
 void character_callback(GLFWwindow* window, unsigned int codepoint)
 {
-    char c = (char) codepoint;
-    char* char_str = calloc(2, sizeof(char));
-
-    char_str[0] = c;
-    char_str[1] = '\0';
-    
-    KEYBOARD_STATE->buffer = realloc(KEYBOARD_STATE->buffer, (strlen(KEYBOARD_STATE->buffer) + 2) * sizeof(char));
-    strcat(KEYBOARD_STATE->buffer, char_str);
-
-    KEYBOARD_STATE->character = c;
-
-    free(char_str);
+    KEYBOARD_STATE->character = (char) codepoint;
 }
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -114,41 +82,4 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
     MOUSE_STATE->x = xpos;
     MOUSE_STATE->dy = MOUSE_STATE->y - ypos;
     MOUSE_STATE->y = ypos;
-}
-
-/**
- * Clear the keyboard_state buffer
- *
- * @param keyboard_state_T* keyboard_state
- */
-void keyboard_state_clear_buffer(keyboard_state_T* keyboard_state)
-{
-    free(keyboard_state->buffer);
-    keyboard_state->buffer = calloc(1, sizeof(char));
-    keyboard_state->buffer[0] = '\0';
-}
-
-/**
- * Replace the keyboard_state buffer with another buffer.
- *
- * @param keyboard_state_T* keyboard_state
- * @param char* buffer
- */
-void keyboard_state_copy_buffer(keyboard_state_T* keyboard_state, char* buffer)
-{
-    if (!buffer)
-    {
-        free(keyboard_state->buffer);
-        keyboard_state->buffer = calloc(1, sizeof(char));
-        keyboard_state->buffer[0] = '\0';
-
-        return;
-    }
-
-    if (keyboard_state->buffer)
-        free(keyboard_state->buffer);
-
-    keyboard_state->buffer = calloc(strlen(buffer) + 1, sizeof(char));
-    keyboard_state->buffer[0] = '\0';
-    strcpy(keyboard_state->buffer, buffer);
 }
