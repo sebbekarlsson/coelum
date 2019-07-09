@@ -19,7 +19,7 @@ GLFWwindow* setup_graphical_window(int width, int height)
     glfwWindowHint(GLFW_FLOATING, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    GLFWwindow* window = glfwCreateWindow(width, height, "cpong", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, "coelum", NULL, NULL);
 
     if (window == NULL)
     {
