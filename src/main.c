@@ -51,6 +51,9 @@ void coelum_terminate()
 
     printf("Destroying window...\n");
     glfwDestroyWindow(window);
+
+    printf("Running glfwTerminate...\n");
+    glfwTerminate();
 }
 
 int coelum_main(int argc, char* argv[])
@@ -91,8 +94,6 @@ int coelum_main(int argc, char* argv[])
         // reset character
         KEYBOARD_STATE->character = 0;
     }
-
-    glfwTerminate();
 
     coelum_terminate();
 

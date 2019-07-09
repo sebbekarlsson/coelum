@@ -100,8 +100,6 @@ void sprite_draw(sprite_T* sprite, state_T* state)
     struct timeval end;
     gettimeofday(&end, 0);
 
-    time_t curtime = end.tv_sec;
-
     float time_spent = (double)(end.tv_usec - sprite->timer.tv_usec) / 1000000 + (double)(end.tv_sec - sprite->timer.tv_sec);
 
     if (sprite->animate)
