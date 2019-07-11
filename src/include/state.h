@@ -25,5 +25,7 @@ void state_tick(state_T* state);
 
 void state_draw(state_T* state);
 
+void state_resort_actors(state_T* state);
+
 void state_free(state_T* state);
 #endif

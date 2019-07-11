@@ -50,7 +50,7 @@ sprite_T* init_sprite(dynamic_list_T* textures, float frame_delay, float width, 
 sprite_T* init_sprite_from_file(const char* filename, int mode, float frame_delay, float width, float height)
 {
     sprite_T* sprite = calloc(1, sizeof(struct SPRITE_STRUCT));
-    sprite->textures = init_dynamic_list(sizeof(struct TEXTURE_STRUCT));
+    sprite->textures = init_dynamic_list(sizeof(struct TEXTURE_STRUCT*));
     dynamic_list_append(sprite->textures, get_texture(filename, mode));
 
     sprite->index = 0;

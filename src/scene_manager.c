@@ -12,7 +12,7 @@
 scene_manager_T* init_scene_manager()
 {
     scene_manager_T* scene_manager = calloc(1, sizeof(struct SCENE_MANAGER_STRUCT));
-    scene_manager->scenes = init_dynamic_list(sizeof(struct SCENE_STRUCT));
+    scene_manager->scenes = init_dynamic_list(sizeof(struct SCENE_STRUCT*));
     scene_manager->scene_index = -1;
 
     return scene_manager;

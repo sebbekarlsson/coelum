@@ -12,7 +12,7 @@
 texture_manager_T* init_texture_manager()
 {
     texture_manager_T* sm = calloc(1, sizeof(struct TEXTURE_MANAGER_STRUCT));
-    sm->textures = init_dynamic_list(sizeof(struct TEXTURE_MANAGER_TEXTURE_STRUCT));
+    sm->textures = init_dynamic_list(sizeof(struct TEXTURE_MANAGER_TEXTURE_STRUCT*));
 
     return sm;
 }

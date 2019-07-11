@@ -32,7 +32,7 @@ state_T* init_state()
  */
 state_T* state_constructor(state_T* state, int projection_view_width, int projection_view_height, unsigned int dimensions)
 {
-    state->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT));
+    state->actors = init_dynamic_list(sizeof(struct ACTOR_STRUCT*));
 
     glGenVertexArrays(1, &state->VAO);
 
@@ -224,6 +224,19 @@ void state_draw(state_T* state)
     }
 
     glBindVertexArray(0);
+}
+
+int compare(const void *s1, const void *s2)
+{
+    const actor_T **a = (const actor_T **)s1;
+    const actor_T **b = (const actor_T **)s2;
+    
+    return (*a)->z > (*b)->z;
+}
+
+void state_resort_actors(state_T* state)
+{
+    qsort(state->actors->items, state->actors->size, sizeof(struct ACTOR_STRUCT*), compare);
 }
 
 /**
