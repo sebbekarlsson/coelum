@@ -167,6 +167,67 @@ void draw_positioned_2D_mesh(
 }
 
 /**
+ * Draws the first frame of a sprite, positioned.
+ *
+ * @param sprite_T* sprite
+ * @param float x
+ * @param float y
+ * @param float z
+ * @param float width
+ * @param float height
+ * state_T* state
+ */
+void draw_positioned_sprite(
+    sprite_T* sprite,
+    float x,
+    float y,
+    float z,
+    float width,
+    float height,
+    state_T* state
+)
+{
+    texture_T* texture = (texture_T*) sprite->textures->items[0];
+
+    glBindVertexArray(state->VAO);
+    glUseProgram(SHADER_TEXTURED);
+
+    send_projection_view_state(SHADER_TEXTURED, state->camera->projection_view); 
+
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    unsigned int EBO;
+
+    glGenBuffers(1, &EBO);
+
+    mat4 model =
+    {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+
+    glm_translate(model, (vec3){x, y, z});
+    send_model_state(SHADER_TEXTURED, model);
+
+    glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0); 
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture->renderable_texture);
+
+    draw_2D_mesh(width, height, 255, 255, 255, VBO, EBO);
+
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glm_translate(model, (vec3){-x, -y, -z});
+    
+    glBindVertexArray(0);
+}
+
+/**
  * Draw a line
  *
  * @param float x

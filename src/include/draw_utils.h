@@ -2,6 +2,7 @@
 #define COELUM_DRAW_UTILS_H
 #include "projection_view.h"
 #include "state.h"
+#include "sprite.h"
 #include <objload/obj.h>
 
 
@@ -31,6 +32,16 @@ void draw_positioned_2D_mesh(
     float r,
     float g,
     float b,
+    state_T* state
+);
+
+void draw_positioned_sprite(
+    sprite_T* sprite,
+    float x,
+    float y,
+    float z,
+    float width,
+    float height,
     state_T* state
 );
 
