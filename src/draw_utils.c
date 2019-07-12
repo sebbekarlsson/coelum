@@ -154,7 +154,15 @@ void draw_positioned_2D_mesh(
         0, 0, 0, 1
     };
 
-    glm_translate(model, (vec3){x, y, z});
+    if (state->camera->projection_view->dimensions == 2)
+    {
+        glm_translate(model, (vec3){x, y, 0.0f});
+    }
+    else
+    {
+        glm_translate(model, (vec3){x, y, z});
+    }
+
     send_model_state(SHADER_COLORED, model); 
 
     draw_2D_mesh(width, height, r, g, b, VBO, EBO);
