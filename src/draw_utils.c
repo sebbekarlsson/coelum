@@ -356,6 +356,7 @@ void draw_text(
     float b,
     float size,
     float spacing,
+    unsigned int limit,
     state_T* state
 )
 {
@@ -434,6 +435,12 @@ void draw_text(
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) 0);
         glDeleteBuffers(1, &EBO);
         glDeleteTextures(1, &tex);
+
+        if (limit)
+        {
+            if (i >= limit)
+                break;
+        }
     }
 
     glDeleteBuffers(1, &VBO);

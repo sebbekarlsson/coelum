@@ -71,6 +71,8 @@ texture_T* get_texture_from_data(unsigned char* data, int width, int height, int
 
     tex->renderable_texture = texture;
 
+    tex->data = data;
+
     return tex;
 }
 

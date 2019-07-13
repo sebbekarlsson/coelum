@@ -70,6 +70,7 @@ void draw_text(
     float b,
     float size,
     float spacing,
+    unsigned int limit,
     state_T* state
 );
 

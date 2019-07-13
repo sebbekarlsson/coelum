@@ -55,6 +55,7 @@ void actor_text_draw(actor_T* self)
         a_t->b,
         a_t->size,
         a_t->spacing,
+        0,
         state
     );
 }
