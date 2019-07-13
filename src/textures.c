@@ -175,6 +175,7 @@ unsigned int get_char_texture_from_texture(
  */
 void texture_free(texture_T* texture)
 {
+    glDeleteTextures(1, &texture->renderable_texture);
     stbi_image_free(texture->data);
     free(texture);
 }
