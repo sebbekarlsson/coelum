@@ -56,12 +56,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     } 
 
     KEYBOARD_STATE->keys[key] = (int) (glfwGetKey(window, key) == GLFW_PRESS);
-
-    if(
-        KEYBOARD_STATE->keys[GLFW_KEY_LEFT_SHIFT] &&
-        KEYBOARD_STATE->keys[GLFW_KEY_ESCAPE]
-     )
-        glfwSetWindowShouldClose(window, 1);
 }
 
 /**
