@@ -167,10 +167,11 @@ void state_draw(state_T* state)
         {
             sprite_draw(a->sprite, state);
         }
-        else
+        /* This needs to be discussed.
+         * else
         {
             draw_2D_mesh(a->width, a->height, 255.0f, 255.0f, 255.0f, a->VBO, a->EBO);
-        }
+        }*/
 
         if (state->lighting_enabled && a->shader_program == SHADER_TEXTURED_SHADED)
             glUniform3fv(glGetUniformLocation(a->shader_program, "world_pos"), 1, (float[]){ a->x, a->y, a->z }); 

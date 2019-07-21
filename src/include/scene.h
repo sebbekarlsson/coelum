@@ -9,7 +9,7 @@
 
 typedef struct SCENE_STRUCT
 {
-    state_T base; 
+    state_T base;
     float bg_r;
     float bg_g;
     float bg_b;
