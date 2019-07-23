@@ -26,34 +26,6 @@ int random_int(int min_value, int max_value)
 }
 
 /**
- * Get a random string with specified length
- *
- * @deprecated
- *
- * @parma unsigned int length
- *
- * @return char*
- */
-char* get_random_string(unsigned int length)
-{
-    init_random();
-
-    char* chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    char* string = calloc(length + 1, sizeof(char));
-    string[0] = '\0';
-
-    for (int i = 0; i < length; i++)
-    {
-        char* str = calloc(2, sizeof(char));
-        str[0] = chars[random_int(0, strlen(chars))];
-        strcat(string, str);
-        free(str);
-    }
-
-    return string;
-}
-
-/**
  * Calculate the distance between 2 2D vectors
  *
  * @param float x1

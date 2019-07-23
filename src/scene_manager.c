@@ -105,6 +105,14 @@ void scene_manager_next(scene_manager_T* scene_manager)
  */
 void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name)
 {
+    if (scene_manager->scene_index != -1)
+    {
+        scene_T* p_scene = scene_manager_get_current_scene(scene_manager);
+
+        if (p_scene->unload)
+            p_scene->unload(p_scene);
+    }
+
     for (int i = 0; i < scene_manager->scenes->size; i++)
     {
         scene_T* scene = (scene_T*) scene_manager->scenes->items[i];
@@ -112,6 +120,12 @@ void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name)
         if (strcmp(scene->type_name, type_name) == 0)
         {
             scene_manager->scene_index = i;
+
+            scene_T* n_scene = scene_manager_get_current_scene(scene_manager);
+
+            if (n_scene->load)
+                n_scene->load(n_scene);
+
             return;
         }
     }
