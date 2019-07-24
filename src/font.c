@@ -76,6 +76,7 @@ void get_font_coords(char c, texture_T* font, int* x, int* y)
 
             case ' ': *x = 0; *y = 0; break;
             case '/': *x = 15; *y = 2; break;
+            case '.': *x = 14; *y = 2; break;
         }
     }
 }
