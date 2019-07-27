@@ -60,6 +60,7 @@ sprite_T* init_sprite_from_file(const char* filename, int mode, float frame_dela
     sprite->r = 255;
     sprite->g = 255;
     sprite->b = 255;
+    sprite->a = 1.0f;
     sprite->frame_delay = frame_delay;
     gettimeofday(&sprite->timer, 0);
     sprite->animate = 1;
