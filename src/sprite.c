@@ -26,6 +26,7 @@ sprite_T* init_sprite(dynamic_list_T* textures, float frame_delay, float width, 
     sprite->r = 255;
     sprite->g = 255;
     sprite->b = 255;
+    sprite->a = 1.0f;
     sprite->frame_delay = frame_delay;
     gettimeofday(&sprite->timer, 0);
     sprite->animate = 1;
@@ -92,7 +93,7 @@ void sprite_draw(sprite_T* sprite, state_T* state)
     draw_2D_mesh(
         sprite->width,
         sprite->height,
-        sprite->r, sprite->g, sprite->b,  // r, g, b
+        sprite->r, sprite->g, sprite->b, sprite->a,  // r, g, b, a
         sprite->VBO,
         sprite->EBO        
     );

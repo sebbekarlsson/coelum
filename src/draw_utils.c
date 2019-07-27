@@ -69,17 +69,18 @@ void draw_2D_mesh(
     float r,
     float g,
     float b,
+    float a,
     unsigned int VBO,
     unsigned int EBO
 )
 {
     float VERTICES_TEXTURED[] =
     {
-        // positions            // colors                             // texture coords
-        0.0f,   0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   0.0f, 0.0f,   // top right
-        width,  0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   1.0f, 0.0f,   // bottom right
-        width,  height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   1.0f, 1.0f,   // bottom left
-        0.0f,   height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f,   0.0f, 1.0f    // top left
+        // positions            // colors                                // texture coords
+        0.0f,   0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   0.0f, 0.0f,   // top right
+        width,  0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   1.0f, 0.0f,   // bottom right
+        width,  height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   1.0f, 1.0f,   // bottom left
+        0.0f,   height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   0.0f, 1.0f    // top left
     };
 
     unsigned int INDICES_DEFAULT [] =
@@ -95,14 +96,14 @@ void draw_2D_mesh(
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(INDICES_DEFAULT), INDICES_DEFAULT, GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3* sizeof(float)));
     glEnableVertexAttribArray(1);
 
     // texcoords
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -130,6 +131,7 @@ void draw_positioned_2D_mesh(
     float r,
     float g,
     float b,
+    float a,
     state_T* state
 )
 {
@@ -165,7 +167,7 @@ void draw_positioned_2D_mesh(
 
     send_model_state(SHADER_COLORED, model); 
 
-    draw_2D_mesh(width, height, r, g, b, VBO, EBO);
+    draw_2D_mesh(width, height, r, g, b, a, VBO, EBO);
 
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
@@ -226,7 +228,7 @@ void draw_positioned_sprite(
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->renderable_texture);
 
-    draw_2D_mesh(width, height, 255, 255, 255, VBO, EBO);
+    draw_2D_mesh(width, height, sprite->r, sprite->g, sprite->b, sprite->a, VBO, EBO);
 
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);

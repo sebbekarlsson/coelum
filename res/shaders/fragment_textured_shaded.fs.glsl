@@ -1,7 +1,7 @@
 #version 330 core
 out vec4 FragColor;
   
-in vec3 ourColor;
+in vec4 ourColor;
 in vec3 normal;
 
 varying vec2 TexCoord;
@@ -35,5 +35,5 @@ void main()
 
     vec4 shade = vec4(brightnessMod, brightnessMod, brightnessMod, SHADE_OPACITY);
 
-    FragColor = texture2D(ourTexture, TexCoord) * (vec4(ourColor, 1) + shade);
+    FragColor = texture2D(ourTexture, TexCoord) * (ourColor + shade);
 }

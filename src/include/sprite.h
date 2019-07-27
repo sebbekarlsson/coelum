@@ -13,6 +13,7 @@ typedef struct SPRITE_STRUCT
     float r;
     float g;
     float b;
+    float a;
     float frame_delay;  // time spent on every frame
     struct timeval timer;
     unsigned int index;

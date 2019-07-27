@@ -19,6 +19,7 @@ void draw_2D_mesh(
     float r,
     float g,
     float b,
+    float a,
     unsigned int VBO,
     unsigned int EBO
 );
@@ -32,6 +33,7 @@ void draw_positioned_2D_mesh(
     float r,
     float g,
     float b,
+    float a,
     state_T* state
 );
 
