@@ -197,8 +197,6 @@ void draw_positioned_sprite(
     state_T* state
 )
 {
-    texture_T* texture = (texture_T*) sprite->textures->items[0];
-
     glBindVertexArray(state->VAO);
     glUseProgram(SHADER_TEXTURED);
 
@@ -223,12 +221,9 @@ void draw_positioned_sprite(
     glm_translate(model, (vec3){x, y, z});
     send_model_state(SHADER_TEXTURED, model);
 
-    glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0); 
+    glUniform1i(glGetUniformLocation(SHADER_TEXTURED, "ourTexture"), 0);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture->renderable_texture);
-
-    draw_2D_mesh(width, height, sprite->r, sprite->g, sprite->b, sprite->a, VBO, EBO);
+    sprite_draw(sprite, state);
 
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
