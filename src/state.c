@@ -109,13 +109,18 @@ void state_draw(state_T* state)
 
     for (int i = 0; i < state->actors->size; i++)
     {
-        /***
+        /**
          * Iterating through each actor in the current state,
          * rotating them, translating them and drawing them.
          */
 
         actor_T* a = ((actor_T*)state->actors->items[i]);
-
+        
+        /**
+         * NOTE: only the model in the shader program on the actor is
+         * being automatically positioned.
+         * TODO: make this better.
+         */
         glUseProgram(a->shader_program);
 
         send_projection_view_state(a->shader_program, pv);
