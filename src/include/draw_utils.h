@@ -70,6 +70,7 @@ void draw_text(
     float r,
     float g,
     float b,
+    float a,
     float size,
     float spacing,
     unsigned int limit,

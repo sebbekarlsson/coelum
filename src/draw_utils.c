@@ -60,6 +60,7 @@ void send_model_state(unsigned int shader_program, mat4 model)
  * @param float r
  * @param float g
  * @param float b
+ * @param float a
  * @param unsigned int VBO
  * @param unsigned int EBO
  */
@@ -120,6 +121,7 @@ void draw_2D_mesh(
  * @param float r
  * @param float g
  * @param float b
+ * @param float a
  * @param state_T* state
  */
 void draw_positioned_2D_mesh(
@@ -340,6 +342,7 @@ void draw_3D_axis(float x, float y, float z, float width, float height, float de
  * @param float r
  * @param float g
  * @param float b
+ * @param float a
  * @param float size
  * @param float spacing
  */
@@ -351,6 +354,7 @@ void draw_text(
     float r,
     float g,
     float b,
+    float a,
     float size,
     float spacing,
     unsigned int limit,
@@ -364,10 +368,10 @@ void draw_text(
     float vertices[] = 
     {
         // positions          // colors           // texture coords
-        size,  size, 0.0f,   d_r, d_g, d_b,   1.0f, 1.0f,   // top right
-        size, -size, 0.0f,   d_r, d_g, d_b,   1.0f, 0.0f,   // bottom right
-        -size, -size, 0.0f,   d_r, d_g, d_b,   0.0f, 0.0f,   // bottom left
-        -size,  size, 0.0f,   d_r, d_g, d_b,   0.0f, 1.0f    // top left
+        size,  size, 0.0f,   d_r, d_g, d_b, a,   1.0f, 1.0f,   // top right
+        size, -size, 0.0f,   d_r, d_g, d_b, a,   1.0f, 0.0f,   // bottom right
+        -size, -size, 0.0f,   d_r, d_g, d_b, a,   0.0f, 0.0f,   // bottom left
+        -size,  size, 0.0f,   d_r, d_g, d_b, a,   0.0f, 1.0f    // top left
     };
 
     unsigned int indices [] =
@@ -408,14 +412,14 @@ void draw_text(
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
         // position attribute
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
         // color attribute
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
 
         // texcoords
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
         glEnableVertexAttribArray(2);
 
         glActiveTexture(GL_TEXTURE0);

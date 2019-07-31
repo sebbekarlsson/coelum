@@ -53,6 +53,7 @@ void actor_text_draw(actor_T* self)
         a_t->r,
         a_t->g,
         a_t->b,
+        1.0f,
         a_t->size,
         a_t->spacing,
         0,
