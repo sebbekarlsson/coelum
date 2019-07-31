@@ -168,7 +168,7 @@ void state_draw(state_T* state)
         glm_mat4_copy(final, a->model);
         send_model_state(a->shader_program, a->model);
 
-        if (a->sprite)
+        if (a->sprite != (void*) 0)
         {
             sprite_draw(a->sprite, state);
         }
