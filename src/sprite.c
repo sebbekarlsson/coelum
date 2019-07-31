@@ -80,6 +80,9 @@ sprite_T* init_sprite_from_file(const char* filename, int mode, float frame_dela
  */
 void sprite_draw(sprite_T* sprite, state_T* state)
 {
+    if (sprite->textures->size == 0)
+        return;
+
     glBindVertexArray(state->VAO);
 
     texture_T* texture = (texture_T*) sprite->textures->items[sprite->index];
@@ -129,6 +132,9 @@ void sprite_draw(sprite_T* sprite, state_T* state)
  */
 void sprite_free(sprite_T* sprite)
 {
+    if (sprite == (void*) 0)
+        return;
+
     if (sprite->textures)
     {
         for (int i = 0; i < sprite->textures->size; i++)

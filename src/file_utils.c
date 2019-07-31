@@ -39,6 +39,9 @@ sprite_T* load_sprite_from_disk(const char* filename)
     sprite_T* sprite = (void*) 0;
 
     spr_T* spr = spr_load_from_file(filename);
+    
+    if (spr == (void*) 0)
+        return (void*) 0;
 
     dynamic_list_T* textures = init_dynamic_list(sizeof(struct TEXTURE_STRUCT));
 
