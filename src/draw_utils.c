@@ -388,9 +388,14 @@ void draw_text(
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+    int char_pos = 0;
+
     for (int i = 0; i < strlen(text); i++)
     {
         char c = text[i];
+
+        if (c == '\r' || c == '\n' || c == 0 || c == '\0' || (int) c == 10)
+            continue;
 
         unsigned int EBO;
 
@@ -430,7 +435,7 @@ void draw_text(
         glBindVertexArray(state->VAO);
         
         unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
-        glm_translate(model, (vec3){(i * (size + spacing)), 0, 0});
+        glm_translate(model, (vec3){(char_pos * (size + spacing)), 0, 0});
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) 0);
@@ -439,9 +444,11 @@ void draw_text(
 
         if (limit)
         {
-            if (i >= limit)
+            if (char_pos >= limit)
                 break;
         }
+
+        char_pos += 1;
     }
 
     glDeleteBuffers(1, &VBO);

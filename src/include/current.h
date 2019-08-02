@@ -4,4 +4,6 @@
 
 
 scene_T* get_current_scene();
+
+state_T* get_current_state();
 #endif
