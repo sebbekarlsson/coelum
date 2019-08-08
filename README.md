@@ -16,6 +16,9 @@
 > That is a lot of stuff right? I am planning on writing some sort of install-
 > script that just installs everything, but for now; you have to do it manually.
 
+> **NOTE** If you only want to make applications using only the `core`, then you
+> do not need to install _all_ of these, then you only need to install `coelum`.
+
 ## Installing Coelum
 ### Requirements (Debian)
 > Install these:
