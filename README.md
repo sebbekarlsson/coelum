@@ -2,20 +2,30 @@
 > Glorious Game Engine for divine intellects, written in pure C.
 ![screenshot](fps.png)
 
-## The important parts
-> There are `5` important parts that make up for this software, which is:  
-> *Zeus (you)*,  
-[Coelum (the core)](./coelum),  
-[Apollon (the GUI)](https://github.com/sebbekarlsson/apollon),  
-[Leto (the launcher)](./leto),  
-[Hermes (the language)](https://github.com/sebbekarlsson/hermes)
+## Installing everything
+> To get everything to work, including the GUI; you will need to compile and
+> install the following on your machine:
 
-## The Core (Coelum)
-> The foundation, game loop, input management, drivers, etc...
-### Installing Coelum
-> To install the core, just run this:
+* [Coelum (The core framework)](https://github.com/sebbekarlsson/coelum)
+* [Apollon (The GUI)](https://github.com/sebbekarlsson/apollon)
+* [Leto (The launcher)](https://github.com/sebbekarlsson/leto)
+* [SPR (The sprite file format)](https://github.com/sebbekarlsson/spr)
+* [Hermes (The scriptig language)](https://github.com/sebbekarlsson/hermes)
 
-    cd coelum
+> That is a lot of stuff right? I am planning on writing some sort of install-
+> script that just installs everything, but for now; you have to do it manually.
+
+## Installing Coelum
+### Requirements (Debian)
+> Install these:
+
+    apt-get install libglfw3-dev libaudio-dev
+
+    pip install --upgrade git+https://github.com/dav1dde/glad.git#egg=glad
+
+    glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=GL
+> Then, to install the Coelum core, just run this:
+
     make && sudo make install
 
 ## Using The Core
@@ -89,15 +99,6 @@ gcc main.c -lcoelum -lglfw -lm -ldl -lpthread -lopenal -laudio
 > This game engine was originally a pong game, the engine was later separated
 > from the game, and the game was separated from the engine.  
 > The pong game can be found here: [https://github.com/sebbekarlsson/cpong](https://github.com/sebbekarlsson/cpong)
-
-## Requirements (Debian)
-> Install these:
-
-    apt-get install libglfw3-dev libaudio-dev
-
-    pip install --upgrade git+https://github.com/dav1dde/glad.git#egg=glad
-
-    glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=GL
 
 ## Contributing
 ### Linting
