@@ -7,6 +7,7 @@
 > install the following on your machine:
 
 * [Coelum (The core framework)](https://github.com/sebbekarlsson/coelum)
+* [Athena (The DB wrapper)](https://github.com/sebbekarlsson/athena)
 * [Apollon (The GUI)](https://github.com/sebbekarlsson/apollon)
 * [Leto (The launcher)](https://github.com/sebbekarlsson/leto)
 * [SPR (The sprite file format)](https://github.com/sebbekarlsson/spr)
