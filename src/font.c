@@ -83,6 +83,13 @@ void get_font_coords(char c, texture_T* font, int* x, int* y)
             case '}': *x = 13; *y = 7; break;
             case '(': *x = 8; *y = 2; break;
             case ')': *x = 9; *y = 2; break;
+            case '"': *x = 2; *y = 2; break;
+            case '`': *x = 0; *y = 6; break;
+            case '\\': *x = 12; *y = 5; break;
+            case '=': *x = 13; *y = 3; break;
+            case '!': *x = 1; *y = 2; break;
+            case '<': *x = 12; *y = 3; break;
+            case '>': *x = 14; *y = 3; break;
         }
     }
 }
