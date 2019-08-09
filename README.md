@@ -1,6 +1,18 @@
 # Coelum
-> Glorious Game Engine for divine intellects, written in pure C.
+> A a toy and a game engine for the creative person.  
+> The purpose of Coelum is to bring joy to who ever that wants to express his or hers creativity.
+
+## Features
+### Simple User Interface
+![screenshot](coelumgui.png)
+### 2D Rendering
+![screenshot](image.png)
+### 3D Rendering
 ![screenshot](fps.png)
+### OpenAL Sound
+![screenshot](openal.png)
+### Simple Lighting engine
+![screenshot](light.png)
 
 ## Installing everything
 > To get everything to work, including the GUI; you will need to compile and
