@@ -14,6 +14,7 @@ scene_manager_T* init_scene_manager()
     scene_manager_T* scene_manager = calloc(1, sizeof(struct SCENE_MANAGER_STRUCT));
     scene_manager->scenes = init_dynamic_list(sizeof(struct SCENE_STRUCT*));
     scene_manager->scene_index = -1;
+    scene_manager->scene_index_prev = -1;
 
     return scene_manager;
 }
@@ -89,6 +90,7 @@ void scene_manager_next(scene_manager_T* scene_manager)
             p_scene->unload(p_scene);
     }
 
+    scene_manager->scene_index_prev = scene_manager->scene_index;
     scene_manager->scene_index = MIN(scene_manager->scene_index + 1, scene_manager->scenes->size - 1);
 
     scene_T* n_scene = scene_manager_get_current_scene(scene_manager);
@@ -119,6 +121,7 @@ void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name)
 
         if (strcmp(scene->type_name, type_name) == 0)
         {
+            scene_manager->scene_index_prev = scene_manager->scene_index;
             scene_manager->scene_index = i;
 
             scene_T* n_scene = scene_manager_get_current_scene(scene_manager);
@@ -131,6 +134,18 @@ void scene_manager_goto(scene_manager_T* scene_manager, const char* type_name)
     }
 
     printf("Could not find any scene with name %s\n", type_name);
+}
+
+/**
+ * Move to the previous scene
+ *
+ * @param scene_manager_T* scene_manager
+ */
+void scene_manager_go_back(scene_manager_T* scene_manager)
+{
+    int i = scene_manager->scene_index;
+    scene_manager->scene_index = scene_manager->scene_index_prev;
+    scene_manager->scene_index_prev = i;
 }
 
 void scene_manager_free(scene_manager_T* scene_manager)
