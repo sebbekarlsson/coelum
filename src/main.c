@@ -71,6 +71,9 @@ int coelum_main(int argc, char* argv[])
 
         glfwPollEvents();
 
+        MOUSE_STATE->button_left = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+        MOUSE_STATE->button_right = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+
         glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
 
         if (state->camera->projection_view->dimensions == 2)

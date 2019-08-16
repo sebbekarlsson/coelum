@@ -18,6 +18,8 @@ typedef struct MOUSE_STATE_STRUCT
     float dx;
     float dy;
     int input_mode;
+    unsigned int button_left;
+    unsigned int button_right;
 } mouse_state_T;
 
 mouse_state_T* init_mouse_state();
