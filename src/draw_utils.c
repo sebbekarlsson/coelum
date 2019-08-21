@@ -160,7 +160,7 @@ void draw_positioned_2D_mesh(
 
     if (state->camera->projection_view->dimensions == 2)
     {
-        glm_translate(model, (vec3){x, y, 0.0f});
+        glm_translate(model, (vec3){x, y, z});
     }
     else
     {
@@ -435,7 +435,7 @@ void draw_text(
         glBindVertexArray(state->VAO);
         
         unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
-        glm_translate(model, (vec3){(char_pos * (size + spacing)), 0, 0});
+        glm_translate(model, (vec3){(char_pos * (size + spacing)), 0, z});
         glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) 0);

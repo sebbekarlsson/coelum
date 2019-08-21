@@ -154,14 +154,7 @@ void state_draw(state_T* state)
 
         glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, rot);
 
-        if (pv->dimensions == 2)
-        {
-            glm_translate(trans, (vec3){ a->x, a->y, 0.0f });
-        }
-        else
-        {
-            glm_translate(trans, (vec3){ a->x, a->y, a->z });
-        }
+        glm_translate(trans, (vec3){ a->x, a->y, a->z });
 
         glm_mat4_mul(trans, rot, final);
 

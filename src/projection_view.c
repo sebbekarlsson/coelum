@@ -42,7 +42,7 @@ projection_view_T* init_projection_view(int width, int height, unsigned int dime
 
     if (pv->dimensions == 2)
     { // we are doing 2D
-        glm_ortho(0.0f, width, height, 0.0f, 0.0f, 1.5f, pv->projection);
+        glm_ortho(0.0f, width, height, 0.0f, -1.0f, 1.0f, pv->projection);
     }
     else
     { // we are doing 3D
