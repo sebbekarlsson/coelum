@@ -14,6 +14,12 @@ extern unsigned int SHADER_TEXTURED_SHADED;
 extern texture_T* TEXTURE_DEFAULT_FONT;
 extern texture_T* TEXTURE_LN_EGA8x8_FONT;
 
+unsigned int INDICES_DEFAULT [] =
+{
+    0, 1, 3,   // first triangle
+    1, 2, 3    // second triangle
+};
+
 /**
  * Update projection and view matrices in the current active shader.
  *
@@ -82,13 +88,7 @@ void draw_2D_mesh(
         width,  0.0f,    0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   1.0f, 0.0f,   // bottom right
         width,  height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   1.0f, 1.0f,   // bottom left
         0.0f,   height,  0.0f,  r / 255.0f, g / 255.0f, b / 255.0f, a,   0.0f, 1.0f    // top left
-    };
-
-    unsigned int INDICES_DEFAULT [] =
-    {
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };
+    }; 
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES_TEXTURED), VERTICES_TEXTURED, GL_STATIC_DRAW);
@@ -158,14 +158,7 @@ void draw_positioned_2D_mesh(
         0, 0, 0, 1
     };
 
-    if (state->camera->projection_view->dimensions == 2)
-    {
-        glm_translate(model, (vec3){x, y, z});
-    }
-    else
-    {
-        glm_translate(model, (vec3){x, y, z});
-    }
+    glm_translate(model, (vec3){x, y, z});
 
     send_model_state(SHADER_COLORED, model); 
 
