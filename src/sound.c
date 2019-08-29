@@ -1,13 +1,21 @@
 #include "include/sound.h"
 #include <cglm/types.h>
-#include <AL/al.h>
+#ifndef __APPLE__
 #include <AL/alut.h>
+#include <audio/wave.h>
+#else
+// quick hack to make everything compile on Mac OSX
+// TODO: replace the audio library with something else.
+typedef struct WAVE_INFO { int channels; int bitsPerSample; int sampleRate; int dataSize; } WaveInfo;
+WaveInfo* WaveOpenFileForReading(const char* fname) { return (void*)0; }
+int WaveSeekFile(int a, WaveInfo* x) { return 0; }
+int WaveReadFile(char* data, int a, WaveInfo* x) { return 0; }
+#endif
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <audio/wave.h>
 
 
 /**
@@ -33,11 +41,11 @@ AL_T* init_al()
     ALfloat listenerOri[] = { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f };
 
     alListener3f(AL_POSITION, 0, 0, 1.0f);
-    // check for errors
+    // TODO: check for errors
     alListener3f(AL_VELOCITY, 0, 0, 0);
-    // check for errors
+    // TODO: check for errors
     alListenerfv(AL_ORIENTATION, listenerOri);
-    // check for errors
+    // TODO: check for errors
     
     return al;
 }

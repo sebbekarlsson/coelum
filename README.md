@@ -32,14 +32,33 @@
 > do not need to install _all_ of these, then you only need to install `coelum`.
 
 ## Installing Coelum
-### Requirements (Debian)
+### Requirements
 > Install these:
 
+    # if you are on debian / ubuntu
     apt-get install libglfw3-dev libaudio-dev
+
+    # also clone and install cglm
+    git clone git@github.com:recp/cglm.git
+
+    # also clone and install objload
+    git clone git@github.com:sebbekarlsson/objload.git
+
+    # also clone and install spr
+    git clone git@github.com:sebbekarlsson/spr.git
+
+    # if you are on a Mac OSX, install these:
+    brew install automake
+    brew install libtool
+    brew install openal-soft
+    brew install glfw3
+
+> You will also need GLAD (no matter what OS you are using):
 
     pip install --upgrade git+https://github.com/dav1dde/glad.git#egg=glad
 
     glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=GL
+
 > Then, to install the Coelum core, just run this:
 
     make && sudo make install

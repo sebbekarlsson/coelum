@@ -1,6 +1,11 @@
 #ifndef COELUM_SOUND_H
 #define COELUM_SOUND_H
+#ifdef __APPLE__
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else
 #include <AL/alc.h>
+#endif
 
 
 typedef struct AL_STRUCT
