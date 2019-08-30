@@ -1,4 +1,9 @@
 #include "include/sound.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
 #include <cglm/types.h>
 #ifndef __APPLE__
 #include <AL/alut.h>
@@ -11,11 +16,6 @@ WaveInfo* WaveOpenFileForReading(const char* fname) { return (void*)0; }
 int WaveSeekFile(int a, WaveInfo* x) { return 0; }
 int WaveReadFile(char* data, int a, WaveInfo* x) { return 0; }
 #endif
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
 
 
 /**
