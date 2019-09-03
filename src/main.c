@@ -15,6 +15,8 @@ mouse_state_T* MOUSE_STATE;
 theatre_T* THEATRE;
 
 GLFWwindow* window = (void*) 0;
+volatile unsigned int RUNNING;
+
 
 void coelum_init()
 {
@@ -38,6 +40,8 @@ void coelum_init()
 
 void coelum_terminate()
 {
+    RUNNING = 0;
+
     printf("Coelum is being terminated, deallocating memory...\n");
 
     printf("Freeing KEYBOARD_STATE...\n");
@@ -57,8 +61,10 @@ void coelum_terminate()
 }
 
 int coelum_main(int argc, char* argv[])
-{ 
-    while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0)
+{
+    RUNNING = 1;
+
+    while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0 && RUNNING)
     {
         if (THEATRE->scene_manager->scene_index == -1)
             scene_manager_next(THEATRE->scene_manager);
