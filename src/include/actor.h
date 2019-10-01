@@ -48,5 +48,7 @@ void actor_tick(actor_T* a);
 
 void actor_draw(actor_T* a);
 
+void actor_draw_default(actor_T* self, state_T* state);
+
 void actor_free(actor_T* actor);
 #endif

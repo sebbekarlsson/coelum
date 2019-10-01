@@ -115,61 +115,7 @@ void state_draw(state_T* state)
          */
 
         actor_T* a = ((actor_T*)state->actors->items[i]);
-        
-        /**
-         * NOTE: only the model in the shader program on the actor is
-         * being automatically positioned.
-         * TODO: make this better.
-         */
-        glUseProgram(a->shader_program);
-
-        send_projection_view_state(a->shader_program, pv);
-
-        vec4 qx, qy, qz;
-        mat4 mx, my, mz;
-
-        glm_quat(qx, glm_rad(a->rx), 1.0f, 0.0f, 0.0f);
-        glm_quat(qy, glm_rad(a->ry), 0.0f, 1.0f, 0.0f);
-        glm_quat(qz, glm_rad(a->rz), 0.0f, 0.0f, 1.0f);
-
-        glm_quat_mat4(qx, mx);
-        glm_quat_mat4(qy, my);
-        glm_quat_mat4(qz, mz);
-
-        mat4 trans = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1 
-        };
-
-        mat4 rot = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        };
-
-        mat4 final;
-
-        glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, rot);
-
-        glm_translate(trans, (vec3){ a->x, a->y, a->z });
-
-        glm_mat4_mul(trans, rot, final);
-
-        glm_mat4_copy(final, a->model);
-        send_model_state(a->shader_program, a->model);
-
-        if (a->sprite != (void*) 0)
-        {
-            sprite_draw(a->sprite, state);
-        }
-        /* This needs to be discussed.
-         * else
-        {
-            draw_2D_mesh(a->width, a->height, 255.0f, 255.0f, 255.0f, a->VBO, a->EBO);
-        }*/
+        actor_draw_default(a, pv);
 
         if (state->lighting_enabled && a->shader_program == SHADER_TEXTURED_SHADED)
             glUniform3fv(glGetUniformLocation(a->shader_program, "world_pos"), 1, (float[]){ a->x, a->y, a->z }); 

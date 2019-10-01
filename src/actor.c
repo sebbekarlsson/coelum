@@ -106,6 +106,61 @@ void actor_draw(actor_T* actor)
     // silence
 }
 
+void actor_draw_default(actor_T* self, state_T* state)
+{
+    projection_view_T* pv = state->camera->projection_view;
+
+    /**
+     * NOTE: only the model in the shader program on the actor is
+     * being automatically positioned.
+     * TODO: make this better.
+     */
+    glUseProgram(self->shader_program);
+
+    send_projection_view_state(self->shader_program, pv);
+
+    vec4 qx, qy, qz;
+    mat4 mx, my, mz;
+
+    glm_quat(qx, glm_rad(self->rx), 1.0f, 0.0f, 0.0f);
+    glm_quat(qy, glm_rad(self->ry), 0.0f, 1.0f, 0.0f);
+    glm_quat(qz, glm_rad(self->rz), 0.0f, 0.0f, 1.0f);
+
+    glm_quat_mat4(qx, mx);
+    glm_quat_mat4(qy, my);
+    glm_quat_mat4(qz, mz);
+
+    mat4 trans = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1 
+    };
+
+    mat4 rot = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+
+    mat4 final;
+
+    glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, rot);
+
+    glm_translate(trans, (vec3){ self->x, self->y, self->z });
+
+    glm_mat4_mul(trans, rot, final);
+
+    glm_mat4_copy(final, self->model);
+    send_model_state(self->shader_program, self->model);
+
+    if (self->sprite != (void*) 0)
+    {
+        sprite_draw(self->sprite, state);
+    }
+}
+
 /**
  * Deallocate function for `actor` object.
  *
