@@ -123,6 +123,8 @@ void draw_2D_mesh(
  * @param float b
  * @param float a
  * @param state_T* state
+ *
+ * TODO: add support for rotations
  */
 void draw_positioned_2D_mesh(
     float x,
@@ -166,7 +168,6 @@ void draw_positioned_2D_mesh(
 
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glm_translate(model, (vec3){-x, -y, -z});
     
     glBindVertexArray(0);
 }
