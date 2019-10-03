@@ -117,11 +117,11 @@ void state_draw(state_T* state)
         actor_T* a = ((actor_T*)state->actors->items[i]);
         actor_draw_default(a, state);
 
-        if (state->lighting_enabled && a->shader_program == SHADER_TEXTURED_SHADED)
-            glUniform3fv(glGetUniformLocation(a->shader_program, "world_pos"), 1, (float[]){ a->x, a->y, a->z }); 
-
         if (a->draw)
             a->draw(a);
+
+        if (state->lighting_enabled && a->shader_program == SHADER_TEXTURED_SHADED)
+            glUniform3fv(glGetUniformLocation(a->shader_program, "world_pos"), 1, (float[]){ a->x, a->y, a->z });  
     }
 
     camera_unbind(state->camera);

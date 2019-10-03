@@ -137,6 +137,20 @@ void actor_draw_default(actor_T* self, state_T* state)
         0, 0, 0, 1 
     };
 
+    mat4 trans_two = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1 
+    };
+
+    mat4 trans_fuck = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1 
+    };
+
     mat4 rot = {
         1, 0, 0, 0,
         0, 1, 0, 0,
@@ -148,9 +162,11 @@ void actor_draw_default(actor_T* self, state_T* state)
 
     glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, rot);
 
-    glm_translate(trans, (vec3){ self->x, self->y, self->z });
+    glm_translate(trans, (vec3){ self->x+(self->width/2), self->y+(self->height/2), self->z });
+    glm_translate(trans_two, (vec3){ -(self->x + (self->width/2)), -(self->y + self->height/2), self->z });
+    glm_translate(trans_fuck, (vec3){ self->x, self->y, self->z });
 
-    glm_mat4_mul(trans, rot, final);
+    glm_mat4_mulN((mat4* []){&trans, &rot, &trans_two, &trans_fuck}, 4, final);
 
     glm_mat4_copy(final, self->model);
     send_model_state(self->shader_program, self->model);
