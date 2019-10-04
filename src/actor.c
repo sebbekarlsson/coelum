@@ -2,6 +2,7 @@
 #include "include/theatre.h"
 #include "include/draw_utils.h"
 #include "include/physics.h"
+#include "include/matrix.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -119,54 +120,20 @@ void actor_draw_default(actor_T* self, state_T* state)
 
     send_projection_view_state(self->shader_program, pv);
 
-    vec4 qx, qy, qz;
-    mat4 mx, my, mz;
-
-    glm_quat(qx, glm_rad(self->rx), 1.0f, 0.0f, 0.0f);
-    glm_quat(qy, glm_rad(self->ry), 0.0f, 1.0f, 0.0f);
-    glm_quat(qz, glm_rad(self->rz), 0.0f, 0.0f, 1.0f);
-
-    glm_quat_mat4(qx, mx);
-    glm_quat_mat4(qy, my);
-    glm_quat_mat4(qz, mz);
-
-    mat4 trans = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1 
-    };
-
-    mat4 trans_two = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1 
-    };
-
-    mat4 trans_pos = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1 
-    };
-
-    mat4 rot = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
-
     mat4 final;
-
-    glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, rot);
-
-    glm_translate(trans, (vec3){ self->x+(self->width/2), self->y+(self->height/2), self->z });
-    glm_translate(trans_two, (vec3){ -(self->x + (self->width/2)), -(self->y + self->height/2), self->z });
-    glm_translate(trans_pos, (vec3){ self->x, self->y, self->z });
-
-    glm_mat4_mulN((mat4* []){&trans, &rot, &trans_two, &trans_pos}, 4, final);
+    matrix_generate(
+        self->x,
+        self->y,
+        self->z,
+        self->rx,
+        self->ry,
+        self->rz,
+        self->width/2,
+        self->height/2,
+        0,
+        final,
+        0
+    );
 
     glm_mat4_copy(final, self->model);
     send_model_state(self->shader_program, self->model);

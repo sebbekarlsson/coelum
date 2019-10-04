@@ -2,6 +2,7 @@
 #include "include/actor.h"
 #include "include/draw_utils.h"
 #include "include/utils.h"
+#include "include/matrix.h"
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 #include <string.h>
@@ -84,11 +85,11 @@ void state_draw(state_T* state)
 
     if (pv->dimensions == 2)
     { // we are doing 2D
-        camera_bind(state->camera);
+        //camera_bind(state->camera);
     }
-    else
+    //else
     { // we are doing 3D
-        vec4 qx, qy, qz;
+        /*vec4 qx, qy, qz;
         mat4 mx, my, mz;
         glm_quat(qx, -glm_rad(state->camera->rx), 1.0f, 0.0f, 0.0f);
         glm_quat(qy, -glm_rad(state->camera->ry), 0.0f, 1.0f, 0.0f);
@@ -96,13 +97,28 @@ void state_draw(state_T* state)
 
         glm_quat_mat4(qx, mx);
         glm_quat_mat4(qy, my);
-        glm_quat_mat4(qz, mz);
+        glm_quat_mat4(qz, mz);*/
+
+        camera_T* camera = state->camera;
 
         mat4 final;
+        matrix_generate(
+            -camera->x,
+            -camera->y,
+            -camera->z,
+            -camera->rx,
+            -camera->ry,
+            -camera->rz,
+            camera->offset_x,
+            camera->offset_y,
+            camera->offset_z,
+            final,
+            0
+        );
 
-        glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, final);
+        /*glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, final);
 
-        glm_translate(final, (vec3){ state->camera->x, state->camera->y, state->camera->z });
+        glm_translate(final, (vec3){ state->camera->x, state->camera->y, state->camera->z });*/
 
         glm_mat4_copy(final, pv->view);
     }
