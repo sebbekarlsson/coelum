@@ -17,6 +17,9 @@ typedef struct ACTOR_STRUCT
     float rx;  // rotation
     float ry;  // rotation
     float rz;  // rotation
+    float offset_x;
+    float offset_y;
+    float offset_z;
     float friction;
     int width;
     int height;
@@ -24,6 +27,8 @@ typedef struct ACTOR_STRUCT
     unsigned int VBO;
     unsigned int EBO;
     unsigned int shader_program;
+    unsigned int use_offset;
+    unsigned int reverse;
     int loaded;
     mat4 model;
     sprite_T* sprite;

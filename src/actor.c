@@ -58,6 +58,11 @@ actor_T* actor_constructor(
     actor->rx = 0.0f;
     actor->ry = 0.0f;
     actor->rz = 0.0f;
+    actor->offset_x = 0.0f;
+    actor->offset_y = 0.0f;
+    actor->offset_z = 0.0f;
+    actor->use_offset = 0;
+    actor->reverse = 0;
     actor->friction = 0.0f;
     actor->width = 1;
     actor->height = 1;
@@ -120,6 +125,10 @@ void actor_draw_default(actor_T* self, state_T* state)
 
     send_projection_view_state(self->shader_program, pv);
 
+    float ox = self->use_offset ? self->offset_x : (self->width/2);
+    float oy = self->use_offset ? self->offset_y : (self->height/2);
+    float oz = self->use_offset ? self->offset_z : (self->width/2);
+
     mat4 final;
     matrix_generate(
         self->x,
@@ -128,11 +137,11 @@ void actor_draw_default(actor_T* self, state_T* state)
         self->rx,
         self->ry,
         self->rz,
-        self->width/2,
-        self->height/2,
-        0,
+        ox,
+        oy,
+        oz,
         final,
-        0
+        self->reverse
     );
 
     glm_mat4_copy(final, self->model);

@@ -113,7 +113,7 @@ void state_draw(state_T* state)
             camera->offset_y,
             camera->offset_z,
             final,
-            0
+            camera->reverse
         );
 
         /*glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, final);

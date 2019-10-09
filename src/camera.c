@@ -15,6 +15,7 @@ camera_T* init_camera(int projection_view_width, int projection_view_height, uns
     c->offset_x = 0.0f;
     c->offset_y = 0.0f;
     c->offset_z = 0.0f;
+    c->reverse = 0;
 
     return c;
 }

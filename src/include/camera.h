@@ -15,6 +15,7 @@ typedef struct CAMERA_STRUCT
     float offset_x;
     float offset_y;
     float offset_z;
+    unsigned int reverse;
 } camera_T;
 
 camera_T* init_camera(int projection_view_width, int projection_view_height, unsigned int dimensions);
