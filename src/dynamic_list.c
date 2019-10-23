@@ -56,6 +56,9 @@ void dynamic_list_shift_left(dynamic_list_T* dynamic_list, int index)
 
 void dynamic_list_remove(dynamic_list_T* dynamic_list, void* element, void (*free_method)(void* item))
 {
+    if (dynamic_list->size == 0)
+        return;
+
     int index = 0;
 
     for (int i = 0; i < dynamic_list->size; i++)
