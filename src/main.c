@@ -17,6 +17,9 @@ theatre_T* THEATRE;
 GLFWwindow* window = (void*) 0;
 volatile unsigned int RUNNING;
 
+const GLubyte* vendor;
+const GLubyte* renderer;
+const GLubyte* version;
 
 void coelum_init()
 {
@@ -34,6 +37,14 @@ void coelum_init()
 
     MOUSE_STATE = init_mouse_state();
     glfwSetCursorPosCallback(window, cursor_position_callback);
+
+    vendor = glGetString(GL_VENDOR);
+    renderer = glGetString(GL_RENDERER);
+    version = glGetString(GL_VERSION);
+
+    printf("Vendor: %s\n", vendor);
+    printf("Renderer: %s\n", renderer);
+    printf("OpenGL Version: %s\n", version);
 
     printf("Coelum was initialized.\n");
 }
