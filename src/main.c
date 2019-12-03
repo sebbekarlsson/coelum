@@ -23,6 +23,8 @@ const GLubyte* version;
 
 void coelum_init()
 {
+    w = 640;
+    h = 480;
     printf("Coelum is being initialized...\n");
 
     window = setup_graphical_window(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -75,6 +77,27 @@ int coelum_main(int argc, char* argv[])
 {
     RUNNING = 1;
 
+    GLuint renderBuffer;
+    GLuint frameBuffer;
+    GLuint depthRenderBuffer;
+
+    int mWinWidth = WINDOW_WIDTH;
+    int mWinHeight = WINDOW_HEIGHT;
+
+    // https://community.khronos.org/t/render-to-renderbuffer-with-depth-test/63793/3
+
+    glGenRenderbuffers( 1, &renderBuffer );
+    glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_RGB32F, mWinWidth, mWinHeight );
+    printf("!\n");
+
+    glGenRenderbuffers( 1, &depthRenderBuffer );
+    glBindRenderbuffer( GL_RENDERBUFFER, depthRenderBuffer );
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT, mWinWidth, mWinHeight );
+    printf("!\n");
+
+    glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
+
     while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0 && RUNNING)
     {
         if (THEATRE->scene_manager->scene_index == -1)
@@ -91,10 +114,13 @@ int coelum_main(int argc, char* argv[])
         MOUSE_STATE->button_left = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
         MOUSE_STATE->button_right = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
 
-        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
 
-        glEnable(GL_DEPTH_TEST);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
+        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
+        glDrawBuffer(GL_COLOR_ATTACHMENT0);
+        glViewport( 0, 0, w, h);
+        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
+        glClear( GL_COLOR_BUFFER_BIT/* | GL_DEPTH_BUFFER_BIT*/);
 
         glfwSetInputMode(window, GLFW_CURSOR, MOUSE_STATE->input_mode);
 

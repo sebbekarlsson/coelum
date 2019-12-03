@@ -3,4 +3,7 @@
 void coelum_init();
 void coelum_terminate();
 int coelum_main(int argc, char* argv[]);
+
+volatile int w;
+volatile int h;
 #endif
