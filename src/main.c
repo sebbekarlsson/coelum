@@ -96,7 +96,7 @@ int coelum_main(int argc, char* argv[])
     glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT, mWinWidth, mWinHeight );
     printf("!\n");
 
-    glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
+    //glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
 
     while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0 && RUNNING)
     {
@@ -114,18 +114,22 @@ int coelum_main(int argc, char* argv[])
         MOUSE_STATE->button_left = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
         MOUSE_STATE->button_right = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
 
-
-        glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
-        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
-        glDrawBuffer(GL_COLOR_ATTACHMENT0);
-        glViewport( 0, 0, w, h);
-        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
-        glClear( GL_COLOR_BUFFER_BIT/* | GL_DEPTH_BUFFER_BIT*/);
-
         glfwSetInputMode(window, GLFW_CURSOR, MOUSE_STATE->input_mode);
+
+        glViewport(0, 0, 640, 480);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
+        glEnable(GL_DEPTH_TEST);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         theatre_tick(THEATRE);
         theatre_draw(THEATRE);
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glBlitFramebuffer(
+        0, 0, 640, 480,
+        0, 0, w, h,
+        GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
         glfwSwapBuffers(window);
 
