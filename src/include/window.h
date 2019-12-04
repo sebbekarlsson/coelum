@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 
 
+volatile unsigned int window_width;
+volatile unsigned int window_height;
+
 GLFWwindow* setup_graphical_window(int width, int height);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  

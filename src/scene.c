@@ -30,7 +30,7 @@ scene_T* init_scene()
  */
 scene_T* scene_constructor(scene_T* scene,  void (*tick)(scene_T* self), void (*draw)(scene_T* self), unsigned int dimensions)
 {
-    state_constructor((state_T*) scene, WINDOW_WIDTH, WINDOW_HEIGHT, dimensions);
+    state_constructor((state_T*) scene, RES_WIDTH, RES_HEIGHT, dimensions);
 
     scene->tick = tick;
     scene->draw = draw;

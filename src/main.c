@@ -10,6 +10,9 @@
 #include "include/sound.h"
 
 
+extern volatile unsigned int window_width;
+extern volatile unsigned int window_height;
+
 keyboard_state_T* KEYBOARD_STATE;
 mouse_state_T* MOUSE_STATE;
 theatre_T* THEATRE;
@@ -23,11 +26,9 @@ const GLubyte* version;
 
 void coelum_init()
 {
-    w = 640;
-    h = 480;
     printf("Coelum is being initialized...\n");
 
-    window = setup_graphical_window(WINDOW_WIDTH, WINDOW_HEIGHT);
+    window = setup_graphical_window(RES_WIDTH, RES_HEIGHT);
 
     THEATRE = init_theatre();
     register_shader_programs(THEATRE->shader_manager);
@@ -81,22 +82,19 @@ int coelum_main(int argc, char* argv[])
     GLuint frameBuffer;
     GLuint depthRenderBuffer;
 
-    int mWinWidth = WINDOW_WIDTH;
-    int mWinHeight = WINDOW_HEIGHT;
-
     // https://community.khronos.org/t/render-to-renderbuffer-with-depth-test/63793/3
 
     glGenRenderbuffers( 1, &renderBuffer );
     glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
-    glRenderbufferStorage( GL_RENDERBUFFER, GL_RGB32F, mWinWidth, mWinHeight );
-    printf("!\n");
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_RGB32F, RES_WIDTH, RES_HEIGHT );
+    // TODO: check for errors here
 
     glGenRenderbuffers( 1, &depthRenderBuffer );
     glBindRenderbuffer( GL_RENDERBUFFER, depthRenderBuffer );
-    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT, mWinWidth, mWinHeight );
-    printf("!\n");
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT, RES_WIDTH, RES_HEIGHT );
+    // TODO: check for errors here
 
-    //glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
+    glBindFramebuffer( GL_FRAMEBUFFER, 0 );
 
     while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0 && RUNNING)
     {
@@ -127,8 +125,8 @@ int coelum_main(int argc, char* argv[])
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         glBlitFramebuffer(
-        0, 0, 640, 480,
-        0, 0, w, h,
+        0, 0, RES_WIDTH, RES_HEIGHT,
+        0, 0, window_width, window_height,
         GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
         glfwSwapBuffers(window);
