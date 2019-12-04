@@ -83,45 +83,24 @@ void state_draw(state_T* state)
 
     glBindVertexArray(state->VAO); 
 
-    if (pv->dimensions == 2)
-    { // we are doing 2D
-        //camera_bind(state->camera);
-    }
-    //else
-    { // we are doing 3D
-        /*vec4 qx, qy, qz;
-        mat4 mx, my, mz;
-        glm_quat(qx, -glm_rad(state->camera->rx), 1.0f, 0.0f, 0.0f);
-        glm_quat(qy, -glm_rad(state->camera->ry), 0.0f, 1.0f, 0.0f);
-        glm_quat(qz, -glm_rad(state->camera->rz), 0.0f, 0.0f, 1.0f);
+    camera_T* camera = state->camera;
 
-        glm_quat_mat4(qx, mx);
-        glm_quat_mat4(qy, my);
-        glm_quat_mat4(qz, mz);*/
+    mat4 final;
+    matrix_generate(
+        -camera->x,
+        -camera->y,
+        -camera->z,
+        -camera->rx,
+        -camera->ry,
+        -camera->rz,
+        camera->offset_x,
+        camera->offset_y,
+        camera->offset_z,
+        final,
+        camera->reverse
+    );
 
-        camera_T* camera = state->camera;
-
-        mat4 final;
-        matrix_generate(
-            -camera->x,
-            -camera->y,
-            -camera->z,
-            -camera->rx,
-            -camera->ry,
-            -camera->rz,
-            camera->offset_x,
-            camera->offset_y,
-            camera->offset_z,
-            final,
-            camera->reverse
-        );
-
-        /*glm_mat4_mulN((mat4* []){&mx, &my, &mz}, 3, final);
-
-        glm_translate(final, (vec3){ state->camera->x, state->camera->y, state->camera->z });*/
-
-        glm_mat4_copy(final, pv->view);
-    }
+    glm_mat4_copy(final, pv->view);
 
     for (int i = 0; i < state->actors->size; i++)
     {

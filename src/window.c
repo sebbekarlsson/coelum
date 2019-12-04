@@ -4,6 +4,10 @@
 #include <stdio.h>
 
 
+extern volatile unsigned int window_width;
+extern volatile unsigned int window_height;
+
+
 /**
  * Use this to create a window with OpenGL context
  *
@@ -11,6 +15,9 @@
  */
 GLFWwindow* setup_graphical_window(int width, int height)
 {
+    window_width = width;
+    window_height = height;
+
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -58,5 +65,7 @@ GLFWwindow* setup_graphical_window(int width, int height)
  */
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport((width / 2) - (WINDOW_WIDTH / 2), (height / 2) - (WINDOW_HEIGHT / 2), 640, 480);
+    window_width = width;
+    window_height = height;
+    // glViewport((width / 2) - (WINDOW_WIDTH / 2), (height / 2) - (WINDOW_HEIGHT / 2), 640, 480);
 }

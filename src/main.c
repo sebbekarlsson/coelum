@@ -10,6 +10,9 @@
 #include "include/sound.h"
 
 
+extern volatile unsigned int window_width;
+extern volatile unsigned int window_height;
+
 keyboard_state_T* KEYBOARD_STATE;
 mouse_state_T* MOUSE_STATE;
 theatre_T* THEATRE;
@@ -25,7 +28,7 @@ void coelum_init()
 {
     printf("Coelum is being initialized...\n");
 
-    window = setup_graphical_window(WINDOW_WIDTH, WINDOW_HEIGHT);
+    window = setup_graphical_window(RES_WIDTH, RES_HEIGHT);
 
     THEATRE = init_theatre();
     register_shader_programs(THEATRE->shader_manager);
@@ -75,6 +78,24 @@ int coelum_main(int argc, char* argv[])
 {
     RUNNING = 1;
 
+    GLuint renderBuffer;
+    GLuint frameBuffer;
+    GLuint depthRenderBuffer;
+
+    // https://community.khronos.org/t/render-to-renderbuffer-with-depth-test/63793/3
+
+    glGenRenderbuffers( 1, &renderBuffer );
+    glBindRenderbuffer( GL_RENDERBUFFER, renderBuffer );
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_RGB32F, RES_WIDTH, RES_HEIGHT );
+    // TODO: check for errors here
+
+    glGenRenderbuffers( 1, &depthRenderBuffer );
+    glBindRenderbuffer( GL_RENDERBUFFER, depthRenderBuffer );
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT, RES_WIDTH, RES_HEIGHT );
+    // TODO: check for errors here
+
+    glBindFramebuffer( GL_FRAMEBUFFER, 0 );
+
     while(!glfwWindowShouldClose(window) && THEATRE->scene_manager->scenes->size > 0 && RUNNING)
     {
         if (THEATRE->scene_manager->scene_index == -1)
@@ -91,15 +112,22 @@ int coelum_main(int argc, char* argv[])
         MOUSE_STATE->button_left = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
         MOUSE_STATE->button_right = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
 
-        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
+        glfwSetInputMode(window, GLFW_CURSOR, MOUSE_STATE->input_mode);
 
+        glViewport(0, 0, 640, 480);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glfwSetInputMode(window, GLFW_CURSOR, MOUSE_STATE->input_mode);
-
         theatre_tick(THEATRE);
         theatre_draw(THEATRE);
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glBlitFramebuffer(
+        0, 0, RES_WIDTH, RES_HEIGHT,
+        0, 0, window_width, window_height,
+        GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
         glfwSwapBuffers(window);
 

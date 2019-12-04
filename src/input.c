@@ -1,10 +1,14 @@
 #include "include/input.h"
+#include "include/constants.h"
 #include <stdio.h>
 #include <string.h>
 
 
 extern keyboard_state_T* KEYBOARD_STATE;
 extern mouse_state_T* MOUSE_STATE;
+
+extern volatile unsigned int window_width;
+extern volatile unsigned int window_height;
 
 
 mouse_state_T* init_mouse_state()
@@ -75,9 +79,9 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
     MOUSE_STATE->dx = MOUSE_STATE->x - xpos;
-    MOUSE_STATE->x = xpos;
+    MOUSE_STATE->x = RES_WIDTH / (window_width / xpos);
     MOUSE_STATE->dy = MOUSE_STATE->y - ypos;
-    MOUSE_STATE->y = ypos;
+    MOUSE_STATE->y = RES_HEIGHT / (window_height / ypos);
 }
 
 void keyboard_state_free(keyboard_state_T* keyboard_state)
