@@ -1,4 +1,5 @@
 #include "include/io.h"
+#include <unistd.h>
 
 
 /**
@@ -28,4 +29,12 @@ char* read_file(char* filename)
     }
 
     return buffer;
+}
+
+unsigned int file_exists(const char* filename)
+{
+    if(access(filename, F_OK) != -1)
+        return 1;
+
+    return 0;
 }

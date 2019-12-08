@@ -23,6 +23,7 @@
 * [Apollon (The GUI)](https://github.com/sebbekarlsson/apollon)
 * [Leto (The launcher)](https://github.com/sebbekarlsson/leto)
 * [SPR (The sprite file format)](https://github.com/sebbekarlsson/spr)
+* [libjson (JSON parser)](https://github.com/sebbekarlsson/libjson)
 * [Hermes (The scriptig language)](https://github.com/sebbekarlsson/hermes)
 
 > That is a lot of stuff right? I am planning on writing some sort of install-
@@ -40,6 +41,9 @@
 
     # also clone and install cglm
     git clone git@github.com:recp/cglm.git
+
+    # also clone and install libjson
+    git clone git@github.com:sebbekarlsson/libjson.git
 
     # also clone and install objload
     git clone git@github.com:sebbekarlsson/objload.git

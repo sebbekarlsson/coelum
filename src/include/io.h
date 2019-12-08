@@ -5,4 +5,6 @@
 
 
 char* read_file(char* filename);
+
+unsigned int file_exists(const char* filename);
 #endif
