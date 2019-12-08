@@ -13,6 +13,11 @@ config_T* init_config()
     return config;
 }
 
+void config_free(config_T* config)
+{
+    free(config);
+}
+
 void load_config_from_file_if_exists(config_T* config)
 {
     if (!file_exists(CONFIG_FILENAME))

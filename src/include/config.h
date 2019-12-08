@@ -10,5 +10,7 @@ typedef struct CONFIG_STRUCT
 
 config_T* init_config();
 
+void config_free(config_T* config);
+
 void load_config_from_file_if_exists(config_T* config);
 #endif

@@ -75,6 +75,9 @@ void coelum_terminate()
     printf("Destroying window...\n");
     glfwDestroyWindow(window);
 
+    printf("Freeing configuration object...\n");
+    config_free(CONFIG);
+
     printf("Running glfwTerminate...\n");
     glfwTerminate();
 }
