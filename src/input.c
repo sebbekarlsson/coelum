@@ -6,9 +6,8 @@
 
 extern keyboard_state_T* KEYBOARD_STATE;
 extern mouse_state_T* MOUSE_STATE;
+extern window_state_T* WINDOW_STATE;
 
-extern volatile unsigned int window_width;
-extern volatile unsigned int window_height;
 
 
 mouse_state_T* init_mouse_state()
@@ -78,10 +77,13 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    MOUSE_STATE->dx = MOUSE_STATE->x - xpos;
-    MOUSE_STATE->x = RES_WIDTH / (window_width / xpos);
-    MOUSE_STATE->dy = MOUSE_STATE->y - ypos;
-    MOUSE_STATE->y = RES_HEIGHT / (window_height / ypos);
+    int x = RES_WIDTH / (WINDOW_STATE->blit_w / (xpos - WINDOW_STATE->blit_start_x));
+    int y = RES_HEIGHT / (WINDOW_STATE->window_height / (ypos - WINDOW_STATE->blit_start_y));
+
+    MOUSE_STATE->dx = MOUSE_STATE->x - x;
+    MOUSE_STATE->x = x;
+    MOUSE_STATE->dy = MOUSE_STATE->y - y;
+    MOUSE_STATE->y = y;
 }
 
 void keyboard_state_free(keyboard_state_T* keyboard_state)
