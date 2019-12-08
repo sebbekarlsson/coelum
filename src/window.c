@@ -2,24 +2,31 @@
 #include "include/constants.h"
 #include "include/config.h"
 #include <GLFW/glfw3.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 
-extern volatile unsigned int window_width;
-extern volatile unsigned int window_height;
-
 extern config_T* CONFIG;
+extern window_state_T* WINDOW_STATE;
 
 
 /**
  * Use this to create a window with OpenGL context
  *
- * @return GLFWwindow*
+ * @return window_state_T*
  */
-GLFWwindow* setup_graphical_window(int width, int height)
+window_state_T* setup_graphical_window(int width, int height)
 {
-    window_width = width;
-    window_height = height;
+    window_state_T* window_state = calloc(1, sizeof(struct WINDOW_STATE_STRUCT));
+
+    window_state->window_width = width;
+    window_state->window_height = height;
+    window_state->window_width = 0;
+    window_state->window_height = 0;
+    window_state->blit_w = 0;
+    window_state->blit_h = 0;
+    window_state->blit_start_x = 0;
+    window_state->blit_start_y = 0;
 
     glfwInit();
 
@@ -54,9 +61,17 @@ GLFWwindow* setup_graphical_window(int width, int height)
     glEnable(GL_COLOR_MATERIAL);
     glShadeModel(GL_SMOOTH);
 
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    return window;
+    window_state->window = window;
+
+    return window_state;
+}
+
+void window_state_free(window_state_T* window_state)
+{
+    glfwDestroyWindow(window_state->window);
+    free(window_state);
 }
 
 /**
@@ -68,7 +83,12 @@ GLFWwindow* setup_graphical_window(int width, int height)
  */
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    window_width = width;
-    window_height = height;
+    WINDOW_STATE->window_width = width;
+    WINDOW_STATE->window_height = height;
+    WINDOW_STATE->blit_w = WINDOW_STATE->window_height * ((float)RES_WIDTH) / ((float)RES_HEIGHT);
+    WINDOW_STATE->blit_h = WINDOW_STATE->window_height;
+    WINDOW_STATE->blit_start_x = (WINDOW_STATE->window_width / 2) - (WINDOW_STATE->blit_w / 2);
+    WINDOW_STATE->blit_start_y = 0;
+    
     // glViewport((width / 2) - (WINDOW_WIDTH / 2), (height / 2) - (WINDOW_HEIGHT / 2), 640, 480);
 }
