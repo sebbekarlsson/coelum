@@ -1,11 +1,14 @@
 #include "include/window.h"
 #include "include/constants.h"
+#include "include/config.h"
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 
 
 extern volatile unsigned int window_width;
 extern volatile unsigned int window_height;
+
+extern config_T* CONFIG;
 
 
 /**
@@ -24,7 +27,7 @@ GLFWwindow* setup_graphical_window(int width, int height)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_FLOATING, GL_TRUE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, CONFIG->window_resizable ? GL_TRUE : GL_FALSE);
 
     GLFWwindow* window = glfwCreateWindow(width, height, "coelum", NULL, NULL);
 

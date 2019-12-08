@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "include/main.h"
 #include "include/constants.h"
+#include "include/config.h"
 #include "include/window.h"
 #include "include/input.h"
 #include "include/theatre.h"
@@ -13,6 +14,7 @@
 extern volatile unsigned int window_width;
 extern volatile unsigned int window_height;
 
+config_T* CONFIG;
 keyboard_state_T* KEYBOARD_STATE;
 mouse_state_T* MOUSE_STATE;
 theatre_T* THEATRE;
@@ -27,6 +29,9 @@ const GLubyte* version;
 void coelum_init()
 {
     printf("Coelum is being initialized...\n");
+
+    CONFIG = init_config();
+    load_config_from_file_if_exists(CONFIG);
 
     window = setup_graphical_window(RES_WIDTH, RES_HEIGHT);
 
