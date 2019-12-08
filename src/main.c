@@ -122,7 +122,7 @@ int coelum_main(int argc, char* argv[])
 
         glfwSetInputMode(window, GLFW_CURSOR, MOUSE_STATE->input_mode);
 
-        glViewport(0, 0, 640, 480);
+        glViewport(0, 0, RES_WIDTH, RES_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         glClearColor(scene->bg_r / 255.0f, scene->bg_g / 255.0f, scene->bg_b / 255.0f, 1.0f);
         glEnable(GL_DEPTH_TEST);
