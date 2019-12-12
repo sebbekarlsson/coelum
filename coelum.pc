@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/local/lib
+includedir=/usr/local/include
+
+Name: coelum
+Description: Game Engine
+Version: 1.0.0
+Cflags: -I${includedir} 
+Libs: -L${libdir} -lcoelum -lglfw -ldl -lcglm -lm -lspr -ljson -lopenal -lpthread -laudio

@@ -18,6 +18,7 @@ libcoelum.a: $(objects)
 
 install:
 	make
+	cp ./coelum.pc /usr/share/pkgconfig/.
 	cp ./libcoelum.a /usr/local/lib/.
 	mkdir -p /usr/local/include/coelum
 	cp -r ./src/include/* /usr/local/include/coelum	
