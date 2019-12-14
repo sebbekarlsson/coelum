@@ -124,7 +124,7 @@ int coelum_main(int argc, char* argv[])
     // Always check that our framebuffer is ok
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         return 1;
-
+    
     while(!glfwWindowShouldClose(WINDOW_STATE->window) && THEATRE->scene_manager->scenes->size > 0 && RUNNING)
     {
         if (THEATRE->scene_manager->scene_index == -1)

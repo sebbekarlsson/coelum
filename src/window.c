@@ -18,15 +18,7 @@ extern window_state_T* WINDOW_STATE;
 window_state_T* setup_graphical_window(int width, int height)
 {
     window_state_T* window_state = calloc(1, sizeof(struct WINDOW_STATE_STRUCT));
-
-    window_state->window_width = width;
-    window_state->window_height = height;
-    window_state->window_width = 0;
-    window_state->window_height = 0;
-    window_state->blit_w = 0;
-    window_state->blit_h = 0;
-    window_state->blit_start_x = 0;
-    window_state->blit_start_y = 0;
+    window_state_recalc(window_state, width, height);
 
     glfwInit();
 
@@ -46,7 +38,7 @@ window_state_T* setup_graphical_window(int width, int height)
     }
 
     glfwMakeContextCurrent(window); 
-
+    
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialize GLAD\n");
         return NULL;
@@ -74,6 +66,23 @@ void window_state_free(window_state_T* window_state)
     free(window_state);
 }
 
+void window_state_recalc(window_state_T* window_state, int width, int height)
+{
+    window_state->window_width = width;
+    window_state->window_height = height;
+    window_state->blit_w = window_state->window_height * ((float)RES_WIDTH) / ((float)RES_HEIGHT);
+    window_state->blit_h = window_state->window_height;
+    window_state->blit_start_x = (window_state->window_width / 2) - (window_state->blit_w / 2);
+    window_state->blit_start_y = 0;
+
+    printf("window_width: %d\n", window_state->window_width);
+    printf("window_height: %d\n", window_state->window_height);
+    printf("window_blit_w: %d\n", window_state->blit_w);
+    printf("window_blit_h: %d\n", window_state->blit_h);
+    printf("window_blit_start_x: %d\n", window_state->blit_start_x);
+    printf("window_blit_start_y: %d\n", window_state->blit_start_y);
+}
+
 /**
  * Called when the window is resized.
  *
@@ -83,12 +92,6 @@ void window_state_free(window_state_T* window_state)
  */
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    WINDOW_STATE->window_width = width;
-    WINDOW_STATE->window_height = height;
-    WINDOW_STATE->blit_w = WINDOW_STATE->window_height * ((float)RES_WIDTH) / ((float)RES_HEIGHT);
-    WINDOW_STATE->blit_h = WINDOW_STATE->window_height;
-    WINDOW_STATE->blit_start_x = (WINDOW_STATE->window_width / 2) - (WINDOW_STATE->blit_w / 2);
-    WINDOW_STATE->blit_start_y = 0;
-    
+    window_state_recalc(WINDOW_STATE, width, height);
     // glViewport((width / 2) - (WINDOW_WIDTH / 2), (height / 2) - (WINDOW_HEIGHT / 2), 640, 480);
 }

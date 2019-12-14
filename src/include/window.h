@@ -19,5 +19,7 @@ window_state_T* setup_graphical_window(int width, int height);
 
 void window_state_free(window_state_T* window_state);
 
+void window_state_recalc(window_state_T* window_state, int width, int height);
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
 #endif

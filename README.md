@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 ```
 > Paste the code into a `main.c` file, and compile it like this:
 ```bash
-gcc main.c -lcoelum -ljson -lspr -lglfw -lm -ldl -lpthread -lopenal -laudio
+gcc `pkg-config --cflags coelum` main.c `pkg-config --libs coelum`
 ```
 > (Note, make sure you have a `cherry.png` file where you run the code).  
 > Then run it:
