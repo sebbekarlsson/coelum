@@ -1,7 +1,7 @@
 #ifndef COELUM_CONFIG_H
 #define COELUM_CONFIG_H
 
-#define CONFIG_FILENAME "config.json"
+#define CONFIG_FILENAME "config.he"
 
 typedef struct CONFIG_STRUCT
 {

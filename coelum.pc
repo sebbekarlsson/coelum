@@ -7,4 +7,4 @@ Name: coelum
 Description: Game Engine
 Version: 1.0.0
 Cflags: -I${includedir} 
-Libs: -L${libdir} -lglfw -ldl -lcglm -lm -lopenal -lpthread -laudio -lcoelum -lspr -ljson
+Libs: -L${libdir} -lglfw -ldl -lcglm -lm -lopenal -lpthread -laudio -lcoelum -lspr -lhermes
