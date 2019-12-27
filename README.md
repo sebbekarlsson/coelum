@@ -42,8 +42,8 @@
     # also clone and install cglm
     git clone git@github.com:recp/cglm.git
 
-    # also clone and install libjson
-    git clone git@github.com:sebbekarlsson/libjson.git
+    # also clone and install hermes
+    git clone git@github.com:sebbekarlsson/hermes.git
 
     # also clone and install objload
     git clone git@github.com:sebbekarlsson/objload.git
