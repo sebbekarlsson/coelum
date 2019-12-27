@@ -262,7 +262,6 @@ void draw_line(
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     mat4 model =
     {
