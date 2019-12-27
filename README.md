@@ -37,7 +37,7 @@
 > Install these:
 
     # if you are on debian / ubuntu
-    apt-get install libglfw3-dev libaudio-dev libopenal-dev
+    apt-get install libglfw3-dev libaudio-dev libopenal-dev libalut-dev
 
     # also clone and install cglm
     git clone git@github.com:recp/cglm.git
