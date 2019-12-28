@@ -3,12 +3,17 @@ out vec4 FragColor;
   
 in vec4 ourColor;
 in vec3 normal;
+in float textureShiftX;
+in float textureShiftY;
 
 varying vec2 TexCoord;
 
 uniform sampler2D ourTexture;
 
 uniform int number_of_lights;
+
+uniform int atlas_width;
+uniform int atlas_height;
 
 uniform vec3 light_positions;
 uniform vec3 world_pos;
@@ -35,5 +40,23 @@ void main()
 
     vec4 shade = vec4(brightnessMod, brightnessMod, brightnessMod, SHADE_OPACITY);
 
-    FragColor = texture2D(ourTexture, TexCoord) * (ourColor + shade);
+    int width = atlas_width;
+
+    if (width == 0)
+        width += 1;
+
+    int height = atlas_height;
+
+    if (height == 0)
+        height += 1;
+
+    int x = int(textureShiftX);
+    int y = int(textureShiftY);
+
+    float scalarX = 1.0 / width;
+    float scalarY = 1.0 / height;
+
+    FragColor = vec4(1.0) * texture2D(ourTexture, vec2((TexCoord.x + x) * scalarX,  (TexCoord.y * scalarY) + y * scalarY)) * (ourColor + shade);
+
+    //FragColor = texture2D(ourTexture, vec2(TexCoord.x - 16, TexCoord.y)) * (ourColor + shade);
 }
