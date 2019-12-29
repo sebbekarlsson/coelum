@@ -3,8 +3,8 @@ out vec4 FragColor;
   
 in vec4 ourColor;
 in vec3 normal;
-in float textureShiftX;
-in float textureShiftY;
+flat in int textureShiftX;
+flat in int textureShiftY;
 
 varying vec2 TexCoord;
 
@@ -50,8 +50,8 @@ void main()
     if (height == 0)
         height += 1;
 
-    int x = int(textureShiftX);
-    int y = int(textureShiftY);
+    int x = textureShiftX;
+    int y = textureShiftY;
 
     float scalarX = 1.0 / width;
     float scalarY = 1.0 / height;

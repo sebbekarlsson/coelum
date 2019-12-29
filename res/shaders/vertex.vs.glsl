@@ -29,8 +29,8 @@ out vec4 ourColor;
 out vec2 TexCoord;
 out vec3 normal;
 out vec3 pos;
-out float textureShiftX;
-out float textureShiftY;
+flat out int textureShiftX;
+flat out int textureShiftY;
 
 void main()
 {
@@ -39,6 +39,6 @@ void main()
     ourColor = aColor;
     TexCoord = aTexCoord;
     normal = aNormal;
-    textureShiftX = atextureShiftX;
-    textureShiftY = atextureShiftY;
+    textureShiftX = int(ceil(atextureShiftX));
+    textureShiftY = int(ceil(atextureShiftY));
 }
