@@ -5,6 +5,7 @@ camera_T* init_camera(int projection_view_width, int projection_view_height, uns
 {
     camera_T* c = calloc(1, sizeof(struct CAMERA_STRUCT));
     c->projection_view = init_projection_view(projection_view_width, projection_view_height, dimensions);
+    c->frustum = init_frustum();
 
     c->x = 0.0f;
     c->y = 0.0f;
