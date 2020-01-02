@@ -101,6 +101,8 @@ void state_draw(state_T* state)
     );
 
     glm_mat4_copy(final, pv->view);
+    
+    frustum_recalc_geometry(camera->frustum, camera->projection_view->projection, camera->projection_view->view);
 
     for (int i = 0; i < state->actors->size; i++)
     {
