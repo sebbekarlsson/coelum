@@ -29,6 +29,7 @@ out vec4 ourColor;
 out vec2 TexCoord;
 out vec3 normal;
 out vec3 pos;
+out vec3 fragPos;
 flat out int textureShiftX;
 flat out int textureShiftY;
 
@@ -39,6 +40,7 @@ void main()
     ourColor = aColor;
     TexCoord = aTexCoord;
     normal = aNormal;
+    fragPos = vec3(model * vec4(aPos, 1.0));
     textureShiftX = int(ceil(atextureShiftX));
     textureShiftY = int(ceil(atextureShiftY));
 }

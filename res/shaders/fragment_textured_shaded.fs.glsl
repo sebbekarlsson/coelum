@@ -3,6 +3,7 @@ out vec4 FragColor;
   
 in vec4 ourColor;
 in vec3 normal;
+in vec3 fragPos;
 flat in int textureShiftX;
 flat in int textureShiftY;
 
@@ -24,21 +25,21 @@ uniform vec3 world_pos;
 
 void main()
 {
-    float brightnessMod = 0.0f;
+    vec3 objectColor = vec3(1.0f, 1.0f, 1.0f);
+    vec3 lightColor = vec3(1, 1, 1);
+    vec3 lightPos = vec3(-128, -128, -10);
+    vec3 norm = normalize(normal);
+    vec3 lightDir = normalize(lightPos - fragPos);
+    
+    // ambient
+    float ambientStrength = 0.2;
+    vec3 ambient = ambientStrength * lightColor;
 
-    for (int i = 0; i < number_of_lights; i+=3)
-    {
-        vec3 lightpos = vec3(light_positions[i], light_positions[i + 1], light_positions[i + 2]);
-        vec3 lightVector = vec3(normalize(normal) - lightpos);
+    // diffuse
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor; 
 
-        float dist = distance(world_pos, lightpos);
-        float angle = acos(dot(normalize(lightVector), normalize(normal)));
-        float darkness = min((smoothstep(0.0, PI / 2.0, angle) * MAX_DARKNESS) + (dist * 0.01), MAX_DARKNESS);
-
-        brightnessMod += 1.0 - darkness;
-    }
-
-    vec4 shade = vec4(brightnessMod, brightnessMod, brightnessMod, SHADE_OPACITY);
+    vec3 result = (ambient + diffuse) * objectColor;
 
     int width = atlas_width;
 
@@ -56,7 +57,7 @@ void main()
     float scalarX = 1.0 / width;
     float scalarY = 1.0 / height;
 
-    FragColor = vec4(1.0) * texture2D(ourTexture, vec2((TexCoord.x + x) * scalarX,  (TexCoord.y * scalarY) + y * scalarY)) * (ourColor + shade);
+    FragColor = (texture2D(ourTexture, vec2((TexCoord.x + x) * scalarX,  (TexCoord.y * scalarY) + y * scalarY)) * (ourColor)) * vec4(result, 1.0f);
 
     //FragColor = texture2D(ourTexture, vec2(TexCoord.x - 16, TexCoord.y)) * (ourColor + shade);
 }
