@@ -13,6 +13,8 @@
 ![screenshot](openal.png)
 ### Simple Lighting engine
 ![screenshot](light.png)
+### Entity Component System
+> Read [here](ECS.md) on how to use it.
 
 ## Installing everything
 > To get everything to work, including the GUI; you will need to compile and

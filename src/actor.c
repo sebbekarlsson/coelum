@@ -3,6 +3,7 @@
 #include "include/draw_utils.h"
 #include "include/physics.h"
 #include "include/matrix.h"
+#include "include/component.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -89,6 +90,8 @@ actor_T* actor_constructor(
     actor->type_name = type_name;
     actor->sprite = (void*) 0;
 
+    actor->components = init_dynamic_list(sizeof(struct COMPONENT_STRUCT));
+
     return actor;
 }
 
@@ -154,12 +157,29 @@ void actor_draw_default(actor_T* self, state_T* state)
 }
 
 /**
+ * Adds a component to an actor
+ *
+ * @param actor_T* self
+ * @param component_T* self
+ */
+void actor_add_component(actor_T* self, component_T* component)
+{
+    dynamic_list_append(self->components, component);
+}
+
+/**
  * Deallocate function for `actor` object.
  *
  * @param actor_T* actor
  */
 void actor_free(actor_T* actor)
 {
+    for (int i = 0; i < actor->components->size; i++)
+    {
+        component_T* component = (component_T*) actor->components->items[i];
+        component_free(component);
+    }
+
     glDeleteBuffers(1, &actor->VBO);
     glDeleteBuffers(1, &actor->EBO);
 

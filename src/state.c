@@ -3,6 +3,7 @@
 #include "include/draw_utils.h"
 #include "include/utils.h"
 #include "include/matrix.h"
+#include "include/component.h"
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 #include <string.h>
@@ -65,6 +66,15 @@ void state_tick(state_T* state)
                 a->loaded = 1;
             }
         }
+
+        // call `tick` on all components within actor.
+        for (int j = 0; j < a->components->size; j++)
+        {
+            component_T* component = (component_T*) a->components->items[j];
+
+            if (component->tick)
+                component->tick(component, a);
+        }
         
         if (a->tick)
             a->tick(a);
@@ -113,6 +123,15 @@ void state_draw(state_T* state)
 
         actor_T* a = ((actor_T*)state->actors->items[i]);
         actor_draw_default(a, state);
+
+        // call `draw` on all components within actor.
+        for (int j = 0; j < a->components->size; j++)
+        {
+            component_T* component = (component_T*) a->components->items[j];
+
+            if (component->draw)
+                component->draw(component, a);
+        }
 
         if (a->draw)
             a->draw(a);

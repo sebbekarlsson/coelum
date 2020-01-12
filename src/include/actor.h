@@ -3,7 +3,10 @@
 #include <cglm/cglm.h>
 #include <cglm/call.h>
 #include "sprite.h"
+#include "dynamic_list.h"
 
+
+struct COMPONENT_STRUCT;
 
 typedef struct ACTOR_STRUCT
 {
@@ -35,6 +38,8 @@ typedef struct ACTOR_STRUCT
     void (*tick)(void* self);
     void (*draw)(void* self);
     void (*load)(void* self);
+
+    dynamic_list_T* components;
 } actor_T;
 
 actor_T* init_actor();
@@ -54,6 +59,8 @@ void actor_tick(actor_T* a);
 void actor_draw(actor_T* a);
 
 void actor_draw_default(actor_T* self, state_T* state);
+
+void actor_add_component(actor_T* self, struct COMPONENT_STRUCT* component);
 
 void actor_free(actor_T* actor);
 #endif
