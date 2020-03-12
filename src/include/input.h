@@ -36,4 +36,14 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void keyboard_state_free(keyboard_state_T* keyboard_state);
 
 void mouse_state_free(mouse_state_T* mouse_state);
+
+#define CHECK_MOUSE_CLICK(mouse_button)\
+    static int oldState = GLFW_RELEASE;\
+    int newState = glfwGetMouseButton(WINDOW_STATE->window, mouse_button);\
+    if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)\
+    {\
+       click = 1;\
+    }\
+    oldState = newState;
+
 #endif
