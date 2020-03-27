@@ -1,7 +1,112 @@
 #include "include/font.h"
+#include "include/theatre.h"
+#include <GL/glew.h>
 
 
 extern texture_T* TEXTURE_LN_EGA8x8_FONT;
+extern theatre_T* THEATRE;
+
+font_character_T* init_font_character(FT_Face face, char c)
+{
+    font_character_T* character = calloc(1, sizeof(struct FONT_CHARACTER_STRUCT));
+
+    // Generate texture
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RED,
+        face->glyph->bitmap.width,
+        face->glyph->bitmap.rows,
+        0,
+        GL_RED,
+        GL_UNSIGNED_BYTE,
+        face->glyph->bitmap.buffer
+    );
+
+    //glTexImage2D(GL_TEXTURE_2D, 0, mode, tex->width, tex->height, 0, mode, GL_UNSIGNED_BYTE, tex->data);
+    // Set texture options
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    character->texture = texture;
+    character->width = face->glyph->bitmap.width;
+    character->height = face->glyph->bitmap.rows;
+    character->bearing_left = face->glyph->bitmap_left;
+    character->bearing_top = face->glyph->bitmap_top;
+    character->advance = face->glyph->advance.x;
+    character->value = c;
+
+    glBindTexture(GL_TEXTURE_2D, 0); 
+
+    return character;
+}
+
+void free_font_character(font_character_T* font_character)
+{
+    glDeleteTextures(1, &font_character->texture);
+    free(font_character);
+}
+
+static void _free_font_character(void* item)
+{
+    free_font_character((font_character_T*) item);
+}
+
+void free_font_character_list(dynamic_list_T* font_character_list)
+{
+    dynamic_list_free(font_character_list, _free_font_character);
+}
+
+FT_Face get_face_from_character(char c, const char* fontpath, unsigned int size)
+{
+    // All functions return a value different than 0 whenever an error occurred
+    if (FT_Init_FreeType(&THEATRE->ft))
+        perror("ERROR::FREETYPE: Could not init FreeType Library");
+
+    // Load font as face
+    FT_Face face;
+    if (FT_New_Face(THEATRE->ft, fontpath, 0, &face))
+        perror("ERROR::FREETYPE: Failed to load font");
+
+    // Set size to load glyphs as
+    FT_Set_Pixel_Sizes(face, 0, size);
+
+    // Disable byte-alignment restriction
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); 
+
+    // Load character glyph 
+    if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+        perror("ERROR::FREETYTPE: Failed to load Glyph");
+    
+    return face;
+}
+
+font_character_T* get_char_glyph(char c, const char* fontpath, unsigned int size)
+{
+    FT_Face face = get_face_from_character(c, fontpath, size);
+    font_character_T* character = init_font_character(face, c);
+
+    FT_Done_Face(face);
+    
+    return character;
+}
+
+dynamic_list_T* get_char_glyphs_from_text(const char* text, const char* fontpath, unsigned int size)
+{
+    dynamic_list_T* list = init_dynamic_list(sizeof(struct FONT_CHARACTER_STRUCT*));
+    for (int i = 0; i < strlen(text); i++)
+    {
+        font_character_T* character = get_char_glyph(text[i], fontpath, size);
+        dynamic_list_append(list, character);
+    }
+
+    return list;
+}
 
 void get_font_coords(char c, texture_T* font, int* x, int* y)
 {

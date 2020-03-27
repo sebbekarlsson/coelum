@@ -1,6 +1,7 @@
 #include "include/draw_utils.h"
 #include "include/shader_registry.h"
 #include "include/textures.h"
+#include "include/font.h"
 #include <string.h>
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
@@ -10,6 +11,7 @@
 extern unsigned int SHADER_COLORED;
 extern unsigned int SHADER_TEXTURED;
 extern unsigned int SHADER_TEXTURED_SHADED;
+extern unsigned int SHADER_TEXTURED_TTF;
 
 extern texture_T* TEXTURE_DEFAULT_FONT;
 extern texture_T* TEXTURE_LN_EGA8x8_FONT;
@@ -446,6 +448,153 @@ void draw_text(
 
     glDeleteBuffers(1, &VBO);
     glBindVertexArray(0); 
+}
+
+/**
+ * Used to draw a text at a specific position with ttf font.
+ *
+ * @param const char* text
+ * @param const char* fontpath
+ * @param float x
+ * @param float y
+ * @param float z
+ * @param float r
+ * @param float g
+ * @param float b
+ * @param float a
+ * @param float size
+ * @param float spacing
+ */
+void draw_text_ttf(
+    const char* text,
+    const char* fontpath,
+    float x,
+    float y,
+    float z,
+    float r,
+    float g,
+    float b,
+    float a,
+    float size,
+    float spacing,
+    unsigned int limit,
+    state_T* state
+)
+{
+    dynamic_list_T* character_list = get_char_glyphs_from_text(
+        text,
+        fontpath,
+        size 
+    );
+
+    float scale = 1.0f;
+
+    float d_r = r / 255.0f;
+    float d_g = g / 255.0f;
+    float d_b = b / 255.0f; 
+
+    unsigned int indices [] =
+    {
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
+    };
+   
+    glBindVertexArray(state->VAO);
+    glUseProgram(SHADER_TEXTURED_TTF);
+    send_projection_view_state(SHADER_TEXTURED_TTF, state->camera->projection_view);
+    
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    int char_pos = 0;
+
+    /**
+     * Draw every character
+     */
+    for (int i = 0; i < character_list->size; i++)
+    {
+        font_character_T* character = (font_character_T*) character_list->items[i];
+
+        if (character->value == '\n')
+        {
+            y -= size;
+            x = 0;
+            continue;
+        }
+
+        unsigned int texture = character->texture;
+
+        GLfloat xpos = x + character->bearing_left * scale;
+        GLfloat ypos = y - (character->height - character->bearing_top) * scale;
+
+        GLfloat w = character->width * scale;
+        GLfloat h = character->height * scale;
+
+        float vertices[] = 
+        {
+            // positions          // colors           // texture coords
+            0,      0,   0.0f,   d_r, d_g, d_b, a,       0.0f, 0.0f,   // top right
+            0 + w,  0,   0.0f,   d_r, d_g, d_b, a,       1.0f, 0.0f,   // bottom right
+            0 + w,  0 - h,   0.0f,   d_r, d_g, d_b, a,   1.0f, -1.0f,   // bottom left
+            0,      0 - h,   0.0f,   d_r, d_g, d_b, a,   0.0f, -1.0f    // top left
+        };
+
+        unsigned int EBO;
+
+        glGenBuffers(1, &EBO);
+
+        mat4 model =
+        {
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        };
+        
+        glm_translate(model, (vec3){xpos, ypos, z});
+
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+        // position attribute
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        // color attribute
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
+        // texcoords
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glUniform1i(glGetUniformLocation(SHADER_TEXTURED_TTF, "ourTexture"), 0); 
+        glBindVertexArray(state->VAO);
+        
+        unsigned uniform_mat4_model = glGetUniformLocation(SHADER_TEXTURED, "model");
+
+        glUniformMatrix4fv(uniform_mat4_model, 1, GL_FALSE, (float *) model);
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) 0);
+        glDeleteBuffers(1, &EBO); 
+
+        if (limit)
+        {
+            if (char_pos >= limit)
+                break;
+        }
+
+        x += (character->advance >> 6) * scale;
+    }
+
+    glDeleteBuffers(1, &VBO);
+    glBindVertexArray(0);
+
+    free_font_character_list(character_list);
 }
 
 /**

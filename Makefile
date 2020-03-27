@@ -1,7 +1,7 @@
 sources = $(wildcard src/*.c)
 sources += $(wildcard GL/src/*.c)
 objects = $(sources:.c=.o)
-flags = -g -IGL/include -lglfw -ldl -lcglm -lm -lspr -lhermes -lopenal -lpthread -laudio -std=c99
+flags = -g -IGL/include -lglfw -ldl -lcglm -lm -lspr -lhermes -lopenal -lpthread -laudio -I/usr/include/freetype2 -I/usr/local/include/freetype2 -lfreetype2 -std=c99
 
 
 libcoelum.a: $(objects)

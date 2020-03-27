@@ -77,6 +77,22 @@ void draw_text(
     state_T* state
 );
 
+void draw_text_ttf(
+    const char* text,
+    const char* fontpath,
+    float x,
+    float y,
+    float z,
+    float r,
+    float g,
+    float b,
+    float a,
+    float size,
+    float spacing,
+    unsigned int limit,
+    state_T* state
+);
+
 void draw_3D_model(
     obj_T* obj,
     unsigned int texture,
