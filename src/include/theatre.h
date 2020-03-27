@@ -5,6 +5,9 @@
 #include "texture_manager.h"
 #include "sound.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 
 typedef struct THEATRE_STRUCT
 {
@@ -12,6 +15,7 @@ typedef struct THEATRE_STRUCT
     shader_manager_T* shader_manager;
     texture_manager_T* texture_manager;
     AL_T* al;
+    FT_Library ft;
 } theatre_T;
 
 theatre_T* init_theatre();

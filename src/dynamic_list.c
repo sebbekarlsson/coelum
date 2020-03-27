@@ -43,9 +43,20 @@ void* dynamic_list_append(dynamic_list_T* dynamic_list, void* item)
  *
  * @param dynamic_list_T* dynamic_list
  */
-void dynamic_list_free(dynamic_list_T* dynamic_list)
+void dynamic_list_free(dynamic_list_T* dynamic_list, void (*free_method)(void* item))
 {
-    // silence
+    if (free_method != (void*)0)
+    {
+        for (int i = 0; i < dynamic_list->size; i++)
+        {
+            free_method(dynamic_list->items[i]);
+        }
+    }
+
+    if (dynamic_list->items != (void*)0)
+        free(dynamic_list->items);
+
+    free(dynamic_list);
 }
 
 void dynamic_list_shift_left(dynamic_list_T* dynamic_list, int index)

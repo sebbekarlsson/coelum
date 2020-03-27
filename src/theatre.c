@@ -36,4 +36,10 @@ void theatre_free(theatre_T* theatre)
 
     printf("Freeing OpenAL...\n");
     al_free(theatre->al);
+
+    if (theatre->ft)
+    {
+        printf("Freeing truetype library...\n");
+        FT_Done_FreeType(theatre->ft);
+    }
 }
