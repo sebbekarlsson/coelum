@@ -512,21 +512,23 @@ void draw_text_ttf(
     /**
      * Draw every character
      */
+    float xx = x;
+    float yy = y;
     for (int i = 0; i < character_list->size; i++)
     {
         font_character_T* character = (font_character_T*) character_list->items[i];
 
         if (character->value == '\n')
         {
-            y -= size;
-            x = 0;
+            yy -= size;
+            xx = 0;
             continue;
         }
 
         unsigned int texture = character->texture;
 
-        GLfloat xpos = x + character->bearing_left * scale;
-        GLfloat ypos = y - (character->height - character->bearing_top) * scale;
+        GLfloat xpos = xx + character->bearing_left * scale;
+        GLfloat ypos = yy + (character->height - character->bearing_top) * scale;
 
         GLfloat w = character->width * scale;
         GLfloat h = character->height * scale;
@@ -588,7 +590,7 @@ void draw_text_ttf(
                 break;
         }
 
-        x += (character->advance >> 6) * scale;
+        xx += (character->advance >> 6) * scale;
     }
 
     glDeleteBuffers(1, &VBO);
